@@ -1,10 +1,13 @@
 {
     "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-    "generated_utc":  "2026-08-09T12:16:25.2792902Z",
+    "generated_utc":  "2026-08-09T14:50:55.6252401Z",
     "experiments":  [
                         {
                             "id":  "E-12",
                             "result":  "PASS_EARLY_QUALIFICATION",
+                            "question":  "Can Typst express the fixture\u0027s required layout intent and return stable semantic-object-to-region mappings under full reflow?",
+                            "binary_or_bounded_conclusion":  "PASS_EARLY_QUALIFICATION: Typst mapped every required early-qualification object and downstream semantic locations changed under the reflow fixture as expected; no renderer falsifier triggered.",
+                            "failure_action":  "RENDERER FALSIFIER: test another qualified paginated provider; do not build a typesetter by default",
                             "provider":  "Typst",
                             "provider_version":  "typst 0.15.1 (9dfd3a08)",
                             "mechanism":  "generated paginated Typst with semantic labels queried to page/x/y locations",
@@ -152,6 +155,9 @@
                         {
                             "id":  "E-13",
                             "result":  "PASS_EARLY_QUALIFICATION",
+                            "question":  "Can the paginated provider meet the required typography and tagged PDF/UA-1 profile?",
+                            "binary_or_bounded_conclusion":  "PASS_EARLY_QUALIFICATION: both base and reflow PDFs independently validated as PDF/UA-1 with zero failed rules/checks under the recorded font/provider environment; no renderer falsifier triggered.",
+                            "failure_action":  "RENDERER FALSIFIER if no existing provider can satisfy the frozen acceptance ceiling",
                             "pdf_standard":  "PDF/UA-1",
                             "validator":  "veraPDF 1.30.2",
                             "base":  {
@@ -222,9 +228,9 @@
                     ],
     "artifacts":  {
                       "base_source_sha256":  "36c756c18aaa3c4dfa9fd6b83b05335cd89ae253d19d923bd925712997b3a6ba",
-                      "base_pdf_sha256":  "daf0ac0f6a480be6213a255b64b974fd1829f0ab6c4e505ca054667bac396127",
+                      "base_pdf_sha256":  "cf836e26a799adec7479a8bc21b95dd7739e66c1750f16aa05a1406862f33d58",
                       "reflow_source_sha256":  "3ec108b89f3f61d35d520b13584ce9d9b9ebcb46e6d6a733e6d345a1fca7e219",
-                      "reflow_pdf_sha256":  "5295b5ff3ae9e6caaf064264fc41a2fd77dbd544968d8ae778c54e49ba9e96ab"
+                      "reflow_pdf_sha256":  "368ecea714e7d46c83a07f4a4f764868ee272abb384f3a96f8b700dd26c2f873"
                   },
     "word":  {
                  "winword_processes":  0,

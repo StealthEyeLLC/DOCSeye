@@ -7,6 +7,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/DOCSeye.Acceptance/DOCSeye.Acceptance.csproj" />
+    <Project Path="tests/DOCSeye.ComparativeBenchmark/DOCSeye.ComparativeBenchmark.csproj" />
     <Project Path="tests/DOCSeye.Experiments/DOCSeye.Experiments.csproj" />
     <Project Path="tests/DOCSeye.ExperimentsLate/DOCSeye.ExperimentsLate.csproj" />
     <Project Path="tests/DOCSeye.Fixtures/DOCSeye.Fixtures.csproj" />

@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T12:16:21.5552573+00:00",
+  "generated_utc": "2026-08-09T14:51:12.3690285+00:00",
   "machine": "STEALTHEYELLC",
   "fixture": "N-001",
   "seed": "0x00000000D0C50001",
@@ -49,38 +49,38 @@
             "bootEpoch": "boot_2"
           },
           "retained": {
-            "id": "file_46",
+            "id": "file_84",
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d30100000012000000000000000000"
+              "fileId128": "21dc010000002a000000000000000000"
             },
             "revision": {
-              "length": 1445888,
-              "lastWriteFileTime": 134307513763612350
+              "length": 1454080,
+              "lastWriteFileTime": 134307606689472820
             }
           },
           "renamed": {
-            "id": "file_46",
+            "id": "file_84",
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d30100000012000000000000000000"
+              "fileId128": "21dc010000002a000000000000000000"
             },
             "revision": {
-              "length": 1445888,
-              "lastWriteFileTime": 134307513763612350
+              "length": 1454080,
+              "lastWriteFileTime": 134307606689472820
             }
           },
           "after": {
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d30100000012000000000000000000"
+              "fileId128": "21dc010000002a000000000000000000"
             },
             "revision": {
-              "length": 1445888,
-              "lastWriteFileTime": 134307513763612350
+              "length": 1454080,
+              "lastWriteFileTime": 134307606689472820
             }
           }
         }
@@ -108,9 +108,9 @@
       "id": "A-DIVERGENCE",
       "result": "PASS",
       "evidence": {
-        "base_revision": "da0c9e67-6d6a-45ad-a839-e75a31b23af5",
-        "head_a": "4f001392-9836-4edc-b34d-4ae19def0b55",
-        "head_b": "1d60dce4-6451-459b-9847-deb23bcaa953",
+        "base_revision": "833768d1-bc98-40e2-a836-04d14e052c30",
+        "head_a": "ac5d7884-2054-4e91-8674-a233790f01db",
+        "head_b": "1328dc46-23ab-4b08-8f26-de622a8b98a7",
         "classification": "divergent_heads",
         "stale_handle": "stale_revision"
       }
@@ -120,7 +120,7 @@
       "result": "PASS",
       "evidence": {
         "same_family": true,
-        "new_branch": "b1593a7a-d347-41d5-885a-3e5cbe66a55c",
+        "new_branch": "d4509028-1643-43ef-9f52-3a503b8325b8",
         "object_remint_percent": 100,
         "boundary_remint_percent": 100,
         "origin_refs": 175,
@@ -132,7 +132,7 @@
       "result": "PASS",
       "evidence": {
         "source_id": "17795730-18d6-451f-8f3e-134af941775c",
-        "pasted_id": "034b85f7-d984-4e02-ad03-914d6a2d1df6",
+        "pasted_id": "43eca5fb-5405-446b-bd07-86276c7fde29",
         "reminted": true,
         "source_handle_write": 0
       }
@@ -142,8 +142,8 @@
       "result": "PASS",
       "evidence": {
         "parents": 2,
-        "head_left": "e5b4a6df-0e85-4ce3-9fa2-537d136d4db8",
-        "head_right": "a801dcb1-be03-41f4-b69a-a6cb250d99c5",
+        "head_left": "430cce52-9fba-44f6-bd45-d543ff0508bd",
+        "head_right": "c05cceb3-cd90-4e08-82c6-2ff6921c0c9b",
         "surviving_ids_preserved": true
       }
     },

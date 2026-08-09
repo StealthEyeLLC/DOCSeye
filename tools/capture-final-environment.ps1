@@ -1,0 +1,23 @@
+param([string]$RepoRoot=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path,[string]$OutputPath='')
+$ErrorActionPreference='Stop'
+if([string]::IsNullOrWhiteSpace($OutputPath)){$OutputPath=Join-Path $RepoRoot 'evidence\final-environment.json'}
+$preflightPath=Join-Path $RepoRoot 'evidence\preflight.json';$preflight=Get-Content $preflightPath -Raw|ConvertFrom-Json
+function Hash([string]$p){if(!(Test-Path $p)){return $null};(Get-FileHash $p -Algorithm SHA256).Hash.ToLowerInvariant()}
+function InitialHash([string]$name){$x=$preflight.dependencies|Where-Object name -eq $name|Select-Object -First 1;if($null -eq $x){return $null};if($x.sha256){return ([string]$x.sha256).ToLowerInvariant()};return $null}
+function Binary([string]$name,[string]$path,[string]$version,[string]$preflightName){$sha=Hash $path;$initial=InitialHash $preflightName;[ordered]@{name=$name;path=$path;version=$version;sha256=$sha;preflight_sha256=$initial;changed_since_preflight=($null -ne $initial -and $sha -ne $initial)}}
+$dotnet=(Get-Command dotnet.exe).Source;$node='C:\AgentBrowser\tools\node-v24.18.1-win-x64\node.exe';$sqlite=Join-Path $RepoRoot '.tools\sqlite-native\sqlite3.dll';$typst=Join-Path $RepoRoot '.tools\typst\typst-x86_64-pc-windows-msvc\typst.exe';$chrome=Join-Path $RepoRoot '.tools\chrome\chrome-win64\chrome.exe';$java=Join-Path $RepoRoot '.tools\java\jdk-25.0.4+7-jre\bin\java.exe';$verapdf=Join-Path $RepoRoot '.tools\verapdf\bin\cli-1.30.2.jar';$lo='C:\Program Files\LibreOffice\program\soffice.exe'
+$dotnetVersion=(& $dotnet --version).Trim();$nodeVersion=(& $node --version).Trim();$typstVersion=(& $typst --version).Trim();$chromeVersion=(Get-Item $chrome).VersionInfo.FileVersion;$loVersion=(Get-Item $lo).VersionInfo.FileVersion;$javaVersion=(Get-Item $java).VersionInfo.FileVersion;$sqliteVersion=(Get-Item $sqlite).VersionInfo.FileVersion
+$binaries=@(
+ Binary '.NET SDK host' $dotnet $dotnetVersion '.NET SDK/runtime';
+ Binary 'Node.js' $node $nodeVersion 'Node.js';
+ Binary 'SQLite native' $sqlite $sqliteVersion 'SQLite';
+ Binary 'Typst' $typst $typstVersion 'Typst';
+ Binary 'Chrome for Testing' $chrome $chromeVersion 'Chrome for Testing';
+ Binary 'LibreOffice' $lo $loVersion 'LibreOffice';
+ Binary 'Eclipse Temurin JRE' $java $javaVersion 'Eclipse Temurin JRE';
+ Binary 'veraPDF CLI jar' $verapdf '1.30.2' 'veraPDF'
+)
+$fonts=@();foreach($f in $preflight.font_manifest.files){$path=Join-Path 'C:\Windows\Fonts' $f.name;$current=Hash $path;$initial=([string]$f.sha256).ToLowerInvariant();$fonts+=[ordered]@{name=$f.name;path=$path;sha256=$current;preflight_sha256=$initial;changed_since_preflight=($current -ne $initial)}}
+$knownWord=@('C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE','C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE');$head=(& git -C $RepoRoot rev-parse HEAD).Trim()
+$obj=[ordered]@{architecture_freeze='0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec';captured_utc=[DateTimeOffset]::UtcNow.ToString('o');input_git_head=$head;machine=[ordered]@{computer=$env:COMPUTERNAME;os=(Get-CimInstance Win32_OperatingSystem).Caption;version=[Environment]::OSVersion.Version.ToString();architecture=$env:PROCESSOR_ARCHITECTURE;locale=(Get-Culture).Name;timezone=(Get-TimeZone).Id;processor_count=[Environment]::ProcessorCount};binaries=$binaries;font_manifest=[ordered]@{fallback_order=$preflight.font_manifest.fallback_order;files=$fonts};word=[ordered]@{winword_processes=@(Get-Process WINWORD -ErrorAction SilentlyContinue).Count;winword_exe_present=@($knownWord|Where-Object{Test-Path $_}).Count -gt 0;word_com_calls=0;word_api_calls=0;word_expected_artifacts=0;microsoft_365_trial='NOT STARTED'};provider_scoping=[ordered]@{html='Chrome for Testing version/hash above plus E-14 DOM/AX evidence';paginated='Typst version/hash above; veraPDF version/hash above; font/locale manifest above';docx='DocumentFormat.OpenXml 3.5.1 from locked NuGet restore; LibreOffice version/hash above is alternate-provider observation only';microsoft_word='unavailable_provider / not observed'};preflight_reference='evidence/preflight.json';drift=[ordered]@{binary_changes=@($binaries|Where-Object changed_since_preflight|ForEach-Object name);font_changes=@($fonts|Where-Object changed_since_preflight|ForEach-Object name);interpretation='final evidence is scoped to these final hashes; preflight remains the historical initial environment capture'}}
+New-Item -ItemType Directory -Force -Path (Split-Path $OutputPath)|Out-Null;$json=$obj|ConvertTo-Json -Depth 12;[IO.File]::WriteAllText($OutputPath,$json,[Text.UTF8Encoding]::new($false));Write-Host $OutputPath

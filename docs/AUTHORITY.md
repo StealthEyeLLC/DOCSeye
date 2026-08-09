@@ -45,8 +45,9 @@ Required current files:
 - `docs/08-WORKFLOW-PRESSURE-TESTS.md`
 - `docs/NATIVE-FORMAT.md`
 - `docs/AUTHORITY.md`
+- `docs/09-BUILD-001-RESULTS.md` - measured Build 001 acceptance evidence; it does not supersede the frozen architecture/specification
 
-`docs/09-BUILD-001-RESULTS.md` MUST remain absent until implementation and acceptance actually occur.
+`docs/09-BUILD-001-RESULTS.md` is now present because implementation and parent acceptance gates have actually completed. It is measured evidence, not a replacement architecture authority.
 
 ## 4. Current truth
 
@@ -55,12 +56,12 @@ Required current files:
 | Architecture | **FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001** |
 | Architecture family | **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS** |
 | Prior DOCX-first freeze | `47b5280b71773ae497b5a56c4b590b9070b4bca5` — **SUPERSEDED AS DOCX-FIRST BASELINE** |
-| Build 001 | **PLANNED / NOT IMPLEMENTED** |
-| Product implementation | **NOT STARTED** |
-| Build 001 acceptance | **NOT RUN** |
+| Build 001 | **IMPLEMENTED / ACCEPTED** |
+| Product implementation | **BUILD 001 IMPLEMENTED** |
+| Build 001 acceptance | **PASS - see `09-BUILD-001-RESULTS.md` and tracked evidence** |
 | Microsoft Word | **NOT REQUIRED FOR NATIVE BUILD 001 ACCEPTANCE / OPTIONAL FOR MICROSOFT-SPECIFIC INTEROP/CONFORMANCE** |
 
-No experiment, hostile suite, Program Host workflow, renderer quality, PDF conformance, DOCX round trip, LibreOffice observation, or Word compatibility result is claimed.
+The frozen E-01 through E-20 experiments, A/B/C/X/D acceptance, renderer/PDF conformance, bounded DOCX provider tests, LibreOffice alternate-provider observation, scale measurements, and comparative benchmark have run. Claims are limited to the exact tracked evidence/environment in `09-BUILD-001-RESULTS.md`; no Microsoft Word compatibility result is claimed.
 
 ## 5. Change discipline
 

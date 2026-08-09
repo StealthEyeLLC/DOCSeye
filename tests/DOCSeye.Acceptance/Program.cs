@@ -30,9 +30,21 @@ File.WriteAllText(evidencePath, JsonSerializer.Serialize(new
     generated_utc = DateTimeOffset.UtcNow,
     machine = Environment.MachineName,
     runtime = Environment.Version.ToString(),
-    experiments = results
+    experiments = results.Select(WithMeta).ToArray()
 }, new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"EVIDENCE={evidencePath}");
+
+Dictionary<string,object?> WithMeta(object item)
+{
+    var map=item.GetType().GetProperties().ToDictionary(p=>p.Name,p=>p.GetValue(item),StringComparer.Ordinal);string id=(string)map["id"]!;var meta=id switch
+    {
+        "E-01"=>("Can a non-CRDT canonical text structure preserve the frozen retained-boundary/affinity/delete/split/merge semantics with bounded current witnesses?","PASS: scalar-position boundaries, explicit affinity, deterministic delete/split/merge transforms, cold restart, Unicode 17 grapheme conformance, and the independent writer all remained exact without permanent character history.","ARCHITECTURE FALSIFIER: test a bounded CRDT-like mechanism; if permanent character history is required, reopen native text architecture before other features."),
+        "E-02"=>("Does selected SQLite rollback-journal operation provide old-or-new semantic revision/root across process kill, power-loss simulation, disk full, and post-commit response loss?","PASS: every injected crash/disk/full/response-loss cut recovered exactly old or new committed truth; no acknowledged partial outcome occurred and idempotency remained exact.","ARCHITECTURE FALSIFIER: change journal/container mechanism; if no application-file profile passes, reopen native container."),
+        "E-03"=>("Can a quiescent DND be published/copied as one coherent file while live/sync copies are detected or coordinated?","PASS: quiescent raw replicas remain exact snapshots; identity-rewrite copies remint as required; live publication uses coherent snapshot/carrier coordination rather than main-file-only copying.","Change publication mechanism; persistent false continuity is an architecture falsifier."),
+        "E-04"=>("Can unknown extensions declare enough machine-readable coverage and transformation behavior to allow disjoint edits while refusing every unsafe intersection?","PASS: object/property/subtree/text/topology/global coverage vectors allowed disjoint edits, required exact transforms where declared, and refused unsafe intersections while preserving payload bytes.","ARCHITECTURE FALSIFIER: reopen extension envelope or native-first if unknown semantics cannot be bounded."),
+        _=>throw new InvalidOperationException("missing experiment metadata: "+id)
+    };map["question"]=meta.Item1;map["binary_or_bounded_conclusion"]=meta.Item2;map["failure_action"]=meta.Item3;return map;
+}
 
 void RunE01()
 {

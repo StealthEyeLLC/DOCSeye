@@ -120,14 +120,16 @@ For native A–D and provider X-01–X-04:
 
 If a test attempts Word use, the native acceptance run is invalid rather than “degraded.” A future conditional Microsoft suite runs elsewhere and records a fully qualified Microsoft environment.
 
-## 8. Repository-state facts at freeze
+## 8. Repository-state facts after Build 001 acceptance
 
-- Product source: not present.
-- Test projects: not present.
-- Native fixtures/databases: not present.
-- Dependency manifests/lockfiles: not present.
-- `docs/09-BUILD-001-RESULTS.md`: absent by design.
-- Build 001: planned, not started.
-- Acceptance: not run.
+The freeze-time statements in Git history have now changed through the authorized Build 001 work:
 
-Implementation must change these statements only when the corresponding authorized work actually occurs.
+- Product source: present under `src/`.
+- Test/acceptance projects: present under `tests/`.
+- Deterministic N-001 and F-001 generators/manifests: present; generated runtime artifacts remain ignored.
+- Dependency/environment evidence: captured in `evidence/preflight.json` and `evidence/final-environment.json`.
+- `docs/09-BUILD-001-RESULTS.md`: present after all parent gates passed.
+- Build 001: implemented and accepted.
+- Acceptance: clean reproduction PASS; receipt in `evidence/reproduction-run.json`.
+
+Microsoft Word remained absent throughout native acceptance. Provider/version/font/locale claims are scoped to the final environment evidence and must not be generalized beyond it.

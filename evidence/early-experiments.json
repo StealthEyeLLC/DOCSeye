@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T12:15:12.2492467+00:00",
+  "generated_utc": "2026-08-09T14:50:27.6848652+00:00",
   "machine": "STEALTHEYELLC",
   "runtime": "10.0.10",
   "experiments": [
@@ -19,13 +19,16 @@
       "independent_writer": {
         "classification": "committed",
         "sequence": 1,
-        "revision_id": "37a11a26-a7a9-468f-b767-98d41d68b14c",
+        "revision_id": "5e1d21b0-ddd9-44c2-8796-469c299fed4d",
         "semantic_root": "97207cb02e50068c7ae0979a84b32b65ab5d8ef865ae1c81e568897518515652",
         "boundary_id": "629af7dc-4fa6-408b-ab71-fe7eae0005ac",
         "new_offset": 30
       },
       "persistent_character_history": false,
-      "quote_rebound": 0
+      "quote_rebound": 0,
+      "question": "Can a non-CRDT canonical text structure preserve the frozen retained-boundary/affinity/delete/split/merge semantics with bounded current witnesses?",
+      "binary_or_bounded_conclusion": "PASS: scalar-position boundaries, explicit affinity, deterministic delete/split/merge transforms, cold restart, Unicode 17 grapheme conformance, and the independent writer all remained exact without permanent character history.",
+      "failure_action": "ARCHITECTURE FALSIFIER: test a bounded CRDT-like mechanism; if permanent character history is required, reopen native text architecture before other features."
     },
     {
       "id": "E-02",
@@ -36,7 +39,10 @@
       "simulated_power_loss": "old",
       "disk_full": "old",
       "postcommit_response_loss": "new_with_witness",
-      "partial_acknowledgements": 0
+      "partial_acknowledgements": 0,
+      "question": "Does selected SQLite rollback-journal operation provide old-or-new semantic revision/root across process kill, power-loss simulation, disk full, and post-commit response loss?",
+      "binary_or_bounded_conclusion": "PASS: every injected crash/disk/full/response-loss cut recovered exactly old or new committed truth; no acknowledged partial outcome occurred and idempotency remained exact.",
+      "failure_action": "ARCHITECTURE FALSIFIER: change journal/container mechanism; if no application-file profile passes, reopen native container."
     },
     {
       "id": "E-03",
@@ -57,41 +63,44 @@
           "bootEpoch": "boot_2"
         },
         "retained": {
-          "id": "file_45",
+          "id": "file_83",
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-published.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "04d5010000005b000000000000000000"
+            "fileId128": "64d6010000003e000000000000000000"
           },
           "revision": {
-            "length": 200704,
-            "lastWriteFileTime": 134307513121978780
+            "length": 208896,
+            "lastWriteFileTime": 134307606276329170
           }
         },
         "renamed": {
-          "id": "file_45",
+          "id": "file_83",
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "04d5010000005b000000000000000000"
+            "fileId128": "64d6010000003e000000000000000000"
           },
           "revision": {
-            "length": 200704,
-            "lastWriteFileTime": 134307513121978780
+            "length": 208896,
+            "lastWriteFileTime": 134307606276329170
           }
         },
         "after": {
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "04d5010000005b000000000000000000"
+            "fileId128": "64d6010000003e000000000000000000"
           },
           "revision": {
-            "length": 200704,
-            "lastWriteFileTime": 134307513121978780
+            "length": 208896,
+            "lastWriteFileTime": 134307606276329170
           }
         }
-      }
+      },
+      "question": "Can a quiescent DND be published/copied as one coherent file while live/sync copies are detected or coordinated?",
+      "binary_or_bounded_conclusion": "PASS: quiescent raw replicas remain exact snapshots; identity-rewrite copies remint as required; live publication uses coherent snapshot/carrier coordination rather than main-file-only copying.",
+      "failure_action": "Change publication mechanism; persistent false continuity is an architecture falsifier."
     },
     {
       "id": "E-04",
@@ -107,7 +116,10 @@
       "disjoint_edits": "allowed",
       "required_intersections": "blocked_required_extension",
       "generic_transform": "required",
-      "exact_payload_preservation": true
+      "exact_payload_preservation": true,
+      "question": "Can unknown extensions declare enough machine-readable coverage and transformation behavior to allow disjoint edits while refusing every unsafe intersection?",
+      "binary_or_bounded_conclusion": "PASS: object/property/subtree/text/topology/global coverage vectors allowed disjoint edits, required exact transforms where declared, and refused unsafe intersections while preserving payload bytes.",
+      "failure_action": "ARCHITECTURE FALSIFIER: reopen extension envelope or native-first if unknown semantics cannot be bounded."
     }
   ]
 }

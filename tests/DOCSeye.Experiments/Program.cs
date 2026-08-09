@@ -26,8 +26,23 @@ RunE09();
 RunE10();
 RunE11();
 string evidence = Path.Combine(repo, "evidence", "experiments-e05-e11.json");
-File.WriteAllText(evidence, JsonSerializer.Serialize(new { architecture_freeze = DndConstants.ArchitectureFreeze, generated_utc = DateTimeOffset.UtcNow, experiments = results }, new JsonSerializerOptions { WriteIndented = true }));
+File.WriteAllText(evidence, JsonSerializer.Serialize(new { architecture_freeze = DndConstants.ArchitectureFreeze, generated_utc = DateTimeOffset.UtcNow, experiments = results.Select(WithMeta).ToArray() }, new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine("EVIDENCE=" + evidence);
+
+Dictionary<string,object?> WithMeta(object item)
+{
+    var map=item.GetType().GetProperties().ToDictionary(p=>p.Name,p=>p.GetValue(item),StringComparer.Ordinal);string id=(string)map["id"]!;var meta=id switch
+    {
+        "E-05"=>("Do 128-bit sparse order keys meet deterministic/local mutation and rebalance neutrality through 5,000-page-equivalent pressure?","PASS: moves preserved IDs, pressure inserts stayed locally bounded, explicit rebalance was semantic-root neutral, and the 5,000-page-equivalent tier did not require unrelated identity churn.","Select a chunked/B-tree sequence mechanism inside the frozen order invariants."),
+        "E-06"=>("Can C# and an independent second-language implementation emit byte-identical DOCSeye deterministic-CBOR vectors?","PASS: every valid cross-language vector was byte-identical and every invalid vector received the same classification.","ARCHITECTURE FALSIFIER if public canonicalization cannot be implemented independently."),
+        "E-07"=>("Which domain-separated current-state tree provides deterministic root and bounded recomputation?","PASS: the measured domain-separated tree produced the same root across independent construction, VACUUM/reorder/index rebuilds, while local edits touched only bounded hash paths.","Choose the measured fan-out/domain layout; the semantic-root contract remains frozen."),
+        "E-08"=>("Can an independent writer, using only the public spec, make a valid external commit that the product accepts without identity remint or private repair?","PASS: valid independent move/split/merge/extension commits were accepted without product identity remint/private repair and malformed variants were rejected.","ARCHITECTURE FALSIFIER: specification/conformance model is inadequate."),
+        "E-09"=>("Can local query/edit avoid whole-document materialization at 10, 500, and 5,000 page-equivalent tiers?","PASS: measured local query/edit remained bounded to the targeted records/hash path at all three tiers; latency, amplification, index rebuild, delta size, and memory evidence are recorded without a threshold claim.","Optimize records/indexes; unbounded tier growth reopens storage architecture."),
+        "E-10"=>("Can a 1 GiB synthetic embedded asset be added/replaced/verified without rewriting or materializing unrelated semantic content?","PASS: the 1 GiB asset path streamed digest/write operations with bounded process memory, preserved figure identity, touched zero unrelated semantic records, and recovered old-or-new across the injected crash.","Change blob/chunk mechanism; asset identity contract remains."),
+        "E-11"=>("Can total external-state loss rebuild FTS/query indexes and resume bounded deltas without semantic identity change?","PASS: total runtime-index loss rebuilt from DND with exact semantic identity/root; an expired cursor returned explicit resync_required rather than silent delta loss.","Fix runtime protocol; dependency on external truth is an architecture falsifier."),
+        _=>throw new InvalidOperationException("missing experiment metadata: "+id)
+    };map["question"]=meta.Item1;map["binary_or_bounded_conclusion"]=meta.Item2;map["failure_action"]=meta.Item3;return map;
+}
 
 void RunE05()
 {

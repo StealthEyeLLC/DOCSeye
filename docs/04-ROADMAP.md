@@ -24,6 +24,8 @@ The 20 experiments, A–D acceptance, 32 native cases, 4 provider cases, metrics
 
 ## 2. Immediate post-Build-001 decision point
 
+Build 001 has now completed with a clean acceptance. The measured publication is [09-BUILD-001-RESULTS.md](09-BUILD-001-RESULTS.md); no frozen architecture falsifier triggered, so the native architecture is retained.
+
 If all required cases pass, publish implementation results in the then-created `docs/09-BUILD-001-RESULTS.md` and retain the native architecture. If an architectural falsifier fails, stop and reopen only that question. Do not proceed by silently weakening identity, anchors, extensions, Word independence, or fidelity reporting.
 
 No additional generic DOCSeye architecture research pass is planned after a clean acceptance. Targeted experiments already named by the freeze are the next source of evidence.

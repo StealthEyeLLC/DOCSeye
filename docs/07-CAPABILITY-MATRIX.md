@@ -144,4 +144,4 @@ Every operation/report includes:
 
 ## 9. Status truth
 
-Every item above is a frozen intended capability or non-capability. Build 001 has not started, so no row may be read as a passing implementation result.
+Every item above remains a frozen intended capability or non-capability. Build 001 has now been implemented and accepted for the exact frozen slice measured in `09-BUILD-001-RESULTS.md`; only rows and provider profiles exercised by that evidence may be read as passing implementation results. Unmeasured future capability remains unclaimed.

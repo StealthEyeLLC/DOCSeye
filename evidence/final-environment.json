@@ -1,0 +1,164 @@
+{
+    "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+    "captured_utc":  "2026-08-09T14:52:02.8585231+00:00",
+    "input_git_head":  "148505dcb56add909f5c199bb70083421e489e09",
+    "machine":  {
+                    "computer":  "STEALTHEYELLC",
+                    "os":  "Microsoft Windows 11 Home",
+                    "version":  "10.0.26200.0",
+                    "architecture":  "AMD64",
+                    "locale":  "en-US",
+                    "timezone":  "Eastern Standard Time",
+                    "processor_count":  32
+                },
+    "binaries":  [
+                     {
+                         "name":  ".NET SDK host",
+                         "path":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                         "version":  "10.0.302",
+                         "sha256":  "4377f10c78400f0370b88156773de9843c07f14e65b3232005ec3179ef38d463",
+                         "preflight_sha256":  "4377f10c78400f0370b88156773de9843c07f14e65b3232005ec3179ef38d463",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "Node.js",
+                         "path":  "C:\\AgentBrowser\\tools\\node-v24.18.1-win-x64\\node.exe",
+                         "version":  "v24.18.1",
+                         "sha256":  "ac51903c4c111815d52280b1fdcc8da067cbb37e2fe1a765097b85c3292c8582",
+                         "preflight_sha256":  "ac51903c4c111815d52280b1fdcc8da067cbb37e2fe1a765097b85c3292c8582",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "SQLite native",
+                         "path":  "C:\\StealthEyeLLC\\DOCSeye\\.tools\\sqlite-native\\sqlite3.dll",
+                         "version":  "3.53.4",
+                         "sha256":  "ab57d0437795ecc757cb693f32ea224173fa9856594d95cfa6b5033e645cd1ec",
+                         "preflight_sha256":  "ab57d0437795ecc757cb693f32ea224173fa9856594d95cfa6b5033e645cd1ec",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "Typst",
+                         "path":  "C:\\StealthEyeLLC\\DOCSeye\\.tools\\typst\\typst-x86_64-pc-windows-msvc\\typst.exe",
+                         "version":  "typst 0.15.1 (9dfd3a08)",
+                         "sha256":  "081217a463adb006f8894b44227fe4b9c9e91fc85f5463d5948e8370db9bb31e",
+                         "preflight_sha256":  "081217a463adb006f8894b44227fe4b9c9e91fc85f5463d5948e8370db9bb31e",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "Chrome for Testing",
+                         "path":  "C:\\StealthEyeLLC\\DOCSeye\\.tools\\chrome\\chrome-win64\\chrome.exe",
+                         "version":  "151.0.7922.77",
+                         "sha256":  "73c78878416b28aff13df2c464a6273781c39e32d8be8ef700dd65fbff2b271c",
+                         "preflight_sha256":  "f3f11f60e8c9bb7d3f8d90b9bd2cdc9810de9f9e99ff7b7aa19ca7d8684e2aaa",
+                         "changed_since_preflight":  true
+                     },
+                     {
+                         "name":  "LibreOffice",
+                         "path":  "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+                         "version":  "26.2.5.2",
+                         "sha256":  "40ebd75ff8c2d4a228166ffa9ac13b97b947f7ddef67152ae45cf4c98c1ae5e5",
+                         "preflight_sha256":  "40ebd75ff8c2d4a228166ffa9ac13b97b947f7ddef67152ae45cf4c98c1ae5e5",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "Eclipse Temurin JRE",
+                         "path":  "C:\\StealthEyeLLC\\DOCSeye\\.tools\\java\\jdk-25.0.4+7-jre\\bin\\java.exe",
+                         "version":  "25.0.4.0",
+                         "sha256":  "1dfe0b08636bc74b56db5e246f038cfe67c18f567053373fa601d310f29ed9da",
+                         "preflight_sha256":  "1dfe0b08636bc74b56db5e246f038cfe67c18f567053373fa601d310f29ed9da",
+                         "changed_since_preflight":  false
+                     },
+                     {
+                         "name":  "veraPDF CLI jar",
+                         "path":  "C:\\StealthEyeLLC\\DOCSeye\\.tools\\verapdf\\bin\\cli-1.30.2.jar",
+                         "version":  "1.30.2",
+                         "sha256":  "889075253fb9df4db5482efb8f8208fb3b4f2e00f5f7e1b1e31edf6fb4b69bb6",
+                         "preflight_sha256":  "889075253fb9df4db5482efb8f8208fb3b4f2e00f5f7e1b1e31edf6fb4b69bb6",
+                         "changed_since_preflight":  false
+                     }
+                 ],
+    "font_manifest":  {
+                          "fallback_order":  [
+                                                 "Segoe UI",
+                                                 "Nirmala UI",
+                                                 "Yu Gothic",
+                                                 "Segoe UI Emoji",
+                                                 "Arial"
+                                             ],
+                          "files":  [
+                                        {
+                                            "name":  "segoeui.ttf",
+                                            "path":  "C:\\Windows\\Fonts\\segoeui.ttf",
+                                            "sha256":  "8134dbcd09e7b123c9a7f229d49cffbcb01352cc72ea5e1076b65d0dca9f73cd",
+                                            "preflight_sha256":  "8134dbcd09e7b123c9a7f229d49cffbcb01352cc72ea5e1076b65d0dca9f73cd",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "segoeuib.ttf",
+                                            "path":  "C:\\Windows\\Fonts\\segoeuib.ttf",
+                                            "sha256":  "aeb9e4a6ec5cc59f4d72df8189032d7dbb28f45161cf1552174818b5465dac4e",
+                                            "preflight_sha256":  "aeb9e4a6ec5cc59f4d72df8189032d7dbb28f45161cf1552174818b5465dac4e",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "Nirmala.ttc",
+                                            "path":  "C:\\Windows\\Fonts\\Nirmala.ttc",
+                                            "sha256":  "ad02cdfc06e144ac45f318e8e5a64cbe04c7479d4beb91d25f5a319a466b1767",
+                                            "preflight_sha256":  "ad02cdfc06e144ac45f318e8e5a64cbe04c7479d4beb91d25f5a319a466b1767",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "YuGothR.ttc",
+                                            "path":  "C:\\Windows\\Fonts\\YuGothR.ttc",
+                                            "sha256":  "cd24b5617c1e26572b0a7fe7e558f7121ca42c36f7b50e8d9216ac222a1c0a93",
+                                            "preflight_sha256":  "cd24b5617c1e26572b0a7fe7e558f7121ca42c36f7b50e8d9216ac222a1c0a93",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "YuGothB.ttc",
+                                            "path":  "C:\\Windows\\Fonts\\YuGothB.ttc",
+                                            "sha256":  "d923a57f781f06198167da4f58287be7ac64a954a47aff4295e078a42b4b68b2",
+                                            "preflight_sha256":  "d923a57f781f06198167da4f58287be7ac64a954a47aff4295e078a42b4b68b2",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "seguiemj.ttf",
+                                            "path":  "C:\\Windows\\Fonts\\seguiemj.ttf",
+                                            "sha256":  "f07cbd7886f4a1a5255a1bdf4ca5ea29db3be3357414003a92bec5d1c3165578",
+                                            "preflight_sha256":  "f07cbd7886f4a1a5255a1bdf4ca5ea29db3be3357414003a92bec5d1c3165578",
+                                            "changed_since_preflight":  false
+                                        },
+                                        {
+                                            "name":  "arial.ttf",
+                                            "path":  "C:\\Windows\\Fonts\\arial.ttf",
+                                            "sha256":  "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+                                            "preflight_sha256":  "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+                                            "changed_since_preflight":  false
+                                        }
+                                    ]
+                      },
+    "word":  {
+                 "winword_processes":  0,
+                 "winword_exe_present":  false,
+                 "word_com_calls":  0,
+                 "word_api_calls":  0,
+                 "word_expected_artifacts":  0,
+                 "microsoft_365_trial":  "NOT STARTED"
+             },
+    "provider_scoping":  {
+                             "html":  "Chrome for Testing version/hash above plus E-14 DOM/AX evidence",
+                             "paginated":  "Typst version/hash above; veraPDF version/hash above; font/locale manifest above",
+                             "docx":  "DocumentFormat.OpenXml 3.5.1 from locked NuGet restore; LibreOffice version/hash above is alternate-provider observation only",
+                             "microsoft_word":  "unavailable_provider / not observed"
+                         },
+    "preflight_reference":  "evidence/preflight.json",
+    "drift":  {
+                  "binary_changes":  [
+                                         "Chrome for Testing"
+                                     ],
+                  "font_changes":  [
+
+                                   ],
+                  "interpretation":  "final evidence is scoped to these final hashes; preflight remains the historical initial environment capture"
+              }
+}

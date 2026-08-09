@@ -1,0 +1,85 @@
+{
+    "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+    "generated_utc":  "2026-08-09T14:52:03.1061438+00:00",
+    "result":  "PASS",
+    "command":  "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/run-build001-acceptance.ps1 -CleanRuntimeArtifacts",
+    "cleanup":  {
+                    "runtime_artifacts_removed_before_run":  true,
+                    "pinned_repo_chrome_processes_stopped_before_and_after":  true,
+                    "cleanup_only_command":  "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/run-build001-acceptance.ps1 -CleanupOnly"
+                },
+    "build":  {
+                  "warnings":  0,
+                  "errors":  0
+              },
+    "program_host_raw_escape_hits":  0,
+    "word":  {
+                 "winword_processes":  0,
+                 "winword_exe_present":  false,
+                 "word_com_calls":  0,
+                 "word_api_calls":  0,
+                 "microsoft_365_trial":  "NOT STARTED"
+             },
+    "evidence":  [
+                     {
+                         "path":  "evidence/preflight.json",
+                         "sha256":  "d53f44c03ae4985a52f507ff6d45daf7d46466b835f0fd6fe88df6bf3f869706",
+                         "bytes":  16398
+                     },
+                     {
+                         "path":  "evidence/early-experiments.json",
+                         "sha256":  "01e69fc5c43d1078909d24301c6612e111de8d6290d2fd2ada9fb26b18c25478",
+                         "bytes":  6039
+                     },
+                     {
+                         "path":  "evidence/experiments-e05-e11.json",
+                         "sha256":  "bad098b5dc2f957d31f19dee22e55fa820b0dd37538738acfc5ef3a2557efd00",
+                         "bytes":  8218
+                     },
+                     {
+                         "path":  "evidence/e12-e13-early.json",
+                         "sha256":  "564be6d87363bc87f59ba64f6d79a23d13b1e1595c2f7a9d936b06e0aaa4977e",
+                         "bytes":  17381
+                     },
+                     {
+                         "path":  "evidence/experiments-e14-e20.json",
+                         "sha256":  "5e72d26626155c2cef53a9e050de8cfca0247b49372dd2e6bf87cac40d821771",
+                         "bytes":  14372
+                     },
+                     {
+                         "path":  "evidence/milestone-a.json",
+                         "sha256":  "6cd70a14d4728aaf183c91a2fae797d5f0b871dd77be2995414396aed63b9711",
+                         "bytes":  5947
+                     },
+                     {
+                         "path":  "evidence/milestone-b.json",
+                         "sha256":  "203bb2e3110dbadd3f7a3d0c0d41cdca17c61bcc430a6874ea6332b92fd253d3",
+                         "bytes":  9427
+                     },
+                     {
+                         "path":  "evidence/milestone-c.json",
+                         "sha256":  "4c072501693e6f48ece77e119488fe3663336972343f8c5eebdb2b9696b8abc9",
+                         "bytes":  184270
+                     },
+                     {
+                         "path":  "evidence/milestone-x.json",
+                         "sha256":  "2fcde49085a8ae5e0e683a064cab17541045a55478cb14b0029574191ff2c906",
+                         "bytes":  18043
+                     },
+                     {
+                         "path":  "evidence/milestone-d.json",
+                         "sha256":  "63c325a0a994857dc920db0f840f1f9f9492f389922f292cabbd1db139cbf6a7",
+                         "bytes":  49212
+                     },
+                     {
+                         "path":  "evidence/comparative-benchmark.json",
+                         "sha256":  "f228b1b8f8f56bd08e498b9d6dec69a837125d27dcdac1b7e7f7e4776a7a4061",
+                         "bytes":  21215
+                     },
+                     {
+                         "path":  "evidence/final-environment.json",
+                         "sha256":  "37f3296e6d099b993b5dc6825b6c15ff7c0722618b9215834dcfae939e12d9b4",
+                         "bytes":  10829
+                     }
+                 ]
+}

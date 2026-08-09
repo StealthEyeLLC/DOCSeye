@@ -1,0 +1,552 @@
+{
+  "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+  "old_docx_first_freeze": "47b5280b71773ae497b5a56c4b590b9070b4bca5",
+  "implementation_input_head": "148505dcb56add909f5c199bb70083421e489e09",
+  "generated_utc": "2026-08-09T14:52:02.3092082+00:00",
+  "result": "PASS",
+  "benchmark_contract": "same supported typed workflow executed against an executable reconstruction of the frozen-but-unimplemented DOCX-first operating model and the current native model",
+  "baseline_scope": {
+    "classification": "executable_reconstruction",
+    "reason": "the prior DOCX-first freeze was PLANNED / NOT IMPLEMENTED; no old product binary is claimed",
+    "docx_truth": "DOCX package representation",
+    "retained_witness": "w14:paraId",
+    "recovery": "full provider rescan after external package move",
+    "word_dependency": "none for the measured common workflow"
+  },
+  "environment": {
+    "machine": "STEALTHEYELLC",
+    "os": "Microsoft Windows 10.0.26200",
+    "architecture": "X64",
+    "runtime": ".NET 10.0.10",
+    "processor_count": 32,
+    "openxml_version": "3.5.1.0",
+    "sqlite_native_sha256": "ab57d0437795ecc757cb693f32ea224173fa9856594d95cfa6b5033e645cd1ec",
+    "word_processes": 0,
+    "winword_executable_present": false
+  },
+  "same_supported_workflow": {
+    "paragraphs": 1200,
+    "duplicate_targets": 3,
+    "target": "middle duplicate paragraph",
+    "host_calls": [
+      "open_validate",
+      "query_duplicates",
+      "retain",
+      "begin",
+      "replace",
+      "commit",
+      "delta_read",
+      "reconcile",
+      "inspect_retained",
+      "summarize"
+    ],
+    "external_action": "move the retained target to ordinal 0 while preserving its native/provider witness",
+    "program_host_calls": 10,
+    "program_host_invocations": 1,
+    "useful_operations": 10,
+    "query_calls": 2
+  },
+  "program_host_context": {
+    "benchmark_boundary_note": "the comparative harness measures the same 10 typed model-facing calls in one isolated benchmark invocation per route; these are not Milestone D call IDs",
+    "production_native_D": {
+      "calls": 96,
+      "invocations": 1,
+      "mutations": 48,
+      "model_facing_request_bytes": 3085,
+      "model_facing_response_bytes": 50588,
+      "evidence": "evidence/milestone-d.json"
+    },
+    "frozen_old_docx_first_D_plan": {
+      "calls": 60,
+      "mutations": 29,
+      "invocations": 1,
+      "status": "planned / not implemented at commit 47b5280; no runtime measurements claimed"
+    }
+  },
+  "sampling": {
+    "cold_process_samples_per_route": 3,
+    "execution_order": [
+      "docx_first",
+      "native",
+      "native",
+      "docx_first",
+      "docx_first",
+      "native"
+    ],
+    "latency_summary": "median of three isolated child-process samples",
+    "peak_memory_summary": "median of sampled child-process peak working set",
+    "no_numeric_threshold_frozen": true
+  },
+  "routes": {
+    "native": {
+      "Route": "native",
+      "AuthorityModel": "native DND semantic authority",
+      "InitialArtifactBytes": 9162752,
+      "FinalArtifactBytes": 9162752,
+      "ProgramHostCalls": 10,
+      "ProgramHostInvocations": 1,
+      "UsefulOperations": 10,
+      "QueryCalls": 2,
+      "ProviderRediscoveries": 0,
+      "CorrespondenceRecoveryAttempts": 0,
+      "ModelFacingBytes": 5069,
+      "SemanticDeltaBytes": 1156,
+      "RepresentationDiffBytes": 180224,
+      "LogicalRecordsTouched": 2,
+      "PhysicalRecordsTouched": 44,
+      "PhysicalBytesTouched": 180224,
+      "PhysicalRecordUnit": "4096-byte DND file blocks",
+      "WorkflowLatencyMs": 2783,
+      "PeakWorkingSetBytes": 219947008,
+      "UsefulOperationsPerCall": 1,
+      "UsefulOperationsPerInvocation": 10,
+      "ExactTargetRecovered": true,
+      "WrongTargetEdits": 0,
+      "StaleWrites": 0,
+      "AmbiguousWrites": 0,
+      "Detail": {
+        "initial_revision": "1c0f6ba7-491e-4ee3-8260-6500384e1ccd",
+        "local_revision": "0a6df6b6-393f-49e5-8401-8a6690e67bd9",
+        "external_revision": "c3454260-4499-44f7-a998-77df95cb6c91",
+        "external_reconcile": "valid",
+        "full_provider_rediscovery": false
+      }
+    },
+    "docx_first": {
+      "Route": "docx_first",
+      "AuthorityModel": "reconstructed frozen DOCX-first operating model: DOCX representation truth \u002B retained w14:paraId provider witness",
+      "InitialArtifactBytes": 582098,
+      "FinalArtifactBytes": 582117,
+      "ProgramHostCalls": 10,
+      "ProgramHostInvocations": 1,
+      "UsefulOperations": 10,
+      "QueryCalls": 2,
+      "ProviderRediscoveries": 2,
+      "CorrespondenceRecoveryAttempts": 1,
+      "ModelFacingBytes": 1919,
+      "SemanticDeltaBytes": 332,
+      "RepresentationDiffBytes": 1164242,
+      "LogicalRecordsTouched": 2,
+      "PhysicalRecordsTouched": 2,
+      "PhysicalBytesTouched": 2192314,
+      "PhysicalRecordUnit": "changed uncompressed OPC part payloads",
+      "WorkflowLatencyMs": 449,
+      "PeakWorkingSetBytes": 76967936,
+      "UsefulOperationsPerCall": 1,
+      "UsefulOperationsPerInvocation": 10,
+      "ExactTargetRecovered": true,
+      "WrongTargetEdits": 0,
+      "StaleWrites": 0,
+      "AmbiguousWrites": 0,
+      "Detail": {
+        "baseline": "executable reconstruction because commit 47b5280 was architecture-only / not implemented",
+        "provider_witness": "w14:paraId",
+        "external_recovery": "full provider rescan by retained provider witness",
+        "artifact_block_diff_bytes": 1164242,
+        "changed_part_payload_bytes": 2192314,
+        "inspect": {
+          "id": "9E52303D",
+          "textHash": "920cd9a5c41ab679bccf488780ba4cb74bf7588ea825c20d84f66140d3ffef61",
+          "ordinal": 0
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "Route": "docx_first",
+      "WallMs": 449,
+      "PeakWorkingSetBytes": 77201408,
+      "Metrics": {
+        "Route": "docx_first",
+        "AuthorityModel": "reconstructed frozen DOCX-first operating model: DOCX representation truth \u002B retained w14:paraId provider witness",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\01-docx_first\\docx-first.docx",
+        "InitialArtifactBytes": 582098,
+        "FinalArtifactBytes": 582117,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 2,
+        "CorrespondenceRecoveryAttempts": 1,
+        "ModelFacingRequestBytes": 706,
+        "ModelFacingResponseBytes": 1213,
+        "SemanticDeltaBytes": 332,
+        "RepresentationDiffBytes": 1164242,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 2,
+        "PhysicalBytesTouched": 2192314,
+        "PhysicalRecordUnit": "changed uncompressed OPC part payloads",
+        "ColdOpenMs": 60,
+        "WarmQueryMs": 0,
+        "CommitMs": 59,
+        "ReconcileMs": 26,
+        "WorkflowLatencyMs": 249,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "9E52303D",
+        "LocalChangedRepresentationRecords": 1,
+        "ExternalChangedRepresentationRecords": 1,
+        "LocalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "ExternalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "Detail": {
+          "baseline": "executable reconstruction because commit 47b5280 was architecture-only / not implemented",
+          "provider_witness": "w14:paraId",
+          "external_recovery": "full provider rescan by retained provider witness",
+          "artifact_block_diff_bytes": 1164242,
+          "changed_part_payload_bytes": 2192314,
+          "inspect": {
+            "id": "9E52303D",
+            "textHash": "920cd9a5c41ab679bccf488780ba4cb74bf7588ea825c20d84f66140d3ffef61",
+            "ordinal": 0
+          }
+        }
+      },
+      "Stderr": ""
+    },
+    {
+      "Route": "native",
+      "WallMs": 2803,
+      "PeakWorkingSetBytes": 241594368,
+      "Metrics": {
+        "Route": "native",
+        "AuthorityModel": "native DND semantic authority",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\02-native\\native.dnd",
+        "InitialArtifactBytes": 9162752,
+        "FinalArtifactBytes": 9162752,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 0,
+        "CorrespondenceRecoveryAttempts": 0,
+        "ModelFacingRequestBytes": 709,
+        "ModelFacingResponseBytes": 4360,
+        "SemanticDeltaBytes": 1156,
+        "RepresentationDiffBytes": 180224,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 44,
+        "PhysicalBytesTouched": 180224,
+        "PhysicalRecordUnit": "4096-byte DND file blocks",
+        "ColdOpenMs": 176,
+        "WarmQueryMs": 142,
+        "CommitMs": 203,
+        "ReconcileMs": 162,
+        "WorkflowLatencyMs": 1371,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "23bd3a66-fca9-4de1-8af2-b14f494eacb5",
+        "LocalChangedRepresentationRecords": 24,
+        "ExternalChangedRepresentationRecords": 20,
+        "LocalChangedRepresentationNames": [],
+        "ExternalChangedRepresentationNames": [],
+        "Detail": {
+          "initial_revision": "1c0f6ba7-491e-4ee3-8260-6500384e1ccd",
+          "local_revision": "2ffec478-73b7-4a03-bfe5-60bf6ac4f621",
+          "external_revision": "118c6dc6-1785-4f1b-90a3-f640914bacd4",
+          "external_reconcile": "valid",
+          "full_provider_rediscovery": false
+        }
+      },
+      "Stderr": ""
+    },
+    {
+      "Route": "native",
+      "WallMs": 2783,
+      "PeakWorkingSetBytes": 219947008,
+      "Metrics": {
+        "Route": "native",
+        "AuthorityModel": "native DND semantic authority",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\03-native\\native.dnd",
+        "InitialArtifactBytes": 9162752,
+        "FinalArtifactBytes": 9162752,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 0,
+        "CorrespondenceRecoveryAttempts": 0,
+        "ModelFacingRequestBytes": 709,
+        "ModelFacingResponseBytes": 4360,
+        "SemanticDeltaBytes": 1156,
+        "RepresentationDiffBytes": 180224,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 44,
+        "PhysicalBytesTouched": 180224,
+        "PhysicalRecordUnit": "4096-byte DND file blocks",
+        "ColdOpenMs": 194,
+        "WarmQueryMs": 157,
+        "CommitMs": 227,
+        "ReconcileMs": 166,
+        "WorkflowLatencyMs": 1218,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "23bd3a66-fca9-4de1-8af2-b14f494eacb5",
+        "LocalChangedRepresentationRecords": 24,
+        "ExternalChangedRepresentationRecords": 20,
+        "LocalChangedRepresentationNames": [],
+        "ExternalChangedRepresentationNames": [],
+        "Detail": {
+          "initial_revision": "1c0f6ba7-491e-4ee3-8260-6500384e1ccd",
+          "local_revision": "7dee8395-616f-45f7-b212-c95d5cc368d0",
+          "external_revision": "3b81de04-169a-4c87-b8e7-11a850028b9d",
+          "external_reconcile": "valid",
+          "full_provider_rediscovery": false
+        }
+      },
+      "Stderr": ""
+    },
+    {
+      "Route": "docx_first",
+      "WallMs": 455,
+      "PeakWorkingSetBytes": 76967936,
+      "Metrics": {
+        "Route": "docx_first",
+        "AuthorityModel": "reconstructed frozen DOCX-first operating model: DOCX representation truth \u002B retained w14:paraId provider witness",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\04-docx_first\\docx-first.docx",
+        "InitialArtifactBytes": 582098,
+        "FinalArtifactBytes": 582117,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 2,
+        "CorrespondenceRecoveryAttempts": 1,
+        "ModelFacingRequestBytes": 706,
+        "ModelFacingResponseBytes": 1213,
+        "SemanticDeltaBytes": 332,
+        "RepresentationDiffBytes": 1164242,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 2,
+        "PhysicalBytesTouched": 2192314,
+        "PhysicalRecordUnit": "changed uncompressed OPC part payloads",
+        "ColdOpenMs": 60,
+        "WarmQueryMs": 0,
+        "CommitMs": 61,
+        "ReconcileMs": 26,
+        "WorkflowLatencyMs": 252,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "9E52303D",
+        "LocalChangedRepresentationRecords": 1,
+        "ExternalChangedRepresentationRecords": 1,
+        "LocalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "ExternalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "Detail": {
+          "baseline": "executable reconstruction because commit 47b5280 was architecture-only / not implemented",
+          "provider_witness": "w14:paraId",
+          "external_recovery": "full provider rescan by retained provider witness",
+          "artifact_block_diff_bytes": 1164242,
+          "changed_part_payload_bytes": 2192314,
+          "inspect": {
+            "id": "9E52303D",
+            "textHash": "920cd9a5c41ab679bccf488780ba4cb74bf7588ea825c20d84f66140d3ffef61",
+            "ordinal": 0
+          }
+        }
+      },
+      "Stderr": ""
+    },
+    {
+      "Route": "docx_first",
+      "WallMs": 443,
+      "PeakWorkingSetBytes": 75591680,
+      "Metrics": {
+        "Route": "docx_first",
+        "AuthorityModel": "reconstructed frozen DOCX-first operating model: DOCX representation truth \u002B retained w14:paraId provider witness",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\05-docx_first\\docx-first.docx",
+        "InitialArtifactBytes": 582098,
+        "FinalArtifactBytes": 582117,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 2,
+        "CorrespondenceRecoveryAttempts": 1,
+        "ModelFacingRequestBytes": 706,
+        "ModelFacingResponseBytes": 1213,
+        "SemanticDeltaBytes": 332,
+        "RepresentationDiffBytes": 1164242,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 2,
+        "PhysicalBytesTouched": 2192314,
+        "PhysicalRecordUnit": "changed uncompressed OPC part payloads",
+        "ColdOpenMs": 58,
+        "WarmQueryMs": 0,
+        "CommitMs": 59,
+        "ReconcileMs": 25,
+        "WorkflowLatencyMs": 246,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "9E52303D",
+        "LocalChangedRepresentationRecords": 1,
+        "ExternalChangedRepresentationRecords": 1,
+        "LocalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "ExternalChangedRepresentationNames": [
+          "word/document.xml"
+        ],
+        "Detail": {
+          "baseline": "executable reconstruction because commit 47b5280 was architecture-only / not implemented",
+          "provider_witness": "w14:paraId",
+          "external_recovery": "full provider rescan by retained provider witness",
+          "artifact_block_diff_bytes": 1164242,
+          "changed_part_payload_bytes": 2192314,
+          "inspect": {
+            "id": "9E52303D",
+            "textHash": "920cd9a5c41ab679bccf488780ba4cb74bf7588ea825c20d84f66140d3ffef61",
+            "ordinal": 0
+          }
+        }
+      },
+      "Stderr": ""
+    },
+    {
+      "Route": "native",
+      "WallMs": 2658,
+      "PeakWorkingSetBytes": 179130368,
+      "Metrics": {
+        "Route": "native",
+        "AuthorityModel": "native DND semantic authority",
+        "ArtifactPath": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\comparative-benchmark\\774c878ceb844cf3a1f0b5586c752a71\\06-native\\native.dnd",
+        "InitialArtifactBytes": 9162752,
+        "FinalArtifactBytes": 9162752,
+        "ProgramHostCalls": 10,
+        "ProgramHostInvocations": 1,
+        "UsefulOperations": 10,
+        "QueryCalls": 2,
+        "ProviderRediscoveries": 0,
+        "CorrespondenceRecoveryAttempts": 0,
+        "ModelFacingRequestBytes": 709,
+        "ModelFacingResponseBytes": 4360,
+        "SemanticDeltaBytes": 1156,
+        "RepresentationDiffBytes": 180224,
+        "LogicalRecordsTouched": 2,
+        "PhysicalRecordsTouched": 44,
+        "PhysicalBytesTouched": 180224,
+        "PhysicalRecordUnit": "4096-byte DND file blocks",
+        "ColdOpenMs": 180,
+        "WarmQueryMs": 136,
+        "CommitMs": 213,
+        "ReconcileMs": 147,
+        "WorkflowLatencyMs": 1237,
+        "ExactTargetRecovered": true,
+        "WrongTargetEdits": 0,
+        "StaleWrites": 0,
+        "AmbiguousWrites": 0,
+        "RetainedIdentity": "23bd3a66-fca9-4de1-8af2-b14f494eacb5",
+        "LocalChangedRepresentationRecords": 24,
+        "ExternalChangedRepresentationRecords": 20,
+        "LocalChangedRepresentationNames": [],
+        "ExternalChangedRepresentationNames": [],
+        "Detail": {
+          "initial_revision": "1c0f6ba7-491e-4ee3-8260-6500384e1ccd",
+          "local_revision": "0a6df6b6-393f-49e5-8401-8a6690e67bd9",
+          "external_revision": "c3454260-4499-44f7-a998-77df95cb6c91",
+          "external_reconcile": "valid",
+          "full_provider_rediscovery": false
+        }
+      },
+      "Stderr": ""
+    }
+  ],
+  "comparison": {
+    "model_facing_bytes": {
+      "native": 5069,
+      "docx_first": 1919
+    },
+    "provider_rediscoveries": {
+      "native": 0,
+      "docx_first": 2
+    },
+    "query_calls": {
+      "native": 2,
+      "docx_first": 2
+    },
+    "operation_density": {
+      "native_per_call": 1,
+      "docx_first_per_call": 1,
+      "native_per_invocation": 10,
+      "docx_first_per_invocation": 10
+    },
+    "correspondence_recovery_attempts": {
+      "native": 0,
+      "docx_first": 1
+    },
+    "semantic_delta_bytes": {
+      "native": 1156,
+      "docx_first": 332
+    },
+    "representation_diff_bytes": {
+      "native": 180224,
+      "docx_first": 1164242
+    },
+    "latency_ms": {
+      "native": 2783,
+      "docx_first": 449
+    },
+    "peak_memory_bytes": {
+      "native": 219947008,
+      "docx_first": 76967936
+    },
+    "touched": {
+      "native": {
+        "logical_records": 2,
+        "physical_records": 44,
+        "physical_bytes": 180224,
+        "unit": "4096-byte DND file blocks"
+      },
+      "docx_first": {
+        "logical_records": 2,
+        "physical_records": 2,
+        "physical_bytes": 2192314,
+        "unit": "changed uncompressed OPC part payloads"
+      }
+    },
+    "permanent_format_cost": {
+      "native_initial_artifact_bytes": 9162752,
+      "docx_first_initial_artifact_bytes": 582098
+    },
+    "correctness": {
+      "exact_target_recovery": true,
+      "wrong_target_edits": 0,
+      "stale_writes": 0,
+      "ambiguous_writes": 0
+    }
+  },
+  "observed_native_improvements": [
+    "full provider rediscoveries: native 0 vs DOCX-first 2",
+    "candidate correspondence-recovery attempts after external move: native 0 vs DOCX-first 1",
+    "artifact representation diff bytes: native 180224 vs DOCX-first 1164242"
+  ],
+  "observed_native_costs": [
+    "initial native artifact bytes 9162752 vs DOCX-first 582098",
+    "median workflow latency native 2783 ms vs DOCX-first 449 ms",
+    "median peak working set native 219947008 bytes vs DOCX-first 76967936 bytes",
+    "model-facing bytes native 5069 vs DOCX-first 1919",
+    "semantic delta bytes native 1156 vs reconstructed DOCX-first operational delta 332"
+  ],
+  "falsifier_F09": {
+    "triggered": false,
+    "conclusion": "NOT TRIGGERED: under the same measured workflow, native retained identity survives the external move without any full provider rediscovery or candidate correspondence recovery, while the reconstructed DOCX-first model requires a full provider rescan/recovery by retained provider witness. Permanent format-size, latency, memory, delta, and touched-byte costs are reported without inventing a threshold."
+  }
+}

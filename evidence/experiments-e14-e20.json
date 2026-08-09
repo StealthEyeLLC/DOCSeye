@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T14:23:26.186745+00:00",
+  "generated_utc": "2026-08-09T14:51:08.089464+00:00",
   "machine": "STEALTHEYELLC",
   "experiments": [
     {
@@ -49,8 +49,8 @@
         "semantic_root_unchanged": true,
         "remote_fetches": 0,
         "chrome_observation_ms": [
-          253,
-          251
+          247,
+          277
         ]
       },
       "binary_or_bounded_conclusion": "PASS",
@@ -67,7 +67,7 @@
         "native_mappings": 25,
         "source_capsule_sha256": "bba9fea0dde6f1a9e93d1019434e54ce37108258c268827df83cb991508b1a5a",
         "source_capsule_byte_exact": true,
-        "native_root": "265aa04d4d4b2b7ede2ab3548d4e391b556be1a0c6782aa82b4a28265d58e905",
+        "native_root": "3f7679bb13d6ef74e87d1b09541a4f866473e746225b17d147872236351e1daf",
         "authority_mode": "converted/imported",
         "provider_facets": 1,
         "required_extensions": 1,
@@ -93,7 +93,7 @@
         "native_classification": "translated_with_declared_loss",
         "native_opc": true,
         "native_schema": true,
-        "native_sha256": "5d8fb3702fc96a390684cf00cf21130b95e6b0a232f0d9ced7340dc175b32e5a",
+        "native_sha256": "3c848083c809a0b6e39e33dc803eeccb5828ddd7d56cd48012d112d242fa85c6",
         "declared_losses": [
           "bibliographic_record: represented textually or omitted from native DOCX semantics",
           "citation: represented textually or omitted from native DOCX semantics",
@@ -136,14 +136,14 @@
         "provider": "LibreOffice",
         "version": "LibreOffice 26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb",
         "success": true,
-        "render_sha256": "dcf2e974519fc7e1e7b64add150065f74f59a55b34eb497e73619e46ef19483b",
-        "resaved_sha256": "64f8692f0214ca57e3baa2ef068be566e5a9073f18f8a8e4e367116bbdfdf0f7",
-        "rerender_sha256": "4a14c3c8ea4ed567b64f5db4557015bca10bfdf864c19d1e6fe01e0633923210",
+        "render_sha256": "946bdd3333d54452bbe9aba16b79958c11bcc5ebb391de4b8c537e17084cb9b2",
+        "resaved_sha256": "ff37e56a86ebe4afc2912bd7d240ae4caefdabf7ff214b1d89c7d951c8f7eb92",
+        "rerender_sha256": "41dcc2b315f27e3d4443e2bee041f3e498b7be4598c948de9e4a24030f3e0eb3",
         "resaved_opc_valid": true,
         "resaved_schema_valid": false,
         "normalized_changed_entries": 11,
         "removed_entries": [
-          "package/services/metadata/core-properties/812ac3f6577245d8832e82d7623ad5dc.psmdcp"
+          "package/services/metadata/core-properties/7343a5705e6d4f8d8b75a40d9d5835b1.psmdcp"
         ],
         "added_entries": [
           "docProps/app.xml",
@@ -157,11 +157,11 @@
         "microsoft_observed": false,
         "diagnostics": [
           "render:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
-          "render:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\render\\e16-native.pdf using filter : writer_pdf_Export",
+          "render:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e17-libreoffice\\render\\e16-native.pdf using filter : writer_pdf_Export",
           "resave:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
-          "resave:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\resave\\e16-native.docx using filter : Office Open XML Text",
+          "resave:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e17-libreoffice\\resave\\e16-native.docx using filter : Office Open XML Text",
           "rerender:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
-          "rerender:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\resave\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\rerender\\e16-native.pdf using filter : writer_pdf_Export",
+          "rerender:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e17-libreoffice\\resave\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\9571820d25ff419ca2740c0d059c3e36\\e17-libreoffice\\rerender\\e16-native.pdf using filter : writer_pdf_Export",
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:charSpace\u0027 has invalid value \u00274294963199\u0027. The string \u00274294963199\u0027 is not a valid \u0027Int32\u0027 value. @ /w:document[1]/w:body[1]/w:sectPr[1]/w:docGrid[1]",
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:val\u0027 has invalid value \u0027start\u0027. The Enumeration constraint failed. @ /w:document[1]/w:body[1]/w:tbl[1]/w:tblPr[1]/w:jc[1]",
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[6]/w:charset[1]",
@@ -169,7 +169,7 @@
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[4]/w:charset[1]",
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[3]/w:charset[1]",
           "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[1]/w:charset[1]",
-          "normalization_removed=package/services/metadata/core-properties/812ac3f6577245d8832e82d7623ad5dc.psmdcp",
+          "normalization_removed=package/services/metadata/core-properties/7343a5705e6d4f8d8b75a40d9d5835b1.psmdcp",
           "normalization_added=docProps/app.xml,docProps/core.xml,word/fontTable.xml,word/settings.xml,word/theme/theme1.xml",
           "normalization_changed_entries=11"
         ]
@@ -199,7 +199,7 @@
         "zip_size_declared_uncompressed_bytes": 68157440,
         "zip_size_workingset_delta_bytes": 0,
         "dangerous_relationship_rejected": true,
-        "remote_validation_ms": 13,
+        "remote_validation_ms": 19,
         "remote_fetches": 0,
         "active_content_executed": 0,
         "partial_state_writes": 0

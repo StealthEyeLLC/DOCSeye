@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T12:16:12.1153662+00:00",
+  "generated_utc": "2026-08-09T14:50:52.7466291+00:00",
   "experiments": [
     {
       "id": "E-05",
@@ -13,7 +13,10 @@
       "explicit_maintenance_rebalanced_records": 512,
       "semantic_root_neutral_maintenance": true,
       "moves_preserve_ids": true,
-      "mechanism": "unsigned 128-bit sparse keys with bounded local rebalance"
+      "mechanism": "unsigned 128-bit sparse keys with bounded local rebalance",
+      "question": "Do 128-bit sparse order keys meet deterministic/local mutation and rebalance neutrality through 5,000-page-equivalent pressure?",
+      "binary_or_bounded_conclusion": "PASS: moves preserved IDs, pressure inserts stayed locally bounded, explicit rebalance was semantic-root neutral, and the 5,000-page-equivalent tier did not require unrelated identity churn.",
+      "failure_action": "Select a chunked/B-tree sequence mechanism inside the frozen order invariants."
     },
     {
       "id": "E-06",
@@ -31,7 +34,10 @@
         "bad_uuid": "malformed_cbor",
         "truncated": "malformed_cbor",
         "too_deep": "resource_limit"
-      }
+      },
+      "question": "Can C# and an independent second-language implementation emit byte-identical DOCSeye deterministic-CBOR vectors?",
+      "binary_or_bounded_conclusion": "PASS: every valid cross-language vector was byte-identical and every invalid vector received the same classification.",
+      "failure_action": "ARCHITECTURE FALSIFIER if public canonicalization cannot be implemented independently."
     },
     {
       "id": "E-07",
@@ -44,7 +50,10 @@
       "physical_record_reorder_neutral": true,
       "index_rebuild_neutral": true,
       "local_mutation_bounded": true,
-      "historical_merkle_dag": false
+      "historical_merkle_dag": false,
+      "question": "Which domain-separated current-state tree provides deterministic root and bounded recomputation?",
+      "binary_or_bounded_conclusion": "PASS: the measured domain-separated tree produced the same root across independent construction, VACUUM/reorder/index rebuilds, while local edits touched only bounded hash paths.",
+      "failure_action": "Choose the measured fan-out/domain layout; the semantic-root contract remains frozen."
     },
     {
       "id": "E-08",
@@ -61,7 +70,10 @@
         "duplicate_id",
         "broken_reference"
       ],
-      "auto_repair": 0
+      "auto_repair": 0,
+      "question": "Can an independent writer, using only the public spec, make a valid external commit that the product accepts without identity remint or private repair?",
+      "binary_or_bounded_conclusion": "PASS: valid independent move/split/merge/extension commits were accepted without product identity remint/private repair and malformed variants were rejected.",
+      "failure_action": "ARCHITECTURE FALSIFIER: specification/conformance model is inadequate."
     },
     {
       "id": "E-09",
@@ -69,12 +81,12 @@
       "tiers": [
         {
           "pages": 10,
-          "file_bytes": 344064,
-          "create_ms": 108,
+          "file_bytes": 352256,
+          "create_ms": 106,
           "cold_validation_ms": 2,
           "cold_validation_workingset_delta_bytes": 0,
           "local_query_ms": 0,
-          "local_edit_ms": 5,
+          "local_edit_ms": 4,
           "touched_logical_records": 1,
           "read_logical_records": 1,
           "merkle_path_nodes": 33,
@@ -85,12 +97,12 @@
         },
         {
           "pages": 500,
-          "file_bytes": 6987776,
-          "create_ms": 584,
-          "cold_validation_ms": 42,
-          "cold_validation_workingset_delta_bytes": 0,
+          "file_bytes": 6995968,
+          "create_ms": 457,
+          "cold_validation_ms": 37,
+          "cold_validation_workingset_delta_bytes": 4329472,
           "local_query_ms": 0,
-          "local_edit_ms": 9,
+          "local_edit_ms": 38,
           "touched_logical_records": 1,
           "read_logical_records": 1,
           "merkle_path_nodes": 33,
@@ -101,12 +113,12 @@
         },
         {
           "pages": 5000,
-          "file_bytes": 68321280,
-          "create_ms": 6060,
-          "cold_validation_ms": 401,
+          "file_bytes": 68329472,
+          "create_ms": 5962,
+          "cold_validation_ms": 397,
           "cold_validation_workingset_delta_bytes": 0,
           "local_query_ms": 0,
-          "local_edit_ms": 46,
+          "local_edit_ms": 55,
           "touched_logical_records": 1,
           "read_logical_records": 1,
           "merkle_path_nodes": 33,
@@ -117,15 +129,18 @@
         }
       ],
       "mechanism": "direct keyed SQLite object access plus bounded Merkle path update",
-      "persistent_unbounded_growth": false
+      "persistent_unbounded_growth": false,
+      "question": "Can local query/edit avoid whole-document materialization at 10, 500, and 5,000 page-equivalent tiers?",
+      "binary_or_bounded_conclusion": "PASS: measured local query/edit remained bounded to the targeted records/hash path at all three tiers; latency, amplification, index rebuild, delta size, and memory evidence are recorded without a threshold claim.",
+      "failure_action": "Optimize records/indexes; unbounded tier growth reopens storage architecture."
     },
     {
       "id": "E-10",
       "result": "PASS",
       "asset_bytes": 1073741824,
       "chunk_bytes": 4194304,
-      "add_ms": 2993,
-      "replace_ms": 2687,
+      "add_ms": 3002,
+      "replace_ms": 2187,
       "peak_process_workingset_increase_bytes": 0,
       "digest_a": "0ed1488d36b2b8092aea6ad9cb9202f90ce44e8abf23452fd54b49ebc5f9c8c6",
       "digest_b": "9f625dfaae17ed86f295741cdf2532225e0490a0dec2c31a637eff82ebfe40da",
@@ -133,7 +148,10 @@
       "unrelated_semantic_records_touched": 0,
       "streaming": true,
       "crash_recovery": "old",
-      "successful_commit_outcome": "new"
+      "successful_commit_outcome": "new",
+      "question": "Can a 1 GiB synthetic embedded asset be added/replaced/verified without rewriting or materializing unrelated semantic content?",
+      "binary_or_bounded_conclusion": "PASS: the 1 GiB asset path streamed digest/write operations with bounded process memory, preserved figure identity, touched zero unrelated semantic records, and recovered old-or-new across the injected crash.",
+      "failure_action": "Change blob/chunk mechanism; asset identity contract remains."
     },
     {
       "id": "E-11",
@@ -144,7 +162,10 @@
       "semantic_root_unchanged": true,
       "expired_cursor_classification": "resync_required",
       "resync_required": true,
-      "external_state_is_truth": false
+      "external_state_is_truth": false,
+      "question": "Can total external-state loss rebuild FTS/query indexes and resume bounded deltas without semantic identity change?",
+      "binary_or_bounded_conclusion": "PASS: total runtime-index loss rebuilt from DND with exact semantic identity/root; an expired cursor returned explicit resync_required rather than silent delta loss.",
+      "failure_action": "Fix runtime protocol; dependency on external truth is an architecture falsifier."
     }
   ]
 }

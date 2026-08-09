@@ -35,7 +35,7 @@ provider-native document truth
 The governing correctness rules are:
 
 > Loss of continuity is preferable to mutation of the wrong object.
-
+>
 > Unsupported provider truth outside an accepted operation's declared mutation closure survives.
 
 Provider-native identifiers—including `w14:paraId`, `w14:textId`, `w15:docId`, comment durable IDs, content-control IDs, bookmarks, live Word ranges, and PDF object identifiers—are scoped evidence. None becomes DOCSeye logical identity by itself.

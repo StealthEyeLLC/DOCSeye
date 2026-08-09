@@ -14,7 +14,7 @@ Status: **Canonical**
 
 ## Freeze authority
 
-The initial documentation-only commit on `main` that contains this file and the complete `docs/00`–`docs/08` baseline is the canonical pre-implementation architecture freeze. Its exact commit SHA must be recorded in the repository and completion report after publication.
+The documentation-only `main` commit that contains this file and the complete corrected `docs/00`–`docs/08` baseline, recorded in parent issue #5 as the `architecture-freeze` SHA, is the canonical pre-implementation architecture freeze. Its exact SHA must also be included in the publication completion report.
 
 ## Implementation discipline
 
@@ -30,4 +30,4 @@ A separate implementation tab must begin by reading, in order:
 
 The independent research reports supplied on 2026-08-09 remain valuable evidence, but they are no longer direct implementation authority after the freeze. Where they disagree with this repository, this repository governs.
 
-Build 001 is not complete until all four milestone issues pass their measured gates and a measured `docs/09-BUILD-001-RESULTS.md` is deliberately added. Architecture-freeze language must never be reported as product implementation or acceptance.
+Build 001 is not complete until all four child workstream issues pass their measured gates, parent issue #5 closes, and a measured `docs/09-BUILD-001-RESULTS.md` is deliberately added. Architecture-freeze language must never be reported as product implementation or acceptance.

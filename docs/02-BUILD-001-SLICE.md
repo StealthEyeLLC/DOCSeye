@@ -83,7 +83,7 @@ The fixture is generated deterministically, then opened/saved once by current Wo
 - similar tracked insertions/deletions and property/table changes;
 - real bookmarks;
 - rich-text, checkbox, dropdown, date, and repeating-section content controls with IDs, tags, and custom-XML binding;
-- TOC, PAGE, NUMPAGES, REF, PAGEREF, and date/updateable fields;
+- TOC, PAGE, NUMPAGES, REF, PAGEREF, and DATE fields with update state;
 - footnote and endnote;
 - internal and external links;
 - one image asset used more than once, including one floating figure, crop, alt text, and caption;
@@ -197,7 +197,7 @@ Strict OOXML breadth, LibreOffice provider fidelity, PDF native identity/editing
 9. Exact-edit one recovered paragraph and the recovered table cell; verify postconditions and preservation.
 10. Test controlled save, rename, controlled atomic replacement, and same-path unrelated replacement.
 
-### Hard gate
+### A hard gate
 
 - unchanged-byte exact recovery: 24/24;
 - adversarial classification: 24/24 exactly as oracle;
@@ -237,7 +237,7 @@ Required breadth includes paragraph/span, character/direct formatting, paragraph
 - ordinary post-commit observation is delta-first, not a full-document resend;
 - a local query over 10,000 paragraphs returns matches/summary only.
 
-### Hard gate
+### B hard gate
 
 - one transaction produces exactly one persisted `DocumentRevision`;
 - requested postconditions: 100%;
@@ -287,7 +287,7 @@ Each row is independently deterministic. `Effect/footprint` names the only allow
 | C-31 | Cell merge | merge retained cells | old cells retire; new `cell_region_* MERGED_FROM` | selected table region | old writes refused; reset |
 | C-32 | Cell split | split retained merged cell | old region retires; explicit descendants | selected table region | no implicit upper-left continuation; reset |
 | C-33 | Nested-table collision | identical value in outer and nested cells | parent table topology prevents cross-target | exact chosen cell only | non-target cell hash unchanged; reset |
-| C-34 | Table style-only change | retain table/rows/cells | change table style | structure concepts remain; formatting delta | table properties/styles only | topology unchanged; reset |
+| C-34 | Table style-only change; retain table/rows/cells | change table style | structure concepts remain; formatting delta | table properties/styles only | topology unchanged; reset |
 | C-35 | Durable comment anchor + duplicate quote | retain modern comment; alter surroundings and add same quote elsewhere | same comment only through durable/native anchor; never quote search | surrounding paragraph edit only | comment/thread/anchor oracle; reset |
 | C-36 | Comment reply/thread | retain parent; add reply | parent retained; new reply relation | comment extension parts only | thread oracle; reset |
 | C-37 | Comment delete/recreate | delete retained comment; create visually identical | old comment destroyed/stale | comment/range parts | new concept; reset |
@@ -295,19 +295,19 @@ Each row is independently deterministic. `Effect/footprint` names the only allow
 | C-39 | Similar tracked insertions | retain one of two similar changes | exact provider/lineage handle or ambiguous | none or exact selected change | non-target revision unchanged; reset |
 | C-40 | Exact accept/reject | retain exact change | accept one and reject another in separate runs | only chosen native change semantics | exact markup/result oracle; reset |
 | C-41 | External acceptance + ID churn | accept retained change externally and churn remaining IDs | accepted change retires; old handle never selects similar remainder | none on old-handle attempt | wrong acceptance = 0; reset |
-| C-42 | Control continuity + duplicate Tag | retain two same-Tag controls with distinct IDs | normal save/move | both exact by scoped native evidence; Tag query returns both | exact chosen control only | IDs/bindings oracle; reset |
+| C-42 | Control continuity + duplicate Tag; retain two same-Tag controls with distinct IDs | normal save/move | both exact by scoped native evidence; Tag query returns both | exact chosen control only | IDs/bindings oracle; reset |
 | C-43 | Duplicate control ID conflict | adversary creates duplicate native ID | conflict/ambiguous; no handle stealing | none | both controls unchanged; repair/reset fixture |
-| C-44 | Repeating-section rebuild | retain parent and repeated child controls | add/reorder/delete repeated item | exact only where provider/operation lineage proves; others stale | repeating-section region only | lineage oracle; reset |
-| C-45 | Bookmark lifecycle pair | retain bookmark M and bookmark N | move M boundaries; delete/recreate N same name | M exact if marker pair survives; old N destroyed | marker regions only | M/N distinct outcomes; reset |
-| C-46 | Field instruction/result separation | retain field | change result only, then instruction | same field when native structure exact; separate deltas | field result or instruction region as declared | projection oracle; reset |
-| C-47 | Style fan-out | retain style and dependent paragraphs | modify style definition | same style; intentional effective-formatting fan-out | styles part only | text/paragraph IDs unchanged; reset |
-| C-48 | Header/footer inheritance | retain section/effective source | change linked source and section flags | correct effective-source relation; no fake duplicated objects | source header/footer + section refs only | visible/effective graph oracle; reset |
-| C-49 | Preservation killer | touched main part contains unknown element/attribute + AlternateContent; package contains custom XML binding, opaque part/relation, media/embedding, notes/header/footer | ordinary known paragraph edit; Word open/save/reparse after pre-Word checks | semantic target exact; all unsupported truth survives | exact text region; untouched payloads/relations identical | hashes, semantic diff, Word no-repair; restore golden |
-| C-50 | Macro + signature constraints | DOCM VBA specimen and signed DOCX specimen | unrelated supported text edit | VBA payload/relations byte-identical; exact signature coverage effect reported; validity not falsely promised | declared text region; no VBA rewrite | macro hash + signature oracle; reset |
-| C-51 | Concurrent external save | begin transaction, then external save | commit phase re-witnesses changed base | abort conflict or deterministic exact rebase; never overwrite | none on abort or fresh exact closure | external revision preserved; reset |
-| C-52 | Partial save events | emit temp/incomplete/multiple file states | watcher/recovery observes sequence | no incomplete state becomes DocumentRevision | none | committed revision/delta count unchanged; cleanup temp files |
-| C-53 | Crash atomicity | crash before and around physical commit points | restart recovery | no reported success without complete validated representation; no half revision | candidate/temp only before commit | DB/package consistency oracle; cleanup temps |
-| C-54 | Layout invalidation | retain paragraphs, floating figure and page views | insert page-sensitive paragraph | semantic objects remain; new LayoutRevision; old pages/regions expire | paragraph region; derived layout/render may change | semantic IDs/page mapping/affected pages; reset |
+| C-44 | Repeating-section rebuild; retain parent and repeated child controls | add/reorder/delete repeated item | exact only where provider/operation lineage proves; others stale | repeating-section region only | lineage oracle; reset |
+| C-45 | Bookmark lifecycle pair; retain bookmark M and bookmark N | move M boundaries; delete/recreate N with the same name | M exact if marker pair survives; old N destroyed | marker regions only | M/N distinct outcomes; reset |
+| C-46 | Field instruction/result separation; retain field | change result only, then instruction | same field when native structure exact; separate deltas | field result or instruction region as declared | projection oracle; reset |
+| C-47 | Style fan-out; retain style and dependent paragraphs | modify style definition | same style; intentional effective-formatting fan-out | styles part only | text/paragraph IDs unchanged; reset |
+| C-48 | Header/footer inheritance; retain section/effective source | change linked source and section flags | correct effective-source relation; no fake duplicated objects | source header/footer + section refs only | visible/effective graph oracle; reset |
+| C-49 | Preservation killer; touched main part contains unknown element/attribute + AlternateContent, while package contains custom XML binding, opaque part/relation, media/embedding, notes/header/footer | ordinary known paragraph edit; Word open/save/reparse after pre-Word checks | semantic target exact; all unsupported truth survives | exact text region; untouched payloads/relations identical | hashes, semantic diff, Word no-repair; restore golden |
+| C-50 | Macro + signature constraints; DOCM VBA specimen and signed DOCX specimen | unrelated supported text edit | VBA payload/relations byte-identical; exact signature coverage effect reported; validity not falsely promised | declared text region; no VBA rewrite | macro hash + signature oracle; reset |
+| C-51 | Concurrent external save; begin transaction at an exact base | external provider saves before commit | commit phase re-witnesses changed base; abort conflict or deterministic exact rebase; never overwrite | none on abort or fresh exact closure | external revision preserved; reset |
+| C-52 | Partial save events; retain stable baseline | emit temp/incomplete/multiple file states | watcher/recovery observes sequence; no incomplete state becomes DocumentRevision | none | committed revision/delta count unchanged; cleanup temp files |
+| C-53 | Crash atomicity; validated baseline and active transaction | crash before and around physical commit points | restart recovery finds no reported success without a complete validated representation and no half revision | candidate/temp only before commit | DB/package consistency oracle; cleanup temps |
+| C-54 | Layout invalidation; retain paragraphs, floating figure, and page views | insert page-sensitive paragraph | semantic objects remain; new LayoutRevision; old pages/regions expire | paragraph region; derived layout/render may change | semantic IDs/page mapping/affected pages; reset |
 
 ### Primary killers
 

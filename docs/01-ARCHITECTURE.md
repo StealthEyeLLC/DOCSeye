@@ -17,7 +17,7 @@ The ownership rule is:
 The correctness rules are:
 
 > Loss of continuity is preferable to mutation of the wrong object.
-
+>
 > Unsupported provider truth outside an accepted operation's declared mutation closure survives.
 
 ## 2. Why the architecture is differentiated

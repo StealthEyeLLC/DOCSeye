@@ -6,6 +6,7 @@ using DOCSeye.Storage.Sqlite;
 
 string pipeName=Environment.GetEnvironmentVariable("DOCSEYE_PIPE")??"docseye-kernel";
 var sessions=new Dictionary<string,NativeDocumentSession>(StringComparer.Ordinal);
+ProgramHostInvocation? programHost=null;
 var jsonOptions=new JsonSerializerOptions{PropertyNamingPolicy=JsonNamingPolicy.CamelCase};
 Console.CancelKeyPress+=(s,e)=>{e.Cancel=true;Environment.Exit(0);};
 try
@@ -33,17 +34,21 @@ try
         }
     }
 }
-finally{foreach(var s in sessions.Values)s.Dispose();}
+finally{programHost?.Dispose();foreach(var s in sessions.Values)s.Dispose();}
 
-object Dispatch(string method,JsonElement p)=>method switch
+object Dispatch(string method,JsonElement p)
 {
-    "rpc.hello"=>new{protocol="docseye-rpc",version=1,kernelPid=Environment.ProcessId,architectureFreeze=DndConstants.ArchitectureFreeze},
-    "document.open"=>Open(p.GetProperty("path").GetString()??throw new InvalidOperationException("path required")),
-    "document.inspect"=>Inspect(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
-    "document.validate"=>Validate(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
-    "document.close"=>Close(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
-    _=>throw new InvalidOperationException("unknown_method")
-};
+    if(method.StartsWith("D.",StringComparison.Ordinal))return (programHost??=new ProgramHostInvocation()).Invoke(method,p);
+    return method switch
+    {
+        "rpc.hello"=>new{protocol="docseye-rpc",version=1,kernelPid=Environment.ProcessId,architectureFreeze=DndConstants.ArchitectureFreeze},
+        "document.open"=>Open(p.GetProperty("path").GetString()??throw new InvalidOperationException("path required")),
+        "document.inspect"=>Inspect(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
+        "document.validate"=>Validate(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
+        "document.close"=>Close(p.GetProperty("sessionId").GetString()??throw new InvalidOperationException("sessionId required")),
+        _=>throw new InvalidOperationException("unknown_method")
+    };
+}
 
 object Open(string path)
 {
@@ -55,4 +60,4 @@ object Validate(string id){var s=Get(id);var v=s.ReconcileExternal(true);return 
 object Close(string id){if(!sessions.Remove(id,out var s))throw new KeyNotFoundException("session_not_found");s.Dispose();return new{sessionId=id,closed=true};}
 NativeDocumentSession Get(string id)=>sessions.TryGetValue(id,out var s)?s:throw new KeyNotFoundException("session_not_found");
 object? TryHead(NativeDocumentSession s){try{var h=s.ReadHead();return new{familyId=Ids.Lower(h.FamilyId),branchId=Ids.Lower(h.BranchId),revisionId=Ids.Lower(h.RevisionId),sequence=h.Sequence,semanticRoot=Convert.ToHexString(h.SemanticRoot).ToLowerInvariant(),parents=h.Parents.Select(Ids.Lower).ToArray(),mode=h.Mode};}catch{return null;}}
-string Classify(Exception ex)=>ex switch{FileNotFoundException=>"not_found",KeyNotFoundException=>"not_found",InvalidOperationException ioe when ioe.Message=="unknown_method"=>"method_not_found",_=>"kernel_error"};
+string Classify(Exception ex)=>ex switch{FileNotFoundException=>"not_found",KeyNotFoundException=>"not_found",InvalidOperationException ioe when ioe.Message=="unknown_method"=>"method_not_found",SemanticRefusalException sre=>sre.Code,_=>"kernel_error"};

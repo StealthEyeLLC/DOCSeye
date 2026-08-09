@@ -1,0 +1,111 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using DOCSeye.Core;
+using DOCSeye.Providers;
+
+internal sealed partial class ProgramHostInvocation
+{
+    private object Layout(string id,JsonElement p)=>id switch
+    {
+        "D.L-01"=>L01(),"D.L-02"=>L02(),"D.L-03"=>L03(),"D.L-04"=>L04(),_=>throw new InvalidOperationException("unknown_layout_call")
+    };
+    private object L01()
+    {
+        var env=PdfEnvironment();var h=Session().ReadHead();plannedLayout=LayoutQualification.Create(S(),h,"US Letter",env);var warnings=LayoutQualification.RequalificationWarnings(env,env);return new{classification="layout_revision_planned",layoutRevision=plannedLayout.LayoutRevisionId,semanticRevision=Ids.Lower(h.RevisionId),semanticRoot=Hex(h.SemanticRoot),warnings};
+    }
+    private object L02()
+    {
+        var h=Session().ReadHead();string path=Path.Combine(workDir,"final.html");var targets=RequiredRenderTargets();htmlRender=new HtmlProvider().Render(S(),h,path,targets,HtmlEnvironment());return new{classification="rendered",kind="html",materialRender=1,path,sha256=htmlRender.Sha256,mapped=htmlRender.Mapping.Count,semanticRevision=Ids.Lower(htmlRender.LayoutRevision.SemanticRevisionId),semanticRoot=htmlRender.LayoutRevision.SemanticRoot};
+    }
+    private object L03()
+    {
+        var h=Session().ReadHead();string dir=Path.Combine(workDir,"pdf");var targets=RequiredRenderTargets();pdfRender=new TypstPdfProvider().Render(S(),h,dir,targets,PdfEnvironment(),typstExe,veraPdfBat,javaHome,figureSvg);return new{classification="rendered",kind="pdf",materialRender=1,path=pdfRender.Path,sha256=pdfRender.Sha256,mapped=pdfRender.Mapping.Count,semanticRevision=Ids.Lower(pdfRender.LayoutRevision.SemanticRevisionId),semanticRoot=pdfRender.LayoutRevision.SemanticRoot,warnings=pdfRender.Warnings};
+    }
+    private object L04()
+    {
+        if(htmlRender is null||pdfRender is null)throw new InvalidOperationException("render_artifacts_missing");var h=Session().ReadHead();var htmlCheck=RenderValidation.ValidateHtml(S(),h,htmlRender.Path,RequiredRenderTargets());if(!htmlCheck.Valid)throw new InvalidOperationException("html_validation_failed:"+htmlCheck.Classification);int total=RequiredFixtureIds().Length,mapped=0,lineage=0;foreach(Guid source in RequiredFixtureIds())
+        {
+            if(S().Objects.TryGetValue(source,out var obj)&&!obj.Retired){if(htmlRender.Mapping.ContainsKey(source)&&pdfRender.Mapping.ContainsKey(source))mapped++;continue;}
+            if(S().Retired.TryGetValue(source,out var witness)&&witness.Successors.Count>0&&witness.Successors.All(x=>htmlRender.Mapping.ContainsKey(x)&&pdfRender.Mapping.ContainsKey(x))){mapped++;lineage++;}
+        }
+        if(mapped!=total)throw new InvalidOperationException($"final_correspondence_missing:{mapped}/{total}");if(htmlRender.LayoutRevision.SemanticRevisionId!=h.RevisionId||pdfRender.LayoutRevision.SemanticRevisionId!=h.RevisionId||htmlRender.LayoutRevision.SemanticRoot!=Hex(h.SemanticRoot)||pdfRender.LayoutRevision.SemanticRoot!=Hex(h.SemanticRoot))throw new InvalidOperationException("render_source_mismatch");observations["renderCorrespondence"]=new{numerator=mapped,denominator=total,lineageResolved=lineage};return new{classification="source_attribution_exact",requiredFixtureMappings=mapped,requiredFixtureTotal=total,lineageResolved=lineage,htmlValidation=htmlCheck.Classification,pdfUa1=true,semanticRevision=Ids.Lower(h.RevisionId),semanticRoot=Hex(h.SemanticRoot)};
+    }
+
+    private object Output(string id,JsonElement p)=>id switch
+    {
+        "D.O-01"=>O01(),"D.O-02"=>O02(),"D.O-03"=>O03(),"D.O-04"=>O04(),_=>throw new InvalidOperationException("unknown_output_call")
+    };
+    private object O01(){docxPlan=NativeDocxExport.Plan(S());return new{classification="export_planned",outcome=docxPlan.Outcome.ToString(),ceiling=docxPlan.Classification,features=docxPlan.Features,declaredLosses=docxPlan.DeclaredLosses};}
+    private object O02(){if(docxPlan is null)throw new InvalidOperationException("docx_plan_missing");string path=Path.Combine(workDir,"final.docx");docxExport=NativeDocxExport.Export(S(),Session().ReadHead(),path);return new{classification=docxExport.Classification,outcome=docxExport.Outcome.ToString(),materialExport=1,path,sha256=docxExport.Sha256,semanticRevision=Ids.Lower(docxExport.SemanticRevisionId),semanticRoot=docxExport.SemanticRoot,declaredLosses=docxExport.DeclaredLosses};}
+    private object O03(){if(docxExport is null)throw new InvalidOperationException("docx_export_missing");docxValidation=DocxInterop.Validate(docxExport.Path);if(!docxValidation.OpcValid||!docxValidation.SchemaValid)throw new InvalidOperationException("docx_validation_failed");return new{classification="schema_validated",opcValid=docxValidation.OpcValid,schemaValid=docxValidation.SchemaValid,errorCount=docxValidation.ErrorCount,alternateProviderTestInput=docxExport.Path,observationRequest="alternate_provider_input_only_no_material_observation_in_D"};}
+    private object O04()
+    {
+        if(docxExport is null||docxValidation is null||docxPlan is null)throw new InvalidOperationException("docx_report_incomplete");int wordProcesses=Process.GetProcessesByName("WINWORD").Length;bool wordExe=KnownWordExecutables().Any(File.Exists);if(wordProcesses!=0||wordExe)throw new InvalidOperationException("word_zero_gate_failed");return new{classification="final_provider_report",semanticOutcome=docxExport.Classification,semanticOutcomeEnum=docxExport.Outcome.ToString(),observationEvidence=ObservationEvidence.SchemaValidated.ToString(),opcValid=docxValidation.OpcValid,schemaValid=docxValidation.SchemaValid,microsoftObserved=false,wordProcesses,wordExecutablePresent=wordExe,declaredLosses=docxPlan.DeclaredLosses};
+    }
+
+    private ProviderEnvironment HtmlEnvironment()=>new("DOCSeye HTML","1","en-US","browser CSS line breaking",new Dictionary<string,string>(),new Dictionary<string,string>{{"mode","continuous accessible HTML"}});
+    private ProviderEnvironment PdfEnvironment()
+    {
+        var fonts=new Dictionary<string,string>(StringComparer.Ordinal){{"Segoe UI",@"C:\Windows\Fonts\segoeui.ttf"},{"Segoe UI Bold",@"C:\Windows\Fonts\segoeuib.ttf"},{"Nirmala UI",@"C:\Windows\Fonts\Nirmala.ttc"},{"Yu Gothic",@"C:\Windows\Fonts\YuGothR.ttc"},{"Yu Gothic Bold",@"C:\Windows\Fonts\YuGothB.ttc"},{"Segoe UI Emoji",@"C:\Windows\Fonts\seguiemj.ttf"},{"Arial",@"C:\Windows\Fonts\arial.ttf"}};var digests=fonts.ToDictionary(x=>x.Key,x=>File.Exists(x.Value)?HashFile(x.Value):"missing",StringComparer.Ordinal);digests["typst-binary"]=HashFile(typstExe);return new("Typst","pinned:"+HashFile(typstExe)[..12],"en-US","pinned",digests,new Dictionary<string,string>{{"pdf_standard","PDF/UA-1"},{"a11y_extras","enabled"},{"paper","US Letter"},{"font_path",@"C:\Windows\Fonts"}});
+    }
+    private Guid[] RequiredRenderTargets()
+    {
+        var target=new HashSet<Guid>();foreach(Guid source in RequiredFixtureIds()){if(S().Objects.TryGetValue(source,out var o)&&!o.Retired){target.Add(source);continue;}if(S().Retired.TryGetValue(source,out var w))foreach(Guid successor in w.Successors)if(S().Objects.TryGetValue(successor,out var so)&&!so.Retired)target.Add(successor);}return target.ToArray();
+    }
+    private static string[] KnownWordExecutables()=>[@"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE",@"C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"];
+
+    private void WriteEvidence()
+    {
+        if(ledger.Count!=96||!ledger.Select(x=>x.Id).SequenceEqual(ExpectedOrder,StringComparer.Ordinal))throw new InvalidOperationException("evidence_call_order_mismatch");
+        var classCounts=ledger.GroupBy(x=>x.Class).ToDictionary(g=>g.Key,g=>g.Count(),StringComparer.Ordinal);var expectedCounts=new Dictionary<string,int>{{"Q",18},{"M",48},{"T",6},{"G",6},{"V",6},{"R",4},{"L",4},{"O",4}};if(expectedCounts.Any(x=>!classCounts.TryGetValue(x.Key,out int n)||n!=x.Value))throw new InvalidOperationException("call_class_arithmetic_mismatch");
+        if(initialState is null||initialHead is null||t1Head is null||externalHead is null||t2Head is null||t3Head is null||t1Delta is null||t2Delta is null||t3Delta is null||manifest is null||plan is null||htmlRender is null||pdfRender is null||docxPlan is null||docxExport is null||docxValidation is null)throw new InvalidOperationException("evidence_state_incomplete");
+        var finalState=S();var h=Session().ReadHead();var requested=new[]{t1Delta,t2Delta,t3Delta}.SelectMany(d=>d.RequestedMutationIds).ToArray();var expectedRequested=Enumerable.Range(1,48).Select(i=>$"D.M-{i:00}").ToArray();var deltaOps=new[]{t1Delta,t2Delta,t3Delta}.SelectMany(d=>d.OperationKinds).ToArray();var effectOps=expectedRequested.SelectMany(id=>mutationEffects[id].OperationKinds).ToArray();
+        static int Bad(bool condition)=>condition?1:0;static int Percent(int numerator,int denominator)=>denominator<=0?0:(int)Math.Round(100.0*numerator/denominator);
+        static bool HasPublicId(SemanticState s,Guid id)=>s.Objects.ContainsKey(id)||s.Boundaries.ContainsKey(id)||s.Ranges.ContainsKey(id)||s.Extensions.ContainsKey(id)||s.ProviderFacets.ContainsKey(id);
+        static IEnumerable<Guid> PublicIds(SemanticState s)=>s.Objects.Keys.Concat(s.Boundaries.Keys).Concat(s.Ranges.Keys).Concat(s.Extensions.Keys).Concat(s.ProviderFacets.Keys);
+
+        int wordProcesses=Process.GetProcessesByName("WINWORD").Length;bool wordExe=KnownWordExecutables().Any(File.Exists);
+        int sentinelTotal=manifest.Sentinels.SelectMany(x=>x.Value).Count();int coldSentinelRecovered=manifest.Sentinels.SelectMany(x=>x.Value).Select(Guid.Parse).Count(id=>HasPublicId(initialState,id));int finalSentinelRecovered=manifest.Sentinels.SelectMany(x=>x.Value).Select(Guid.Parse).Count(id=>HasPublicId(finalState,id));
+        var renderObs=(dynamic)observations["renderCorrespondence"];int renderNumerator=(int)renderObs.numerator,renderDenominator=(int)renderObs.denominator;
+
+        var finalPublicIds=PublicIds(finalState).ToArray();int duplicatePublicIds=finalPublicIds.Length-finalPublicIds.Distinct().Count();var initialPublicIds=PublicIds(initialState).ToHashSet();int createdIdReuse=plan.Created.Values.Count(initialPublicIds.Contains);
+        int branchContinuityErrors=0;branchContinuityErrors+=Bad(t1Head.BranchId!=initialHead.BranchId||t1Head.Parents.Count!=1||t1Head.Parents[0]!=initialHead.RevisionId);branchContinuityErrors+=Bad(externalHead.BranchId!=initialHead.BranchId||externalHead.Parents.Count!=1||externalHead.Parents[0]!=t1Head.RevisionId);branchContinuityErrors+=Bad(t2Head.BranchId!=initialHead.BranchId||t2Head.Parents.Count!=1||t2Head.Parents[0]!=externalHead.RevisionId);branchContinuityErrors+=Bad(t3Head.BranchId!=initialHead.BranchId||t3Head.Parents.Count!=1||t3Head.Parents[0]!=t2Head.RevisionId);
+        int crossBranchDeltaErrors=new[]{t1Delta,t2Delta,t3Delta}.Count(d=>d.BranchId!=initialHead.BranchId);
+        int retiredResurrections=finalState.Retired.Keys.Count(id=>finalState.Objects.TryGetValue(id,out var o)&&!o.Retired);
+        int ambiguousBoundaries=finalState.Boundaries.Values.Count(b=>b.State==AnchorState.Ambiguous);int boundaryReferenceErrors=finalState.Boundaries.Values.Count(b=>b.State!=AnchorState.Destroyed&&(!finalState.Objects.TryGetValue(b.OwnerId,out var owner)||owner.Retired));foreach(var range in finalState.Ranges.Values.Where(r=>r.State!="destroyed"))foreach(var interval in range.EffectiveIntervals){if(!finalState.Boundaries.ContainsKey(interval.StartBoundaryId))boundaryReferenceErrors++;if(!finalState.Boundaries.ContainsKey(interval.EndBoundaryId))boundaryReferenceErrors++;}
+        int payloadLosses=initialState.Extensions.Values.Where(e=>e.ExtensionId!=plan.GenericTopologyExtension).Count(e=>!finalState.Extensions.TryGetValue(e.ExtensionId,out var n)||!n.ExactPayload.SequenceEqual(e.ExactPayload)||!n.PayloadDigest.SequenceEqual(e.PayloadDigest)||!n.DigestValid);payloadLosses+=initialState.ProviderFacets.Values.Where(f=>f.Id!=plan.TexFacet).Count(f=>!finalState.ProviderFacets.TryGetValue(f.Id,out var n)||!n.ExactPayload.SequenceEqual(f.ExactPayload)||!n.Digest.SequenceEqual(f.Digest)||!n.DigestValid);
+        int scopeEscapes=initialState.Extensions.Values.Count(e=>!finalState.Extensions.TryGetValue(e.ExtensionId,out var n)||n.CoverageKind!=e.CoverageKind||n.TargetId!=e.TargetId||n.PropertyName!=e.PropertyName||n.StartBoundaryId!=e.StartBoundaryId||n.EndBoundaryId!=e.EndBoundaryId);scopeEscapes+=initialState.ProviderFacets.Values.Count(f=>!finalState.ProviderFacets.TryGetValue(f.Id,out var n)||n.CoverageKind!=f.CoverageKind||n.TargetId!=f.TargetId||n.EditPolicy!=f.EditPolicy);
+        int partialCommitErrors=0;partialCommitErrors+=Bad(t1Delta.RequestedMutationIds.Count!=16||t1Head.Sequence!=initialHead.Sequence+1);partialCommitErrors+=Bad(externalHead.Sequence!=t1Head.Sequence+1);partialCommitErrors+=Bad(t2Delta.RequestedMutationIds.Count!=16||t2Head.Sequence!=externalHead.Sequence+1);partialCommitErrors+=Bad(t3Delta.RequestedMutationIds.Count!=16||t3Head.Sequence!=t2Head.Sequence+1);
+        int deltaGapErrors=Bad(deltaCursor!=t3Head.Sequence)+Bad(!observations.ContainsKey("G1"))+Bad(!observations.ContainsKey("G2"))+Bad(!observations.ContainsKey("G3"));
+        int unrequestedMutationErrors=Bad(!deltaOps.SequenceEqual(effectOps,StringComparer.Ordinal))+Bad(!requested.SequenceEqual(expectedRequested,StringComparer.Ordinal))+Bad(mutationEffects.Count!=48);
+        int renderSourceErrors=Bad(htmlRender.LayoutRevision.SemanticRevisionId!=h.RevisionId)+Bad(pdfRender.LayoutRevision.SemanticRevisionId!=h.RevisionId)+Bad(htmlRender.LayoutRevision.SemanticRoot!=Hex(h.SemanticRoot))+Bad(pdfRender.LayoutRevision.SemanticRoot!=Hex(h.SemanticRoot))+Bad(renderNumerator!=renderDenominator);
+        int artifactValidityErrors=Bad(!Session().WriteAuthority)+Bad(h.RevisionId!=t3Head.RevisionId)+Bad(!finalState.ComputeRoot().SequenceEqual(h.SemanticRoot));
+        int docxClassificationErrors=Bad(docxPlan.Outcome!=ExportOutcome.TranslatedWithDeclaredLoss)+Bad(docxExport.Outcome!=ExportOutcome.TranslatedWithDeclaredLoss)+Bad(docxExport.Classification!="translated_with_declared_loss")+Bad(!docxValidation.OpcValid||!docxValidation.SchemaValid)+Bad(docxExport.SemanticRevisionId!=h.RevisionId)+Bad(docxExport.SemanticRoot!=Hex(h.SemanticRoot));
+        int wrongMutationErrors=Bad(postconditionChecksPassed!=48)+unrequestedMutationErrors;
+        var hard=new Dictionary<string,int>(StringComparer.Ordinal)
+        {
+            ["H-01"]=wrongMutationErrors,["H-02"]=branchContinuityErrors,["H-03"]=duplicatePublicIds+createdIdReuse,["H-04"]=(staleWriteCount<0?1:staleWriteCount)+Bad(staleClassification!="stale_revision"),
+            ["H-05"]=ambiguousBoundaries,["H-06"]=crossBranchDeltaErrors,["H-07"]=retiredResurrections,["H-08"]=boundaryReferenceErrors,["H-09"]=payloadLosses,["H-10"]=scopeEscapes+(requiredWriteCount<0?1:requiredWriteCount)+Bad(requiredClassification!="blocked_required_extension"),
+            ["H-11"]=partialCommitErrors,["H-12"]=deltaGapErrors,["H-13"]=unrequestedMutationErrors,["H-14"]=renderSourceErrors,["H-15"]=artifactValidityErrors,["H-16"]=activeContentExecutionCount+remoteFetchCount,["H-17"]=wordProcesses+(wordExe?1:0)+wordComCalls+wordApiCalls,["H-18"]=docxClassificationErrors
+        };
+        string finalDigest=HashFile(dndPath);var hardObs=hard.Select(kv=>new{metric=kv.Key,value=kv.Value,case_id="D-96",expected_revision=Ids.Lower(initialHead.RevisionId),actual_revision=Ids.Lower(t3Head.RevisionId),artifact_digest=finalDigest,provider_profile=kv.Key is "H-14" or "H-18"?"typed providers":"native",adversary_injection_point=kv.Key switch{"H-04"=>"V-02 stale revision","H-09" or "H-10"=>"V-03 required extension","H-11"=>"three atomic commits","H-12"=>"G/R delta consumption","H-14"=>"L-04 source attribution","H-15"=>"Q-01/R-02 plus final root validation","H-16"=>"open/render active-content instrumentation","H-17"=>"Word-zero instrumentation","H-18"=>"O-01..O-04 declared-loss classification",_=>"frozen 96-call workflow"}}).OrderBy(x=>x.metric,StringComparer.Ordinal).ToArray();
+
+        var requiredExtensions=initialState.Extensions.Values.Where(e=>e.Required).ToArray();var requiredFacets=initialState.ProviderFacets.Values.Where(f=>f.Required).ToArray();int requiredTotal=requiredExtensions.Length+requiredFacets.Length;int requiredPreserved=requiredExtensions.Count(e=>finalState.Extensions.TryGetValue(e.ExtensionId,out var n)&&n.ExactPayload.SequenceEqual(e.ExactPayload)&&n.PayloadDigest.SequenceEqual(e.PayloadDigest)&&n.DigestValid)+requiredFacets.Count(f=>finalState.ProviderFacets.TryGetValue(f.Id,out var n)&&n.ExactPayload.SequenceEqual(f.ExactPayload)&&n.Digest.SequenceEqual(f.Digest)&&n.DigestValid);
+        int p4Num=0,p4Den=7;string cEvidence=Path.Combine(Path.GetDirectoryName(evidencePath)!,"milestone-c.json");if(File.Exists(cEvidence)){using var c=JsonDocument.Parse(File.ReadAllText(cEvidence));if(c.RootElement.TryGetProperty("positive_observations",out var po)){var p4=po.EnumerateArray().Where(x=>x.GetProperty("metric").GetString()=="P-04").ToArray();if(p4.Length>0){p4Num=p4.Sum(x=>x.GetProperty("numerator").GetInt32());p4Den=p4.Sum(x=>x.GetProperty("denominator").GetInt32());}}}
+        int p3Num=(staleClassification=="stale_revision"?1:0)+(requiredClassification=="blocked_required_extension"?1:0);var positive=new Dictionary<string,object>(StringComparer.Ordinal)
+        {
+            ["P-01"]=new{numerator=coldSentinelRecovered,denominator=sentinelTotal,percent=Percent(coldSentinelRecovered,sentinelTotal)},
+            ["P-02"]=new{numerator=postconditionChecksPassed,denominator=48,percent=Percent(postconditionChecksPassed,48)},
+            ["P-03"]=new{numerator=p3Num,denominator=2,percent=Percent(p3Num,2)},
+            ["P-04"]=new{numerator=p4Num,denominator=p4Den,percent=Percent(p4Num,p4Den),source="accepted Milestone C crash matrix"},
+            ["P-05"]=new{numerator=requiredPreserved,denominator=requiredTotal,percent=Percent(requiredPreserved,requiredTotal)},
+            ["P-06"]=new{numerator=requested.Length,denominator=48,percent=Percent(requested.Length,48)},
+            ["P-07"]=new{numerator=renderNumerator,denominator=renderDenominator,percent=Percent(renderNumerator,renderDenominator)}
+        };
+        if(wordProcesses!=0||wordExe||hard.Values.Any(v=>v!=0)||positive.Values.Any(v=>Convert.ToInt32(v.GetType().GetProperty("percent")!.GetValue(v))!=100))throw new InvalidOperationException("final_metric_gate_failed:"+string.Join(',',hard.Where(x=>x.Value!=0).Select(x=>$"{x.Key}={x.Value}")));
+        var evidence=new{architecture_freeze=DndConstants.ArchitectureFreeze,generated_utc=DateTimeOffset.UtcNow,machine=Environment.MachineName,result="PASS",invocation=new{invocation_id=invocationId,node_pid=nodePid,kernel_pid=Environment.ProcessId,single_node_program_host_invocation=true,intermediate_model_calls=0,total_calls=ledger.Count,class_counts=classCounts,expected_class_counts=expectedCounts,call_order=ledger.Select(x=>x.Id).ToArray(),model_facing_request_bytes=ledger.Sum(x=>x.RequestBytes),model_facing_response_bytes=ledger.Sum(x=>x.ResponseBytes),material_renders=2,material_docx_exports=1,external_public_spec_mutator_actions=1},calls=ledger,mutations=new{requested=48,delta_covered=requested.Length,unique=requested.Distinct(StringComparer.Ordinal).Count(),low_level_effects=mutationEffects,transactions=new[]{new{number=1,from=Ids.Lower(initialHead.RevisionId),to=Ids.Lower(t1Head.RevisionId),requested=t1Delta.RequestedMutationIds},new{number=2,from=Ids.Lower(externalHead.RevisionId),to=Ids.Lower(t2Head.RevisionId),requested=t2Delta.RequestedMutationIds},new{number=3,from=Ids.Lower(t2Head.RevisionId),to=Ids.Lower(t3Head.RevisionId),requested=t3Delta.RequestedMutationIds}}},refusals=new{stale_revision=staleClassification,required_extension=requiredClassification,writes=staleWriteCount+requiredWriteCount},external_reconciliation=new{from=Ids.Lower(t1Head.RevisionId),external=Ids.Lower(externalHead.RevisionId),to=Ids.Lower(t2Head.RevisionId),classification="exact_descendant",full_rediscovery=false,sentinels_recovered=finalSentinelRecovered,sentinels_total=sentinelTotal},render=new{html=new{htmlRender.Path,htmlRender.Sha256,layout=htmlRender.LayoutRevision.LayoutRevisionId},pdf=new{pdfRender.Path,pdfRender.Sha256,layout=pdfRender.LayoutRevision.LayoutRevisionId,pdf_ua_1=true},fixture_mapping_numerator=renderNumerator,fixture_mapping_denominator=renderDenominator,source_revision=Ids.Lower(h.RevisionId),source_root=Hex(h.SemanticRoot)},docx=new{plan_outcome=docxPlan.Outcome.ToString(),classification=docxExport.Classification,path=docxExport.Path,sha256=docxExport.Sha256,opc_valid=docxValidation.OpcValid,schema_valid=docxValidation.SchemaValid,observation_evidence=ObservationEvidence.SchemaValidated.ToString(),microsoft_observed=false,declared_losses=docxExport.DeclaredLosses},hard_zero=hard,hard_zero_observations=hardObs,positive,metric_inputs=new{postcondition_checks_passed=postconditionChecksPassed,duplicate_public_ids=duplicatePublicIds,created_id_reuse=createdIdReuse,branch_continuity_errors=branchContinuityErrors,ambiguous_boundaries=ambiguousBoundaries,boundary_reference_errors=boundaryReferenceErrors,payload_losses=payloadLosses,scope_escapes=scopeEscapes,partial_commit_errors=partialCommitErrors,delta_gap_errors=deltaGapErrors,unrequested_mutation_errors=unrequestedMutationErrors,render_source_errors=renderSourceErrors,artifact_validity_errors=artifactValidityErrors,active_content_execution_count=activeContentExecutionCount,remote_fetch_count=remoteFetchCount,docx_classification_errors=docxClassificationErrors},word=new{winword_processes=wordProcesses,winword_exe_present=wordExe,com_calls=wordComCalls,api_calls=wordApiCalls,microsoft_365_trial_started=false},final_head=Head(h)};
+        Directory.CreateDirectory(Path.GetDirectoryName(evidencePath)!);File.WriteAllText(evidencePath,JsonSerializer.Serialize(evidence,new JsonSerializerOptions{WriteIndented=true}),new UTF8Encoding(false));
+    }
+}

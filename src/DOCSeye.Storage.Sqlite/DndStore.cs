@@ -114,7 +114,7 @@ CREATE TABLE provider_state(key TEXT PRIMARY KEY,value BLOB NOT NULL);
             using(var cmd=c.CreateCommand()){cmd.CommandText="SELECT id,target_id,payload,digest FROM provider_facets";using var r=cmd.ExecuteReader();while(r.Read()){Guid id=Ids.GuidFromRfcBytes((byte[])r[0]);if(!Ids.IsV4(id)||!CryptographicOperations.FixedTimeEquals(SHA256.HashData((byte[])r[2]),(byte[])r[3]))return new(false,"invalid_provider_facet",5,[$"provider facet {id} invalid"]);if(r[1] is byte[] t&&Convert.ToInt64(c.Scalar(null,"SELECT count(*) FROM objects WHERE id=$i AND retired=0",("$i",t)))!=1)return new(false,"broken_reference",5,[$"provider facet {id} target missing"]);}}
             using(var cmd=c.CreateCommand()){cmd.CommandText="SELECT digest,source_bytes FROM source_capsules";using var r=cmd.ExecuteReader();while(r.Read())if(!CryptographicOperations.FixedTimeEquals((byte[])r[0],SHA256.HashData((byte[])r[1])))return new(false,"invalid_capsule",6,["source capsule digest mismatch"]);}
             if(verifyAssets){using var cmd=c.CreateCommand();cmd.CommandText="SELECT digest,length,state FROM assets";using var r=cmd.ExecuteReader();while(r.Read()){byte[] dg=(byte[])r[0];long len=r.GetInt64(1);string st=r.GetString(2);if(st=="embedded"){if(!HasAssetChunks(dg))return new(false,"corrupt_asset",6,["embedded asset bytes missing"]);var (actualLen,actual)=HashAsset(dg);if(actualLen!=len||!actual.SequenceEqual(dg))return new(false,"corrupt_asset",6,["embedded asset digest/length mismatch"]);}}}
-            var state=LoadState();byte[] root=state.ComputeRoot();if(!root.SequenceEqual(h.SemanticRoot))return new(false,"invalid_root",7,["semantic root mismatch"],root);d.Add("levels 1-7 valid");return new(true,"valid",0,d,root);
+            var state=LoadState();var unsupportedRequired=state.Extensions.Values.FirstOrDefault(e=>e.Required&&e.Major>1);if(unsupportedRequired is not null)return new(false,"unsupported_required_capability",5,[$"required extension {unsupportedRequired.ExtensionId} major {unsupportedRequired.Major} is unsupported"]);byte[] root=state.ComputeRoot();if(!root.SequenceEqual(h.SemanticRoot))return new(false,"invalid_root",7,["semantic root mismatch"],root);d.Add("levels 1-7 valid");return new(true,"valid",0,d,root);
         }catch(SqliteException ex){return new(false,"invalid_container",1,[ex.SqliteErrorCode+":"+ex.Message]);}catch(Exception ex){return new(false,"invalid",2,[ex.GetType().Name+":"+ex.Message]);}
     }
     private bool HasDuplicates(string table,string column)=>Convert.ToInt64(c.Scalar(null,$"SELECT count(*) FROM (SELECT {column} FROM {table} GROUP BY {column} HAVING count(*)>1 LIMIT 1)"))>0;
@@ -189,6 +189,17 @@ CREATE TABLE provider_state(key TEXT PRIMARY KEY,value BLOB NOT NULL);
         var list=new List<byte[]>();using var cmd=c.CreateCommand();cmd.CommandText="SELECT delta_cbor FROM deltas WHERE sequence>$s ORDER BY sequence";cmd.Parameters.AddWithValue("$s",cursorSequence);using var r=cmd.ExecuteReader();while(r.Read())list.Add((byte[])r[0]);return new("ok",cursorSequence,head.Sequence,list,false);
     }
 
+    public TypedDeltaReadResult ReadTypedDeltas(long cursorSequence)
+    {
+        var head=ReadHead();long? min=null;object? m=c.Scalar(null,"SELECT min(sequence) FROM deltas");if(m is not null&&m is not DBNull)min=Convert.ToInt64(m);if((min is long mn&&cursorSequence<mn-1)||(min is null&&cursorSequence<head.Sequence))return new("resync_required",cursorSequence,head.Sequence,[],true);
+        var list=new List<NativeDeltaRecord>();using var cmd=c.CreateCommand();cmd.CommandText="SELECT sequence,from_revision_id,to_revision_id,delta_cbor FROM deltas WHERE sequence>$s ORDER BY sequence";cmd.Parameters.AddWithValue("$s",cursorSequence);using var r=cmd.ExecuteReader();while(r.Read())
+        {
+            long sequence=r.GetInt64(0);Guid from=Ids.GuidFromRfcBytes((byte[])r[1]),to=Ids.GuidFromRfcBytes((byte[])r[2]);byte[] exact=(byte[])r[3];var map=(Dictionary<string,object?>)CanonicalCbor.Decode(exact)!;string kind=map.GetValueOrDefault("kind")?.ToString()??string.Empty;
+            string[] requested=map.TryGetValue("requested_mutations",out var rv)&&rv is object?[] ra?ra.Select(x=>x?.ToString()??string.Empty).ToArray():[];string[] operations=map.TryGetValue("operations",out var ov)&&ov is object?[] oa?oa.Select(x=>x is Dictionary<string,object?> op?op.GetValueOrDefault("kind")?.ToString()??string.Empty:string.Empty).ToArray():[];
+            list.Add(new(sequence,kind,from,to,exact,requested,operations));
+        }
+        return new("ok",cursorSequence,head.Sequence,list,false);
+    }
     public void AcknowledgeDeltasThrough(long sequence)=>c.Exec(null,"UPDATE deltas SET acknowledged=1 WHERE sequence<=$s",("$s",sequence));
     public void PruneExpiredWitnesses(long keepFromSequence)
     {

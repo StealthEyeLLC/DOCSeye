@@ -44,7 +44,7 @@ public sealed partial class DndStore
             c.Exec(tx,"INSERT INTO idempotency(key,revision_id,sequence,result_cbor,expires_after_sequence) VALUES($k,$r,$s,$b,$e)",("$k",idempotencyKey),("$r",Ids.RfcBytes(revision)),("$s",seq),("$b",resultBytes),("$e",seq+64));
             tx.Commit();
             builder.State.RevisionId=revision;builder.State.Sequence=seq;
-            var head=new RevisionHead(before.FamilyId,before.BranchId,revision,seq,root,[before.RevisionId],before.Mode);var delta=new SemanticDelta(before.BranchId,before.RevisionId,revision,changedObjects,changedBoundaries,changedExtensions,builder.LayoutInvalidations.ToArray(),deltaBytes){ChangedRanges=changedRanges,ChangedAssets=changedAssets,ChangedProviderFacets=changedFacets,ChangedRetiredWitnesses=changedRetired};
+            var head=new RevisionHead(before.FamilyId,before.BranchId,revision,seq,root,[before.RevisionId],before.Mode);var delta=new SemanticDelta(before.BranchId,before.RevisionId,revision,changedObjects,changedBoundaries,changedExtensions,builder.LayoutInvalidations.ToArray(),deltaBytes){ChangedRanges=changedRanges,ChangedAssets=changedAssets,ChangedProviderFacets=changedFacets,ChangedRetiredWitnesses=changedRetired,RequestedMutationIds=builder.RequestedMutationIds.ToArray(),OperationKinds=builder.Operations.Select(o=>o.Kind).ToArray()};
             return new(true,"committed",head,delta,[$"operations={builder.Operations.Count}",$"root_entries_changed={rootChanges}",$"logical_records_changed={changedObjects.Count+changedBoundaries.Count+changedRanges.Count+changedExtensions.Count+changedFacets.Count+changedRetired.Count+changedOrigins.Count+changedAssets.Count}"]);
         }
         catch(SqliteException ex){try{tx.Rollback();}catch{}return new(false,ex.SqliteErrorCode==19?"invalid":"transaction_failed",before,null,[$"sqlite:{ex.SqliteErrorCode}:{ex.Message}"]);}
@@ -89,7 +89,7 @@ public sealed partial class DndStore
     {
         object?[] operations=builder.Operations.Select(o=>(object?)new Dictionary<string,object?>(StringComparer.Ordinal){{"kind",o.Kind},{"target_id",o.TargetId},{"detail",o.Detail}}).ToArray();return CanonicalCbor.Encode(new Dictionary<string,object?>(StringComparer.Ordinal)
         {
-            ["kind"]="semantic_transaction",["from_revision_id"]=from,["to_revision_id"]=to,["operations"]=operations,
+            ["kind"]="semantic_transaction",["from_revision_id"]=from,["to_revision_id"]=to,["requested_mutations"]=builder.RequestedMutationIds.Cast<object?>().ToArray(),["operations"]=operations,
             ["changed_objects"]=objects.Cast<object?>().ToArray(),["changed_boundaries"]=boundaries.Cast<object?>().ToArray(),["changed_ranges"]=ranges.Cast<object?>().ToArray(),["changed_extensions"]=extensions.Cast<object?>().ToArray(),["changed_provider_facets"]=facets.Cast<object?>().ToArray(),["changed_retired_witnesses"]=retired.Cast<object?>().ToArray(),["changed_origin_refs"]=origins.Cast<object?>().ToArray(),["changed_assets"]=assets.Cast<object?>().ToArray(),["layout_invalidations"]=builder.LayoutInvalidations.Cast<object?>().ToArray()
         });
     }

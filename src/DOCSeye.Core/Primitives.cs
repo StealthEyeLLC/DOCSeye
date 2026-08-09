@@ -282,6 +282,8 @@ public sealed record SemanticDelta(
     public IReadOnlyList<string> ChangedAssets { get; init; } = Array.Empty<string>();
     public IReadOnlyList<Guid> ChangedProviderFacets { get; init; } = Array.Empty<Guid>();
     public IReadOnlyList<Guid> ChangedRetiredWitnesses { get; init; } = Array.Empty<Guid>();
+    public IReadOnlyList<string> RequestedMutationIds { get; init; } = Array.Empty<string>();
+    public IReadOnlyList<string> OperationKinds { get; init; } = Array.Empty<string>();
 }
 public sealed record SemanticOperationRecord(string Kind, Guid? TargetId, IReadOnlyDictionary<string,object?> Detail);public enum TransactionFaultPoint
 {
@@ -312,3 +314,5 @@ public sealed record DeltaReadResult(
     long HeadSequence,
     IReadOnlyList<byte[]> Deltas,
     bool ResyncRequired);
+public sealed record NativeDeltaRecord(long Sequence,string Kind,Guid FromRevisionId,Guid ToRevisionId,byte[] ExactBytes,IReadOnlyList<string> RequestedMutationIds,IReadOnlyList<string> OperationKinds);
+public sealed record TypedDeltaReadResult(string Classification,long CursorSequence,long HeadSequence,IReadOnlyList<NativeDeltaRecord> Deltas,bool ResyncRequired);

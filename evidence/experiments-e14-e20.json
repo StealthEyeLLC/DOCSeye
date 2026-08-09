@@ -1,0 +1,257 @@
+{
+  "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+  "generated_utc": "2026-08-09T14:23:26.186745+00:00",
+  "machine": "STEALTHEYELLC",
+  "experiments": [
+    {
+      "id": "E-14",
+      "result": "PASS",
+      "question": "Can pinned Chrome for Testing/Chromium produce accessible continuous HTML with exact source attributes and deterministic tested projection?",
+      "primary_evidence": {
+        "chrome_version": "151.0.7922.77",
+        "chrome_sha256": "73c78878416b28aff13df2c464a6273781c39e32d8be8ef700dd65fbff2b271c",
+        "required_mapping_numerator": 64,
+        "required_mapping_denominator": 64,
+        "structural_accessibility": "validated",
+        "html_lang": true,
+        "figure_aria": true,
+        "table_caption": true,
+        "accessibility_roles": [
+          "Figcaption",
+          "InlineTextBox",
+          "RootWebArea",
+          "StaticText",
+          "banner",
+          "caption",
+          "cell",
+          "code",
+          "columnheader",
+          "contentinfo",
+          "figure",
+          "generic",
+          "heading",
+          "image",
+          "link",
+          "main",
+          "math",
+          "none",
+          "note",
+          "paragraph",
+          "row",
+          "rowheader",
+          "table"
+        ],
+        "accessibility_table": true,
+        "accessibility_link": true,
+        "accessibility_image": true,
+        "deterministic_dom_sha256": "dbdd6689dd23c33c09a9b7cba161a4f6b91bfb1c234c33fe1bc576b9db385a9d",
+        "repeat_dom_identical": true,
+        "semantic_root_unchanged": true,
+        "remote_fetches": 0,
+        "chrome_observation_ms": [
+          253,
+          251
+        ]
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "change HTML mapping/provider mechanism"
+    },
+    {
+      "id": "E-15",
+      "result": "PASS",
+      "question": "Can F-001 import into native concepts plus scoped facets/capsule without silent loss or dual authority?",
+      "primary_evidence": {
+        "fixture_sha256": "bba9fea0dde6f1a9e93d1019434e54ce37108258c268827df83cb991508b1a5a",
+        "features_classified": 25,
+        "features_required": 25,
+        "native_mappings": 25,
+        "source_capsule_sha256": "bba9fea0dde6f1a9e93d1019434e54ce37108258c268827df83cb991508b1a5a",
+        "source_capsule_byte_exact": true,
+        "native_root": "265aa04d4d4b2b7ede2ab3548d4e391b556be1a0c6782aa82b4a28265d58e905",
+        "authority_mode": "converted/imported",
+        "provider_facets": 1,
+        "required_extensions": 1,
+        "dual_authority": false
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "change importer/facet mapping; widespread opaque-core mapping triggers ontology falsifier"
+    },
+    {
+      "id": "E-16",
+      "result": "PASS",
+      "question": "Can the native state export a practically useful DOCX without Word, with honest outcome/evidence states and preserved unknowns?",
+      "primary_evidence": {
+        "preserved_patch_outcome": "PreservedPatch",
+        "preserved_patch_changed_entries": [
+          "word/document.xml"
+        ],
+        "untouched_entry_numerator": 21,
+        "untouched_entry_denominator": 21,
+        "patch_opc": true,
+        "patch_schema": true,
+        "native_outcome": "TranslatedWithDeclaredLoss",
+        "native_classification": "translated_with_declared_loss",
+        "native_opc": true,
+        "native_schema": true,
+        "native_sha256": "5d8fb3702fc96a390684cf00cf21130b95e6b0a232f0d9ced7340dc175b32e5a",
+        "declared_losses": [
+          "bibliographic_record: represented textually or omitted from native DOCX semantics",
+          "citation: represented textually or omitted from native DOCX semantics",
+          "comment: represented textually or omitted from native DOCX semantics",
+          "comment_thread: represented textually or omitted from native DOCX semantics",
+          "control: represented textually or omitted from native DOCX semantics",
+          "cross_reference: represented textually or omitted from native DOCX semantics",
+          "direct_override: represented textually or omitted from native DOCX semantics",
+          "document: represented textually or omitted from native DOCX semantics",
+          "field: represented textually or omitted from native DOCX semantics",
+          "figure: represented textually or omitted from native DOCX semantics",
+          "flow: represented textually or omitted from native DOCX semantics",
+          "layout_intent: represented textually or omitted from native DOCX semantics",
+          "layout_profile: represented textually or omitted from native DOCX semantics",
+          "link: represented textually or omitted from native DOCX semantics",
+          "math: represented textually or omitted from native DOCX semantics",
+          "named_anchor: represented textually or omitted from native DOCX semantics",
+          "named_style: represented textually or omitted from native DOCX semantics",
+          "note: represented textually or omitted from native DOCX semantics",
+          "note_reference: represented textually or omitted from native DOCX semantics",
+          "section: represented textually or omitted from native DOCX semantics",
+          "semantic_role: represented textually or omitted from native DOCX semantics",
+          "suggestion: represented textually or omitted from native DOCX semantics",
+          "table_column: represented textually or omitted from native DOCX semantics",
+          "table_row: represented textually or omitted from native DOCX semantics",
+          "theme_token: represented textually or omitted from native DOCX semantics"
+        ],
+        "word_processes": 0,
+        "word_executable": false,
+        "silent_loss": 0
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "INTEROP FALSIFIER: strengthen provider or choose DOCX-first/native-format-later fallback before acceptance"
+    },
+    {
+      "id": "E-17",
+      "result": "PASS",
+      "question": "Does current LibreOffice independently open, render, save/reopen the exported DOCX without repair while evidence remains correctly scoped?",
+      "primary_evidence": {
+        "provider": "LibreOffice",
+        "version": "LibreOffice 26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb",
+        "success": true,
+        "render_sha256": "dcf2e974519fc7e1e7b64add150065f74f59a55b34eb497e73619e46ef19483b",
+        "resaved_sha256": "64f8692f0214ca57e3baa2ef068be566e5a9073f18f8a8e4e367116bbdfdf0f7",
+        "rerender_sha256": "4a14c3c8ea4ed567b64f5db4557015bca10bfdf864c19d1e6fe01e0633923210",
+        "resaved_opc_valid": true,
+        "resaved_schema_valid": false,
+        "normalized_changed_entries": 11,
+        "removed_entries": [
+          "package/services/metadata/core-properties/812ac3f6577245d8832e82d7623ad5dc.psmdcp"
+        ],
+        "added_entries": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/fontTable.xml",
+          "word/settings.xml",
+          "word/theme/theme1.xml"
+        ],
+        "repair_signal": false,
+        "observation_evidence": "AlternateProviderObserved",
+        "microsoft_observed": false,
+        "diagnostics": [
+          "render:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
+          "render:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\render\\e16-native.pdf using filter : writer_pdf_Export",
+          "resave:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
+          "resave:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\resave\\e16-native.docx using filter : Office Open XML Text",
+          "rerender:stderr=Could not find platform independent libraries \u003Cprefix\u003E",
+          "rerender:stdout=convert C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\resave\\e16-native.docx as a Writer document -\u003E C:\\StealthEyeLLC\\DOCSeye\\artifacts\\experiments-e14-e20\\655d74a46493490f87cce13cff5bcb60\\e17-libreoffice\\rerender\\e16-native.pdf using filter : writer_pdf_Export",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:charSpace\u0027 has invalid value \u00274294963199\u0027. The string \u00274294963199\u0027 is not a valid \u0027Int32\u0027 value. @ /w:document[1]/w:body[1]/w:sectPr[1]/w:docGrid[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:val\u0027 has invalid value \u0027start\u0027. The Enumeration constraint failed. @ /w:document[1]/w:body[1]/w:tbl[1]/w:tblPr[1]/w:jc[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[6]/w:charset[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[5]/w:charset[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[4]/w:charset[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[3]/w:charset[1]",
+          "resave_validation:schema:The attribute \u0027http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet\u0027 has invalid value \u0027windows-1252\u0027. The Enumeration constraint failed. @ /w:fonts[1]/w:font[1]/w:charset[1]",
+          "normalization_removed=package/services/metadata/core-properties/812ac3f6577245d8832e82d7623ad5dc.psmdcp",
+          "normalization_added=docProps/app.xml,docProps/core.xml,word/fontTable.xml,word/settings.xml,word/theme/theme1.xml",
+          "normalization_changed_entries=11"
+        ]
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "provider limitation is reported; materially unusable export contributes to E-16 falsification"
+    },
+    {
+      "id": "E-18",
+      "result": "PASS",
+      "question": "Do parser limits reject malformed SQLite/CBOR/XML/ZIP, bombs, traversal, recursion, huge counts/strings/extensions, remote fetch, and active content safely?",
+      "primary_evidence": {
+        "classifications": {
+          "cbor_depth": "resource_limit",
+          "cbor_string": "resource_limit",
+          "cbor_count": "resource_limit",
+          "sqlite": "invalid_container",
+          "zip_traversal": "unsafe_or_duplicate_zip_entry",
+          "zip_count": "too_many_zip_entries",
+          "zip_size": "zip_size_limit",
+          "xml_dtd": "invalid_mathml",
+          "extension_size": "resource_limit",
+          "active_content": "rejected",
+          "remote_fetch": "not_attempted"
+        },
+        "zip_size_compressed_bytes": 66393,
+        "zip_size_declared_uncompressed_bytes": 68157440,
+        "zip_size_workingset_delta_bytes": 0,
+        "dangerous_relationship_rejected": true,
+        "remote_validation_ms": 13,
+        "remote_fetches": 0,
+        "active_content_executed": 0,
+        "partial_state_writes": 0
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "fix parser before writable acceptance; unsafe open/render is a hard failure"
+    },
+    {
+      "id": "E-19",
+      "result": "PASS",
+      "question": "Can older/newer generation-1 implementations preserve unknown minor data, block unsupported required major capability, and evolve schema without silent drop?",
+      "primary_evidence": {
+        "optional_minor": 7,
+        "optional_payload_exact": true,
+        "optional_capability": "FallbackOnly",
+        "required_major": 2,
+        "required_write_authority": false,
+        "required_classification": "unsupported_required_capability",
+        "required_capability": "BlockedRequiredExtension",
+        "schema_roundtrip": true,
+        "silent_drop": 0
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "ARCHITECTURE FALSIFIER if open evolution cannot preserve unknown meaning"
+    },
+    {
+      "id": "E-20",
+      "result": "PASS",
+      "question": "Can native Presentation MathML be canonicalized/edited independently while optional TeX and OMML facets retain clear precedence and preservation?",
+      "primary_evidence": {
+        "canonical_vectors": 2,
+        "canonical_vectors_identical": true,
+        "native_math_authority": true,
+        "native_math_sha256": "9119713b950d262a5d536f8089abc8c6bcdeac3931608c8f349c8ad8d87babe5",
+        "tex_payload_preserved_across_native_edit": true,
+        "omml_payload_preserved_across_native_edit": true,
+        "facets_stale_after_native_edit": true,
+        "tex_realign_explicit": true,
+        "omml_remains_stale": true,
+        "export_loss_declared": true,
+        "dtd_refused": "invalid_mathml"
+      },
+      "binary_or_bounded_conclusion": "PASS",
+      "failure_action": "choose another bounded math semantic representation; no universal algebra or OMML authority"
+    }
+  ],
+  "word": {
+    "winword_processes": 0,
+    "winword_exe_present": false,
+    "com_calls": 0,
+    "api_calls": 0,
+    "microsoft_365_trial_started": false
+  },
+  "result": "PASS"
+}

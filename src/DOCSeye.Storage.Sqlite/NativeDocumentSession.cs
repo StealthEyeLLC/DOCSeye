@@ -26,6 +26,7 @@ public sealed class NativeDocumentSession : IDisposable
     public SemanticObject? ReadObject(Guid id)=>store.ReadObject(id);
     public IReadOnlyList<SemanticObject> QueryObjects(string? type=null,string? role=null,int limit=10000)=>store.QueryObjects(type,role,limit);
     public DeltaReadResult ReadDeltas(long cursorSequence)=>store.ReadDeltas(cursorSequence);
+    public TypedDeltaReadResult ReadTypedDeltas(long cursorSequence)=>store.ReadTypedDeltas(cursorSequence);
     public void AcknowledgeDeltasThrough(long sequence)=>store.AcknowledgeDeltasThrough(sequence);
 
     public ValidationReport ReconcileExternal(bool verifyAssets=true)

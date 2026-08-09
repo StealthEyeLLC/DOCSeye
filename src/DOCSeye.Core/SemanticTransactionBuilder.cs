@@ -9,6 +9,7 @@ public sealed class SemanticTransactionBuilder
     public SemanticState BaseState { get; }
     public SemanticState State { get; }
     public List<SemanticOperationRecord> Operations { get; } = [];
+    public List<string> RequestedMutationIds { get; } = [];
     public SortedSet<string> LayoutInvalidations { get; } = new(StringComparer.Ordinal);
 
     public SemanticTransactionBuilder(SemanticState source, Func<Guid>? newId = null)
@@ -116,7 +117,7 @@ public sealed class SemanticTransactionBuilder
 
     public Guid AddExtension(ExtensionEnvelope extension)
     {
-        if(State.Extensions.ContainsKey(extension.ExtensionId))throw Refuse("duplicate_id","extension id exists");if(!extension.DigestValid)throw Refuse("invalid","extension digest invalid");State.Extensions[extension.ExtensionId]=extension;Record("add_extension",extension.ExtensionId,("coverage",CanonicalCbor.CoverageToken(extension.CoverageKind)),("required",extension.Required));return extension.ExtensionId;
+        if(State.Extensions.ContainsKey(extension.ExtensionId))throw Refuse("duplicate_id","extension id exists");if(extension.ExactPayload.LongLength>64L*1024*1024)throw Refuse("resource_limit","extension payload exceeds 64 MiB");if(!extension.DigestValid)throw Refuse("invalid","extension digest invalid");State.Extensions[extension.ExtensionId]=extension;Record("add_extension",extension.ExtensionId,("coverage",CanonicalCbor.CoverageToken(extension.CoverageKind)),("required",extension.Required));return extension.ExtensionId;
     }
 
     public Guid CopyTransformableExtension(Guid extensionId,IReadOnlyDictionary<Guid,Guid> remap)
@@ -165,6 +166,18 @@ public sealed class SemanticTransactionBuilder
         string key=Convert.ToHexString(digest);State.Assets[key]=new(digest.ToArray(),length,"embedded");
         if(figureObjectId is Guid figure){var o=LiveObject(figure);if(o.Type!="figure")throw Refuse("invalid_asset_target","asset target is not a figure");var data=CloneData(o.Data);data["asset_digest"]=digest.ToArray();State.Objects[figure]=o with{Data=data};InvalidateObject(figure,o.ParentId);}
         Record("attach_embedded_asset",figureObjectId,("digest",digest.ToArray()),("length",length),("chunk_bytes",chunkBytes));LayoutInvalidations.Add("asset");return new(digest.ToArray(),length,figureObjectId,chunkBytes);
+    }
+    public void RecordRequestedMutation(string requestId)
+    {
+        if(string.IsNullOrWhiteSpace(requestId))throw new ArgumentException("request id required",nameof(requestId));if(RequestedMutationIds.Contains(requestId,StringComparer.Ordinal))throw Refuse("duplicate_requested_mutation",requestId);RequestedMutationIds.Add(requestId);
+    }
+    public void UpdateNativeMath(Guid mathId,string presentationMathMl)
+    {
+        var o=LiveObject(mathId);if(o.Type!="math")throw Refuse("invalid_math_target","target is not math");string canonical=MathSemanticPolicy.CanonicalizePresentationMathMl(presentationMathMl);var data=CloneData(o.Data);data["presentation_mathml"]=canonical;State.Objects[mathId]=o with{Data=data};foreach(Guid facetId in State.ProviderFacets.Values.Where(f=>f.TargetId==mathId).Select(f=>f.Id).ToArray()){var facet=State.ProviderFacets[facetId];State.ProviderFacets[facetId]=facet with{Alignment="stale_after_native_math_edit"};}Record("update_native_math",mathId,("presentation_mathml",canonical));InvalidateObject(mathId,o.ParentId);
+    }
+    public void UpdateProviderFacet(Guid facetId,byte[] payload,string alignment)
+    {
+        if(!State.ProviderFacets.TryGetValue(facetId,out var facet))throw Refuse("not_found","provider facet missing");byte[] exact=payload.ToArray();State.ProviderFacets[facetId]=facet with{ExactPayload=exact,Digest=SHA256.HashData(exact),Alignment=alignment};Record("provider_facet_update",facetId,("payload_bytes",exact.Length),("alignment",alignment));
     }
     public void SetProviderFacetAlignment(Guid facetId,string alignment)
     {

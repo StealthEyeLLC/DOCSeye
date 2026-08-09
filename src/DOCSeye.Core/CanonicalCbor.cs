@@ -20,7 +20,16 @@ public static class CanonicalCbor
         };
         return Encode(d);
     }
-    public static byte[] EncodeBoundary(TextBoundary b)=>Encode(new Dictionary<string,object?>
+    public static byte[] EncodeRange(RetainedRange r)=>Encode(new Dictionary<string,object?>
+    {
+        ["id"]=r.Id,["start_boundary_id"]=r.StartBoundaryId,["end_boundary_id"]=r.EndBoundaryId,
+        ["allow_multi_interval"]=r.AllowMultiInterval,["kind"]=r.Kind,["state"]=r.State
+    });
+    public static byte[] EncodeOriginRef(OriginRef r)=>Encode(new Dictionary<string,object?>
+    {
+        ["current_id"]=r.CurrentId,["kind"]=r.Kind,["source_family_id"]=r.SourceFamilyId,
+        ["source_branch_id"]=r.SourceBranchId,["source_revision_id"]=r.SourceRevisionId,["source_id"]=r.SourceId
+    });    public static byte[] EncodeBoundary(TextBoundary b)=>Encode(new Dictionary<string,object?>
     {
         ["id"]=b.Id,["owner_id"]=b.OwnerId,["scalar_offset"]=b.ScalarOffset,["affinity"]=AffinityToken(b.Affinity),["state"]=b.State.ToString().ToLowerInvariant()
     });

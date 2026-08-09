@@ -1,0 +1,207 @@
+{
+  "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+  "generated_utc": "2026-08-09T11:29:45.5966566+00:00",
+  "machine": "STEALTHEYELLC",
+  "fixture": "N-001",
+  "seed": "0x00000000D0C50001",
+  "manifest": "fixtures/N-001.manifest.json",
+  "semantic_root": "f5bbf8084e156c4487944434fc342a889b5b57059ed69ca19d6df9595daf770c",
+  "sentinel_recovery": {
+    "required": 32,
+    "recovered": 32,
+    "percent": 100
+  },
+  "checks": [
+    {
+      "id": "A-N001",
+      "result": "PASS",
+      "evidence": {
+        "seed": "0x00000000D0C50001",
+        "root": "f5bbf8084e156c4487944434fc342a889b5b57059ed69ca19d6df9595daf770c",
+        "independent_root": "f5bbf8084e156c4487944434fc342a889b5b57059ed69ca19d6df9595daf770c",
+        "sentinels": 32,
+        "objects": 148,
+        "boundaries": 11,
+        "ranges": 6
+      }
+    },
+    {
+      "id": "A-COLD",
+      "result": "PASS",
+      "evidence": {
+        "kernel_hard_kill": true,
+        "runtime_state_deleted": true,
+        "artifact_only_recovery": "32/32"
+      }
+    },
+    {
+      "id": "A-SHELLEYE-MOVE",
+      "result": "PASS",
+      "evidence": {
+        "same_physical_identity": true,
+        "sentinel_recovery": "32/32",
+        "carrier": {
+          "hello": {
+            "protocol": "shelleye-rpc",
+            "version": 1,
+            "kernelEpoch": "kernel_15",
+            "providerEpoch": "provider_15",
+            "bootEpoch": "boot_2"
+          },
+          "retained": {
+            "id": "file_35",
+            "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001.dnd",
+            "identity": {
+              "volumeSerial": 6829950013575736000,
+              "fileId128": "d8d3010000000b000000000000000000"
+            },
+            "revision": {
+              "length": 1433600,
+              "lastWriteFileTime": 134307485801419900
+            }
+          },
+          "renamed": {
+            "id": "file_35",
+            "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
+            "identity": {
+              "volumeSerial": 6829950013575736000,
+              "fileId128": "d8d3010000000b000000000000000000"
+            },
+            "revision": {
+              "length": 1433600,
+              "lastWriteFileTime": 134307485801419900
+            }
+          },
+          "after": {
+            "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
+            "identity": {
+              "volumeSerial": 6829950013575736000,
+              "fileId128": "d8d3010000000b000000000000000000"
+            },
+            "revision": {
+              "length": 1433600,
+              "lastWriteFileTime": 134307485801419900
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "A-EXTERNAL-MOVE",
+      "result": "PASS",
+      "evidence": {
+        "object_id": "963c7372-7830-4d8b-9c00-38f602e36d47",
+        "identity_preserved": true,
+        "sentinels": "32/32"
+      }
+    },
+    {
+      "id": "A-EXTERNAL-SPLIT",
+      "result": "PASS",
+      "evidence": {
+        "old_id": "48f5a61a-ff13-4cef-8510-fd9f8819eb26",
+        "typed_retirement": true,
+        "cold_recovery": "32/32"
+      }
+    },
+    {
+      "id": "A-DIVERGENCE",
+      "result": "PASS",
+      "evidence": {
+        "base_revision": "3c1772ce-099a-4324-abf9-14da7faf4802",
+        "head_a": "cd415a13-483d-46c5-bab7-66669682c314",
+        "head_b": "6714c859-1377-4850-a316-7c359ed57130",
+        "classification": "divergent_heads",
+        "stale_handle": "stale_revision"
+      }
+    },
+    {
+      "id": "A-FORK",
+      "result": "PASS",
+      "evidence": {
+        "same_family": true,
+        "new_branch": "09a397cb-74c3-4384-bbe8-c60669d95249",
+        "object_remint_percent": 100,
+        "boundary_remint_percent": 100,
+        "origin_refs": 173,
+        "cross_branch_handle": "refused"
+      }
+    },
+    {
+      "id": "A-CROSS-BRANCH-PASTE",
+      "result": "PASS",
+      "evidence": {
+        "source_id": "17795730-18d6-451f-8f3e-134af941775c",
+        "pasted_id": "e93cd6b7-cc37-40b2-bae9-de989e72c800",
+        "reminted": true,
+        "source_handle_write": 0
+      }
+    },
+    {
+      "id": "A-MERGE",
+      "result": "PASS",
+      "evidence": {
+        "parents": 2,
+        "head_left": "b0d158ae-8c52-459e-83c5-39a924f873a9",
+        "head_right": "452b4842-2481-4d45-8525-6232c9cfb990",
+        "surviving_ids_preserved": true
+      }
+    },
+    {
+      "id": "A-COPY-DUPLICATE-TEMPLATE",
+      "result": "PASS",
+      "evidence": {
+        "ordinary_copy_object_reminted": true,
+        "ordinary_copy_boundaries_added": 0,
+        "copy_with_annotations_boundaries_reminted": 2,
+        "independent_duplicate_new_family": true,
+        "template_new_family": true,
+        "cross_family_paste_reminted": true
+      }
+    },
+    {
+      "id": "A-INVALID-ARTIFACTS",
+      "result": "PASS",
+      "evidence": {
+        "duplicate_object": "non_writable",
+        "duplicate_boundary": "non_writable",
+        "broken_reference": "non_writable",
+        "invalid_root": "non_writable",
+        "sentinel_identity_steals": 0,
+        "auto_repairs": 0
+      }
+    }
+  ],
+  "hard_zero": {
+    "H-01": 0,
+    "H-02": 0,
+    "H-03": 0,
+    "H-04": 0,
+    "H-05": 0,
+    "H-06": 0,
+    "H-07": 0,
+    "H-08": 0,
+    "H-09": 0,
+    "H-10": 0,
+    "H-11": 0,
+    "H-12": 0,
+    "H-13": 0,
+    "H-14": 0,
+    "H-15": 0,
+    "H-16": 0,
+    "H-17": 0,
+    "H-18": 0
+  },
+  "positive": {
+    "P_01_artifact_only_cold_recovery": 100,
+    "P_03_stale_refusal_classification": 100
+  },
+  "word": {
+    "winword_processes": 0,
+    "winword_exe_present": false,
+    "com_calls": 0,
+    "api_calls": 0,
+    "microsoft_365_trial_started": false
+  },
+  "result": "PASS"
+}

@@ -196,6 +196,15 @@ public sealed record SemanticObject(
 public sealed record TextBoundary(Guid Id, Guid OwnerId, int ScalarOffset, EdgeAffinity Affinity, AnchorState State = AnchorState.Live);
 public sealed record RetainedRange(Guid Id, Guid StartBoundaryId, Guid EndBoundaryId, bool AllowMultiInterval, string Kind, string State = "live");
 public sealed record RetiredWitness(Guid ObjectId, RetiredResolution Resolution, IReadOnlyList<Guid> Successors, long ExpiresAfterSequence);
+public sealed record OriginRef(
+    Guid CurrentId,
+    string Kind,
+    Guid SourceFamilyId,
+    Guid SourceBranchId,
+    Guid SourceRevisionId,
+    Guid SourceId);
+public sealed record ReplicaPresentation(string Classification, bool CanWrite, Guid? CommonRevisionId, IReadOnlyList<Guid> Heads);
+public sealed record BranchTransformResult(SemanticState State, IReadOnlyDictionary<Guid, Guid> SourceToCurrent);
 public sealed record AssetCommitment(byte[] Digest, long Length, string State, string? ShellReference = null);
 
 public sealed record ProviderFacet(

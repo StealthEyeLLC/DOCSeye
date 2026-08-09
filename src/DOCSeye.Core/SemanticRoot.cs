@@ -7,6 +7,8 @@ public readonly record struct RootEntry(string Domain, byte[] Key, byte[] Value)
 {
     public static RootEntry ForObject(SemanticObject o) => new("objects", SemanticRoot.Key("object", Ids.RfcBytes(o.Id)), CanonicalCbor.EncodeObject(o));
     public static RootEntry ForBoundary(TextBoundary b) => new("boundaries", SemanticRoot.Key("boundary", Ids.RfcBytes(b.Id)), CanonicalCbor.EncodeBoundary(b));
+    public static RootEntry ForRange(RetainedRange r) => new("boundaries", SemanticRoot.Key("retained-range", Ids.RfcBytes(r.Id)), CanonicalCbor.EncodeRange(r));
+    public static RootEntry ForOriginRef(OriginRef r) => new("lifecycle", SemanticRoot.Key("origin-ref", Ids.RfcBytes(r.CurrentId)), CanonicalCbor.EncodeOriginRef(r));
     public static RootEntry ForExtension(ExtensionEnvelope e) => new("extensions", SemanticRoot.Key("extension", Ids.RfcBytes(e.ExtensionId)), CanonicalCbor.EncodeExtension(e));
     public static RootEntry ForAsset(AssetCommitment a) => new("assets", SemanticRoot.Key("asset", a.Digest), CanonicalCbor.EncodeAsset(a));
     public static RootEntry ForProviderFacet(ProviderFacet f) => new("providers", SemanticRoot.Key("provider-facet", Ids.RfcBytes(f.Id)), CanonicalCbor.EncodeProviderFacet(f));
@@ -150,11 +152,13 @@ public sealed class SemanticState
     public AuthorityMode Mode { get; set; }
     public Dictionary<Guid, SemanticObject> Objects { get; } = new();
     public Dictionary<Guid, TextBoundary> Boundaries { get; } = new();
+    public Dictionary<Guid, RetainedRange> Ranges { get; } = new();
     public Dictionary<Guid, ExtensionEnvelope> Extensions { get; } = new();
     public Dictionary<string, AssetCommitment> Assets { get; } = new(StringComparer.Ordinal);
     public Dictionary<Guid, ProviderFacet> ProviderFacets { get; } = new();
     public Dictionary<string, SourceCapsuleEvidence> SourceCapsules { get; } = new(StringComparer.Ordinal);
     public Dictionary<Guid, RetiredWitness> Retired { get; } = new();
+    public Dictionary<Guid, OriginRef> OriginRefs { get; } = new();
     public SortedSet<string> RequiredCapabilities { get; } = new(DndConstants.DefaultRequiredCapabilities, StringComparer.Ordinal);
 
     public IReadOnlyList<RootEntry> RootEntries()
@@ -162,11 +166,13 @@ public sealed class SemanticState
         var entries = new List<RootEntry>();
         entries.AddRange(Objects.Values.Where(o => !o.Retired).Select(RootEntry.ForObject));
         entries.AddRange(Boundaries.Values.Where(b => b.State is AnchorState.Live or AnchorState.Collapsed or AnchorState.Orphaned).Select(RootEntry.ForBoundary));
+        entries.AddRange(Ranges.Values.Where(r => !string.Equals(r.State, "destroyed", StringComparison.Ordinal)).Select(RootEntry.ForRange));
         entries.AddRange(Extensions.Values.Select(RootEntry.ForExtension));
         entries.AddRange(Assets.Values.Select(RootEntry.ForAsset));
         entries.AddRange(ProviderFacets.Values.Select(RootEntry.ForProviderFacet));
         entries.AddRange(SourceCapsules.Values.Select(RootEntry.ForSourceCapsule));
         entries.AddRange(Retired.Values.Select(RootEntry.ForRetired));
+        entries.AddRange(OriginRefs.Values.Select(RootEntry.ForOriginRef));
 
         foreach (var group in Objects.Values.Where(o => !o.Retired && o.ParentId is not null).GroupBy(o => o.ParentId!.Value))
         {

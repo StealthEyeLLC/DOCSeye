@@ -153,7 +153,8 @@ public static class BoundaryTransform
         state.Retired[left]=new(left,RetiredResolution.Merged,[result],lineageExpiry);state.Retired[right]=new(right,RetiredResolution.Merged,[result],lineageExpiry);return result;
     }
     private static bool AtSplitGoesRight(TextBoundary b,string? role)=>b.Affinity switch{EdgeAffinity.AfterInsertion=>true,EdgeAffinity.BeforeInsertion=>false,EdgeAffinity.IncludeAtEdge=>role=="start",EdgeAffinity.ExcludeAtEdge=>role=="start",_=>role=="start"};
-    private static Dictionary<Guid,string> Roles(IEnumerable<RetainedRange> ranges){var d=new Dictionary<Guid,string>();foreach(var r in ranges){d[r.StartBoundaryId]="start";d[r.EndBoundaryId]="end";}return d;}
+    private static Dictionary<Guid,string> Roles(IEnumerable<RetainedRange> ranges){var d=new Dictionary<Guid,string>();foreach(var r in ranges)foreach(var interval in r.EffectiveIntervals){AddRole(d,interval.StartBoundaryId,"start");AddRole(d,interval.EndBoundaryId,"end");}return d;}
+    private static void AddRole(Dictionary<Guid,string> roles,Guid id,string role){if(roles.TryGetValue(id,out var existing)&&existing!=role)throw new InvalidOperationException("boundary_role_conflict");roles[id]=role;}
 }
 
 public sealed record EditIntent(string Kind,Guid? TargetId=null,string? PropertyName=null,Guid? StartBoundaryId=null,Guid? EndBoundaryId=null,bool TopologyMutation=false,bool Copy=false,bool Move=false);

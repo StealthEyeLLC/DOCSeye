@@ -194,7 +194,12 @@ public sealed record SemanticObject(
 }
 
 public sealed record TextBoundary(Guid Id, Guid OwnerId, int ScalarOffset, EdgeAffinity Affinity, AnchorState State = AnchorState.Live);
-public sealed record RetainedRange(Guid Id, Guid StartBoundaryId, Guid EndBoundaryId, bool AllowMultiInterval, string Kind, string State = "live");
+public sealed record RangeInterval(Guid StartBoundaryId, Guid EndBoundaryId);
+public sealed record RetainedRange(Guid Id, Guid StartBoundaryId, Guid EndBoundaryId, bool AllowMultiInterval, string Kind, string State = "live")
+{
+    public IReadOnlyList<RangeInterval> Intervals { get; init; } = Array.Empty<RangeInterval>();
+    public IReadOnlyList<RangeInterval> EffectiveIntervals => Intervals.Count == 0 ? [new(StartBoundaryId, EndBoundaryId)] : Intervals;
+}
 public sealed record RetiredWitness(Guid ObjectId, RetiredResolution Resolution, IReadOnlyList<Guid> Successors, long ExpiresAfterSequence);
 public sealed record OriginRef(
     Guid CurrentId,

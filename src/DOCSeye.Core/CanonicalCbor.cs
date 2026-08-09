@@ -23,7 +23,7 @@ public static class CanonicalCbor
     public static byte[] EncodeRange(RetainedRange r)=>Encode(new Dictionary<string,object?>
     {
         ["id"]=r.Id,["start_boundary_id"]=r.StartBoundaryId,["end_boundary_id"]=r.EndBoundaryId,
-        ["allow_multi_interval"]=r.AllowMultiInterval,["kind"]=r.Kind,["state"]=r.State
+        ["allow_multi_interval"]=r.AllowMultiInterval,["kind"]=r.Kind,["state"]=r.State,["intervals"]=r.EffectiveIntervals.Select(i=>(object?)new object?[]{i.StartBoundaryId,i.EndBoundaryId}).ToArray()
     });
     public static byte[] EncodeOriginRef(OriginRef r)=>Encode(new Dictionary<string,object?>
     {

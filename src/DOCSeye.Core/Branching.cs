@@ -42,7 +42,7 @@ public static class Branching
         foreach (var r in source.Ranges.Values)
             target.Ranges[Remint(r.Id)] = r with
             {
-                Id = Remint(r.Id), StartBoundaryId = Remint(r.StartBoundaryId), EndBoundaryId = Remint(r.EndBoundaryId)
+                Id = Remint(r.Id), StartBoundaryId = Remint(r.StartBoundaryId), EndBoundaryId = Remint(r.EndBoundaryId), Intervals = r.EffectiveIntervals.Select(i=>new RangeInterval(Remint(i.StartBoundaryId),Remint(i.EndBoundaryId))).ToArray()
             };
 
         foreach (var e in source.Extensions.Values)
@@ -116,7 +116,7 @@ public static class Branching
             foreach (var r in source.Ranges.Values.Where(r => boundaryMap.ContainsKey(r.StartBoundaryId) && boundaryMap.ContainsKey(r.EndBoundaryId)))
             {
                 Guid id = newId();
-                target.Ranges[id] = r with { Id = id, StartBoundaryId = boundaryMap[r.StartBoundaryId], EndBoundaryId = boundaryMap[r.EndBoundaryId] };
+                target.Ranges[id] = r with { Id = id, StartBoundaryId = boundaryMap[r.StartBoundaryId], EndBoundaryId = boundaryMap[r.EndBoundaryId], Intervals = r.EffectiveIntervals.Select(i=>new RangeInterval(boundaryMap[i.StartBoundaryId],boundaryMap[i.EndBoundaryId])).ToArray() };
             }
         }
         return map;

@@ -8,7 +8,7 @@ namespace DOCSeye.Fixtures;
 
 public sealed record FixtureObjectManifest(string Id,string Type,string? ParentId,string OrderKey,string? SemanticRole,bool RequiredRenderMapping);
 public sealed record FixtureBoundaryManifest(string Id,string OwnerId,int ScalarOffset,string Affinity,string State);
-public sealed record FixtureRangeManifest(string Id,string StartBoundaryId,string EndBoundaryId,bool AllowMultiInterval,string Kind,string State);
+public sealed record FixtureRangeManifest(string Id,string StartBoundaryId,string EndBoundaryId,bool AllowMultiInterval,string Kind,string State,string[][] Intervals);
 public sealed record N001Manifest(
     string Fixture,string ArchitectureFreeze,string Seed,string FamilyId,string BranchId,string RevisionId,string SemanticRoot,
     IReadOnlyList<FixtureObjectManifest> Objects,IReadOnlyList<FixtureBoundaryManifest> Boundaries,IReadOnlyList<FixtureRangeManifest> Ranges,
@@ -82,9 +82,9 @@ public static class N001Generator
         Guid b5=B(bodies[5],4,EdgeAffinity.ExcludeAtEdge), b6=B(bodies[5],18,EdgeAffinity.ExcludeAtEdge);
         Guid b7=B(bodies[5],4,EdgeAffinity.IncludeAtEdge), b8=B(bodies[5],18,EdgeAffinity.IncludeAtEdge);
         Guid b9=B(bodies[7],8,EdgeAffinity.BeforeInsertion);
-        Guid b10=B(bodies[8],3,EdgeAffinity.ExcludeAtEdge), b11=B(bodies[9],Math.Min(12,Len(bodies[9])),EdgeAffinity.ExcludeAtEdge);
+        Guid b10=B(bodies[8],3,EdgeAffinity.ExcludeAtEdge), b11=B(bodies[9],Math.Min(12,Len(bodies[9])),EdgeAffinity.ExcludeAtEdge), b12=B(bodies[10],2,EdgeAffinity.ExcludeAtEdge), b13=B(bodies[11],Math.Min(14,Len(bodies[11])),EdgeAffinity.ExcludeAtEdge);
         Guid R(Guid start,Guid end,bool multi,string kind){Guid id=Id();s.Ranges[id]=new(id,start,end,multi,kind);return id;}
-        Guid r1=R(b1,b2,true,"comment"), r2=R(b3,b4,true,"style"), r3=R(b5,b6,true,"named_range"), r4=R(b7,b8,true,"suggestion"), r5=R(b9,b9,false,"named_point_anchor"), r6=R(b10,b11,true,"cross_block_multi_interval");
+        Guid r1=R(b1,b2,true,"comment"), r2=R(b3,b4,true,"style"), r3=R(b5,b6,true,"named_range"), r4=R(b7,b8,true,"suggestion"), r5=R(b9,b9,false,"named_point_anchor"); Guid r6=Id(); s.Ranges[r6]=new(r6,b10,b11,true,"cross_block_multi_interval"){Intervals=[new(b10,b11),new(b12,b13)]};
 
         // Links, citations, anchors, cross-references.
         Guid link1=Add("link",bodies[0],"link",D(("href","https://example.invalid/docseye/native"),("label","native authority")));
@@ -201,7 +201,7 @@ public static class N001Generator
         var objectManifest=s.Objects.Values.OrderBy(o=>o.ParentId).ThenBy(o=>o.Order).ThenBy(o=>Ids.Lower(o.Id),StringComparer.Ordinal)
             .Select(o=>new FixtureObjectManifest(Ids.Lower(o.Id),o.Type,o.ParentId is Guid p?Ids.Lower(p):null,Convert.ToHexString(o.Order.Bytes()).ToLowerInvariant(),o.Role,RenderMap(o))).ToArray();
         var boundaryManifest=s.Boundaries.Values.OrderBy(b=>Ids.Lower(b.Id),StringComparer.Ordinal).Select(b=>new FixtureBoundaryManifest(Ids.Lower(b.Id),Ids.Lower(b.OwnerId),b.ScalarOffset,CanonicalCbor.AffinityToken(b.Affinity),b.State.ToString().ToLowerInvariant())).ToArray();
-        var rangeManifest=s.Ranges.Values.OrderBy(r=>Ids.Lower(r.Id),StringComparer.Ordinal).Select(r=>new FixtureRangeManifest(Ids.Lower(r.Id),Ids.Lower(r.StartBoundaryId),Ids.Lower(r.EndBoundaryId),r.AllowMultiInterval,r.Kind,r.State)).ToArray();
+        var rangeManifest=s.Ranges.Values.OrderBy(r=>Ids.Lower(r.Id),StringComparer.Ordinal).Select(r=>new FixtureRangeManifest(Ids.Lower(r.Id),Ids.Lower(r.StartBoundaryId),Ids.Lower(r.EndBoundaryId),r.AllowMultiInterval,r.Kind,r.State,r.EffectiveIntervals.Select(i=>new[]{Ids.Lower(i.StartBoundaryId),Ids.Lower(i.EndBoundaryId)}).ToArray())).ToArray();
         var sentinelText=sentinels.ToDictionary(k=>k.Key,v=>v.Value.Select(Ids.Lower).ToArray(),StringComparer.Ordinal);
         var counts=new Dictionary<string,int>(StringComparer.Ordinal)
         {

@@ -1,143 +1,147 @@
 # 07 — Capability Matrix
 
-Status: **PLANNED CONTRACT / NOT IMPLEMENTED**
+Status: **CANONICAL PREIMPLEMENTATION CONTRACT**
 
-## 1. Legend
+This matrix states architectural ownership and Build 001 intent. It is not a measured support claim.
 
-| Mark | Meaning |
+## 1. Capability-state vocabulary
+
+| State | Meaning |
 | --- | --- |
-| **B1** | required and acceptance-tested in Build 001 |
-| **Obs** | observed/indexed in Build 001 but not generally mutated |
-| **Provider** | operation is routed to a qualified native provider |
-| **Later** | permanent architecture accommodates it; not Build 001 |
-| **No** | deliberately outside DOCSeye or rejected |
+| `supported_native` | operation is defined on native semantic truth and is in the frozen Build 001 slice |
+| `supported_foreign_managed` | operation follows DOCX-first provider/correspondence authority |
+| `supported_with_transform` | typed mapping exists and reports the transformation |
+| `preserved_opaque` | bytes/value retained with scope but not natively understood |
+| `fallback_only` | safe static/native fallback can render; semantic payload remains unknown |
+| `unavailable_provider` | architecture supports a provider class but the qualified provider is not installed/available |
+| `unsupported` | this implementation/profile has no defined operation |
+| `blocked_required_extension` | required unknown semantics intersect the requested action |
+| `stale_revision` | expected revision is no longer current |
+| `divergent_heads` | same branch has unresolved independently committed heads |
+| `invalid` | validation/integrity failure removes write authority |
 
-“Retain” means create a persistent logical correspondence concept with explicit resolution state. It never promises that the concept will have an exact binding after every external edit.
+`unavailable_provider` is not `unsupported`, and neither means native degradation. User authorization/permission is a separate system concern and not encoded here.
 
-## 2. Format and representation matrix
+## 2. Authority-mode matrix
 
-| Representation | Native inspection | Current index | Retained concepts | Typed mutation | Layout/render | Build 001 role |
-| --- | --- | --- | --- | --- | --- | --- |
-| Transitional DOCX package | B1 | B1 | B1 | B1 | via Word | primary editable truth |
-| Live desktop Word document | B1 | reconciled B1 | provider-epoch bindings | bounded Provider | B1 | mandatory native/live/layout authority |
-| Word-exported PDF | Obs | affected pages/regions | derivative relation | No | B1 | derived fixed-format proof |
-| Strict DOCX | experiment/accurate capability report | Later | Later | Later | Later | no silent conversion |
-| DOCM | preservation experiment | opaque/native manifest | No new macro concepts | unrelated bounded edit experiment only | Word smoke | preserve, never execute VBA |
-| General PDF | Later | Later | Later | annotations/forms/pages later | native fixed layout | separate provider |
-| ODF | Later | Later | Later | Later | provider-specific | future provider |
-| Static HTML | Later | Later | Later | Later | browser/render facet | persistent artifact only |
-| Markdown | Later/correlated | Later | Later | provider/source-specific | derived | CODEeye boundary applies |
-| XLSX | opaque/embedded correlation | No deep index | No deep concepts | No | No | DATAeye domain |
-| PPTX | opaque/embedded correlation | No deep index | No deep concepts | No | No | presentation domain |
-| Encrypted Office envelope | capability/error only | No without authorized access | document carrier only | No without provider access | No | truthful inaccessible state |
-
-## 3. DOCX semantic-object matrix
-
-| Object/facet | Index | Query | Retain | Build 001 mutations | Strongest planned exact evidence | Important non-identity evidence |
-| --- | --- | --- | --- | --- | --- | --- |
-| Document | B1 | B1 | intrinsic | open/sync/save transaction | controlled lineage; proven provider/item lineage | path, title, `docId`, hashes |
-| Representation/package | B1 | B1 | intrinsic | copy-on-write commit | exact package/provider revision | ZIP metadata |
-| Story/flow | B1 | B1 | B1 | via contained operations | provider part plus document lineage | display order |
-| Section | B1 | B1 | B1 | inspect; structural effects through typed ops | operation lineage; exact boundary correspondence | ordinal/page |
-| Paragraph | B1 | B1 | B1 | text insert/delete, style, split/merge lineage | operation lineage; scoped `paraId` plus corroboration | text, ordinal, page |
-| Heading role | B1 | B1 | with paragraph | style/role via paragraph style operation | paragraph identity plus provider role | visible text |
-| Text span | B1 | B1 | B1 | exact replacement/format/tracked insert/delete | known transforms; native markers; exact parent/boundaries | phrase, offsets |
-| Run | provider-local | local inspection | normally No | changed as representation consequence | exact current XML node only | formatting similarity |
-| List | B1 derived | B1 | B1 | insert/move/relevel/restart/definition | operation lineage; exact member continuity | `numId`, displayed marker |
-| List item | B1 | B1 | B1 | text, insert, move, level | paragraph identity plus numbering facet | ordinal/display number |
-| Table | B1 | B1 | B1 | structural row/cell operations | operation lineage; exact parent/subtree | ordinal/header text |
-| Row | B1 | B1 | B1 | insert/move/delete | operation lineage; exact native row witness | index/visible values |
-| Physical cell | B1 | B1 | provider binding | content/structural effects | row lineage plus exact native child | coordinate/text |
-| Logical cell/region | B1 derived | B1 | B1 | set/merge/split where supported | operation lineage; row/table/topology/descendants | row/column coordinate |
-| Style definition | B1 | B1 | B1 | apply and bounded definition mutation | document-scoped style ID plus lineage | visible name |
-| Effective formatting | B1 derived | B1 | revision-local projection | No direct mutation | provider-computed at exact revision | visual appearance |
-| Comment/thread | B1 | B1 | B1 | add/reply/resolve exact | operation lineage; modern durable ID; legacy ID+anchor | quoted text/author/time |
-| Native tracked change | B1 | B1 | B1 | create insertion/deletion; accept exact | operation lineage; exact provider element/witnesses | author/text/time/index |
-| Field | B1 | B1 | B1 | request qualified update/state change | exact owning structure/instruction | cached result alone |
-| Content control | B1 | B1 | B1 | set exact value | Word control ID in proven document lineage | tag/title/text |
-| Bookmark | B1 | B1 | B1 | exact add/update | exact paired markers and operation lineage | name/text |
-| Hyperlink | B1 | B1 | B1 | add/update bounded link | exact relation and owning span/object | visible URL text |
-| Footnote/endnote | B1 | B1 | B1 | inspect in B1 | native note ID plus exact document lineage | displayed ordinal |
-| Figure occurrence | B1 | B1 | B1 | alt text; placement observation | operation/drawing anchor/relationship lineage | media hash/location |
-| Media asset | B1 lazy | B1 | B1 where useful | preserve; no general B1 byte edit | exact part relation and digest | filename/perceptual similarity |
-| OMML math | B1 | B1 | B1 | inspect/preserve | exact native subtree and parent lineage | rendered Unicode/text |
-| Embedded/OLE/custom part | manifest/opaque | B1 metadata | only as opaque provider object | preserve, not execute | exact part/relationship | filename/content guess |
-| Custom XML binding | B1 relation | B1 | with control | preserve/set through qualified control | exact mapping/control/provider lineage | XPath text alone |
-| Header/footer inheritance | B1 derived | B1 | source semantic objects | inspect; effects through exact source edits | exact section/source relationship | visible duplicated content |
-
-## 4. Assurance and write eligibility
-
-Observation origin and mutation resolution are deliberately separate axes.
-
-| Observation origin | Meaning | May support exact mutation by itself? |
-| --- | --- | --- |
-| `native_stored` | directly encoded in the current provider artifact | only with exact object binding/preconditions |
-| `native_live` | current native application state | only within the proven provider epoch/revision |
-| `provider_computed` | provider-derived formatting/layout/result | no; target must be semantic/native exact |
-| `reconstructed_exact` | deterministically reconstructed from proven lineage | yes, if resolution is `exact_rebased` |
-| `heuristic_structure` | inferred grouping/reading order | no |
-| `ocr_derived` | recognition over rendered pixels | no |
-| `visual_inferred` | vision-derived observation | no |
-
-| Resolution | Read behavior | Write behavior |
-| --- | --- | --- |
-| `exact_current` | current object returned | permitted with revision/precondition checks |
-| `exact_rebased` | current object plus rebase evidence returned | permitted with revision/precondition checks |
-| `stale` | old concept and reason may be inspected | rejected |
-| `ambiguous` | candidates may be returned for user/model selection as a new action | old handle rejected |
-| `destroyed` | lifecycle result returned | rejected |
-| `inferred` | derived observation returned with assurance | rejected until explicitly bound to exact native truth |
-
-## 5. Transaction operation matrix
-
-| Operation family | Package provider | Word provider | Build 001 acceptance |
+| Question | Native DND | Foreign-managed DOCX | Converted/imported DOCX |
 | --- | --- | --- | --- |
-| exact plain text replacement/insertion | preferred when safe | when Word owns live state | B1 |
-| direct character/paragraph formatting | bounded typed patch | live-state route | B1 |
-| paragraph style assignment | bounded typed patch | live-state route | B1 |
-| list structure/definition | typed OOXML where proven | provider fallback if needed | B1 bounded set |
-| table row/cell mutation | typed topology-aware patch | provider fallback if needed | B1 bounded set |
-| comment add/reply/resolve | package where exact modern/legacy semantics proven | mandatory fallback/native behavior | B1 |
-| native tracked insert/delete/accept | package only if experiments prove output | qualified Word path expected | B1 |
-| content-control value | package where binding semantics safe | qualified Word path | B1 |
-| bookmark upsert | bounded package edit | live-state route | B1 |
-| hyperlink add | bounded part plus relationship edit | live-state route | B1 |
-| field update/recalculation | request flag only, not result authority | authoritative Word update | B1 via Word |
-| figure alt text | bounded drawing-property edit | live-state route | B1 |
-| arbitrary drawing/chart/OLE reconstruction | No | No general promise | Later/unsupported |
-| raw XML/ZIP escape hatch | expert diagnostic only | n/a | never counts toward B1 Program Host |
+| editable semantic authority | DND | DOCX/provider | DND |
+| semantic IDs | intrinsic family/branch/object/boundary IDs | external DOCSeye correspondence + provider evidence | intrinsic native IDs; provider IDs evidence only |
+| revision precondition | native `revision_id`/root | coherent provider/representation/physical clocks | native `revision_id`/root |
+| atomic transaction | native SQLite semantic commit | old DOCX-first provider transaction/patch contract | native SQLite semantic commit |
+| retained text anchors | native boundary objects | provider markers + correspondence/history | native boundary objects; imported markers may be facets |
+| unknown semantics | extension envelope/coverage | preserve OOXML/MC/package content | scoped provider facets/capsule plus native extensions |
+| source capsule | optional/not applicable | artifact itself is source authority | optional immutable evidence; default when round trip requested |
+| renderer dependence | none for semantics | provider-specific | none for semantics |
+| Word dependence | none | capability/profile dependent | none for native semantics; optional Microsoft observation |
 
-## 6. Query, delta, layout, and render matrix
+Mode transition from foreign-managed to converted is explicit. There is no automatic transition back and no dual-authority state.
 
-| Capability | Build 001 | Contract |
+## 3. Native semantic capability
+
+| Capability | Build 001 intent | Authority/notes |
 | --- | --- | --- |
-| Heading/section queries | B1 | compact hierarchy and semantic slices |
-| Full-text search | B1 | local FTS; embeddings optional later and never identity |
-| Table predicate/topology query | B1 | operates on logical topology, not tab text |
-| Comment/change/control/field queries | B1 | native/provider facets and explicit projections |
-| Changes since revision | B1 | bounded semantic delta, explicit `resync_required` gap |
-| Document/provider synchronization | B1 | named scopes and coherent revision result |
-| Layout wait | B1 | result must name Word provider/configuration and source revision |
-| Affected-page mapping | B1 | layout-revision-scoped pages/regions correlated to semantic objects |
-| Page rendering | B1 | affected pages only in D; pixels are render truth |
-| Cross-engine pagination equality | No | engines remain separately labeled |
+| root/flows/sections/blocks | `supported_native` | public identity for targetable objects |
+| paragraphs/headings | `supported_native` | heading is semantic role, not font/style inference |
+| text query by offsets | `supported_native` | revision-local only |
+| retained ranges/boundaries | `supported_native` | explicit mutation; portable stable identity |
+| lists/items/restart | `supported_native` | membership distinct from marker display |
+| tables/rows/columns/cells/regions | `supported_native` | coordinates are locations; merge/split remint affected cells |
+| styles/themes/direct overrides | `supported_native` | deterministic six-layer resolution |
+| comments/threads/replies | `supported_native` | exact targets; orphan state |
+| six suggestion types | `supported_native` | current content, not revision ledger |
+| bounded fields | `supported_native` | explicit evaluation policy/staleness |
+| eight control types | `supported_native` | external bindings inert/typed |
+| notes/anchors/references/citations | `supported_native` | exact ID/boundary targeting |
+| figures/assets/SVG | `supported_native` | figure occurrence separate from SHA-256 asset |
+| MathML + TeX facet | `supported_native` after E-20 mechanism | OMML stays provider facet |
+| generic drawing program | `unsupported` | SVG asset or provider facet instead |
+| deep chart computation | `unsupported` | DATAeye-owned |
+| extensions | `supported_native` under envelope | unknown disjoint preserved; unsafe intersection blocked/invalidate optional |
+| active code/macros/OLE execution | `unsupported` | inert preservation only |
+| live collaboration/CRDT sync | `unsupported` in Build 001 | future requirement only |
 
-## 7. Failure/capability outcomes
+## 4. Identity and transaction capability
 
-The gateway and SDK return typed outcomes, including:
+| Capability | Build 001 intent | Required outcome |
+| --- | --- | --- |
+| save/move/rename | `supported_native` | family/branch/object identity stable |
+| controlled replica | `supported_native` | same branch snapshot until divergence |
+| raw-copy divergence | `supported_native` | `divergent_heads`, no write until explicit resolution |
+| Save As / explicit fork | `supported_native` | same family, new branch, full public-ID/boundary remint |
+| independent duplicate/template | `supported_native` | new family/branch/full remint |
+| within-branch copy | `supported_native` | copied subgraph reminted; immutable asset may share |
+| cross-branch/family paste | `supported_native` | incoming occurrence IDs reminted |
+| split/merge | `supported_native` | all affected semantic objects reminted; exact bounded lineage |
+| stale write | `stale_revision` | zero mutation |
+| ambiguous target | `unsupported` for write | explicit ambiguous/non-write result |
+| multi-operation transaction | `supported_native` | one old-or-new commit/revision/root/delta |
+| post-commit response loss | `supported_native` | bounded idempotency outcome query; no blind replay |
+| bounded delta | `supported_native` | exact; gap/expiry returns resync |
+| artifact-only recovery | `supported_native` | identity/semantics exact after runtime deletion |
 
-- `stale_document_revision`;
-- `stale_provider_revision`;
-- `stale_target`;
-- `ambiguous_target`;
-- `destroyed_target`;
-- `unsupported_exact_mutation`;
-- `unsafe_preservation_boundary`;
-- `provider_unavailable` or `provider_ahead`;
-- `package_invalid`;
-- `signature_impact`;
-- `encrypted_inaccessible`;
-- `resync_required`;
-- `layout_not_current`.
+## 5. Layout, HTML, and PDF capability
 
-None is converted into a best-effort mutation. A capability matrix is truthful only when unsupported and uncertain states remain observable.
+| Capability | Provider | Build 001 requirement |
+| --- | --- | --- |
+| layout intent | DND | semantic authority for page/media/column/break/keep/header/footer/table/note/language intent |
+| paginated realization | Typst candidate | qualified LayoutRevision, warnings, source-region mapping; E-12 gate |
+| continuous accessible view | HTML + pinned Chromium | semantic HTML, source attributes, accessibility mapping; DOM non-authoritative |
+| web export | HTML | derived output with revision/root attribution |
+| paginated PDF | Typst candidate | tagged PDF/UA-1, independently validated, exact source/layout attribution |
+| browser PDF | Chromium | optional comparison; not native oracle |
+| Microsoft layout/PDF | Word | `unavailable_provider` on STEALTHEYELLC; optional future observation |
+| pages/regions | layout provider | LayoutRevision-scoped, never semantic identity |
+| vertical writing beyond tested fixture | provider capability | honestly `unsupported`/reported unless E-12 proves support |
+
+Native capability remains `supported_native` when Word is `unavailable_provider`.
+
+## 6. DOCX capability
+
+| Capability | Build 001 boundary | Outcome/evidence |
+| --- | --- | --- |
+| unconverted DOCX inspection/edit | historical foreign-managed mode | `supported_foreign_managed` under DOCX-first baseline; outside replacement native A–D |
+| F-001 import | required X-01 | native concepts + scoped facets/opaque content + exact capsule/report |
+| untouched source reuse | required X-02 | `exact_source_reuse` + package/schema evidence as run |
+| bounded preserved patch | required X-02 | `preserved_patch` with untouched preservation report |
+| translated export | required X-02/X-04 | `translated_conformant` or `translated_with_declared_loss` |
+| unknown required intersection | required X-03 | `blocked` unless a declared safe transform applies |
+| OPC/package validation | required X-04 | `package_validated` |
+| OOXML schema validation | required X-04 | `schema_validated` |
+| LibreOffice open/save smoke | required X-04 | `alternate_provider_observed`; exact profile recorded |
+| Word open/save/layout | not Build 001 | `unavailable_provider`, later conditional `microsoft_observed` only |
+| broad DOCX feature coverage | `unsupported` in Build 001 | later provider expansion, never implied by F-001 |
+
+Canonical semantic export outcomes are exactly: `exact_source_reuse`, `preserved_patch`, `translated_conformant`, `translated_with_declared_loss`, `unsupported`, and `blocked`.
+
+## 7. ODF and other providers
+
+| Provider | Build 001 | Architectural status |
+| --- | --- | --- |
+| ODF 1.4 | `unsupported` | peer future import/export provider |
+| LibreOffice as ODF renderer | not required | possible future provider |
+| LibreOffice as DOCX observer | required X-04 | alternate-provider evidence only |
+| Microsoft Word | not required/present | optional future Microsoft oracle/provider |
+| PDF input | not Build 001 | future fixed-layout provider, not native reflow model |
+| DocLang | not authority/provider in Build 001 | possible future AI-facing derived representation after scoped decision |
+
+## 8. Capability-report minimum fields
+
+Every operation/report includes:
+
+- mode and semantic authority;
+- family/branch/revision/root;
+- operation/object/coverage scope;
+- capability state and reason;
+- required provider and provider availability;
+- transformation/loss/fallback plan;
+- extension/provider-facet effects;
+- source-capsule alignment where relevant;
+- layout/render/provider environment and warnings where relevant;
+- semantic translation outcome and separate observation evidence for export;
+- no Boolean “high fidelity” field.
+
+## 9. Status truth
+
+Every item above is a frozen intended capability or non-capability. Build 001 has not started, so no row may be read as a passing implementation result.

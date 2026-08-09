@@ -1,131 +1,81 @@
 # 04 — Roadmap
 
-Status: **Build 001 planned; no implementation started**
+Status: **CANONICAL DIRECTION / BUILD 001 FROZEN**
 
-## 1. Sequencing rule
+This roadmap names capability horizons, not dates. No schedule or Build 002 acceptance contract is implied.
 
-DOCSeye advances by decisive vertical slices, not by accumulating format wrappers. A build is complete only when its hostile correctness gates pass. A provider, object type, or operation that cannot satisfy exact targeting and preservation is reported as unsupported rather than quietly approximated.
+## 1. Build 001 — native core and bounded DOCX boundary
 
-The only authorized implementation scope at this freeze is Build 001.
+Build 001 proves the permanent architecture:
 
-## 2. Pre-implementation gate
+- open deterministic native logical specification and independent canonical vectors;
+- intrinsic family/branch/revision/object/boundary identity;
+- raw-replica divergence, fork/remint, merge, copy/paste, split/merge, and bounded retirement;
+- revision-conditioned atomic transactions, SHA-256 semantic root, exact deltas, and crash recovery;
+- UTF-8 retained-boundary semantics without speculative collaboration history;
+- narrow authored ontology, extension coverage/edit contract, assets, and layout intent;
+- SQLite application-file portability plus rebuildable external indexes;
+- Typst paginated mapping and HTML/Chromium continuous mapping;
+- source-attributed tagged PDF/UA-1 and accessible HTML under a pinned environment;
+- one adversarial DOCX import/capsule/export supplement without Microsoft Word;
+- one 96-call, zero-model Program Host workflow.
 
-Before implementation begins:
+The 20 experiments, A–D acceptance, 32 native cases, 4 provider cases, metrics, and falsifiers are frozen in [02-BUILD-001-SLICE.md](02-BUILD-001-SLICE.md).
 
-1. read the canonical documents in `AUTHORITY.md` order;
-2. record the exact architecture-freeze commit;
-3. complete the STEALTHEYELLC preflight in issue #1;
-4. pin corrected toolchain dependencies;
-5. create the deterministic fixture specification and oracle without implementing product shortcuts;
-6. confirm issues #1–#5 still match the canonical documents;
-7. preserve the documentation-only baseline in Git.
+## 2. Immediate post-Build-001 decision point
 
-## 3. Build 001 — Persistent Document Correspondence Kernel Slice
+If all required cases pass, publish implementation results in the then-created `docs/09-BUILD-001-RESULTS.md` and retain the native architecture. If an architectural falsifier fails, stop and reopen only that question. Do not proceed by silently weakening identity, anchors, extensions, Word independence, or fidelity reporting.
 
-### Objective
+No additional generic DOCSeye architecture research pass is planned after a clean acceptance. Targeted experiments already named by the freeze are the next source of evidence.
 
-Prove the complete permanent spine against editable Transitional DOCX and a mandatory bounded Word provider.
+## 3. Later interoperability horizons
 
-### Workstreams
+Possible later work, each requiring its own scoped decision and acceptance:
 
-| Workstream | Scope | Exit gate |
-| --- | --- | --- |
-| #1 Environment and experiments | platform preflight and all 30 bounded experiments | every experiment records evidence and a mechanism conclusion |
-| #2 Milestone A | package ingestion, full index, retained concepts, persistence, recovery | exact 24/24 unchanged restart and 14 exact / 6 stale-destroyed / 4 ambiguous external recovery |
-| #3 Milestone B | typed transactions, preservation contract, deltas, concurrency, Word layout | atomic commits, exact/ambiguous rebase behavior, no footprint escape, current layout |
-| #4 Milestone C and D | all 54 hostile cases and exact 60-call Program Host workflow | every zero/positive metric passes |
-| #5 Parent acceptance | cross-workstream integration, benchmark, smoke, cleanup, results | `docs/09-BUILD-001-RESULTS.md`, all child gates closed |
+- broader DOCX feature coverage and more provider fixtures;
+- conditional Microsoft Word oracle/provider suite on licensed Windows;
+- ODF 1.4 import/export as a peer provider;
+- provider-version profiles and improved source-capsule patching;
+- additional HTML/PDF providers where capabilities justify them;
+- signatures/encryption over proven semantic-root dependency closure.
 
-### Build order
+Word observations remain Microsoft-specific evidence and never retroactively change native semantic authority.
 
-The recommended order is:
+## 4. Later native-product horizons
 
-```mermaid
-flowchart TD
-    A["Preflight and 30 experiments"] --> B["Package truth and index"]
-    B --> C["Correspondence and recovery"]
-    C --> D["Transactions and preservation"]
-    D --> E["Word layout/native adapter"]
-    E --> F["Deltas and Program Host"]
-    F --> G["54 hostile cases"]
-    G --> H["60-call workflow and benchmark"]
-    H --> I["Measured results and acceptance"]
-```
+Possible later work includes:
 
-This ordering does not authorize implementing only the easy package path and deferring Word or preservation. Both are required parts of the Build 001 exit gate.
+- collaborative branch/merge or CRDT/OT only if an actual multi-operator requirement appears;
+- native visual editing surfaces without moving authority into the UI/DOM;
+- richer bibliography/provider integrations;
+- richer charts through DATAeye-owned computation;
+- additional extension namespaces and public conformance implementations;
+- managed signature/encryption profiles using open cryptography.
 
-### Completion state
+These are not Build 001 requirements and must not inflate it.
 
-At freeze time:
+## 5. Cross-substrate discipline
 
-| Item | State |
-| --- | --- |
-| Architecture | FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001 |
-| Source code | NOT STARTED |
-| Fixtures/adversary | NOT STARTED |
-| Experiments | NOT RUN |
-| Milestones A–D | PLANNED / NOT IMPLEMENTED |
-| Benchmark | NOT RUN |
-| Acceptance | NOT RUN |
+DOCSeye remains focused on authored reflowable documents:
 
-## 4. Build 002 candidate — Provider hardening and PDF observation
+- DATAeye owns spreadsheet/dataset computation and deep chart data;
+- a presentation substrate owns slide/animation semantics;
+- CODEeye owns source/repository semantics;
+- eyeBROWSE owns live web/DOM/session state;
+- MEDIAeye owns temporal media;
+- DESKTOPeye owns app/UI state;
+- SHELLeye owns physical carriers and publication.
 
-This is a candidate direction, not authorized scope. It may begin only after Build 001 passes and a new freeze records its exact thesis.
+Future relations should use small exact correspondence contracts. They do not justify a universal graph or ontology merger.
 
-Candidate questions:
+## 6. Explicit exclusions from this roadmap
 
-- harden Strict OOXML and `.docm` preservation beyond experiments;
-- broaden native comments, revisions, fields, sections, shapes, and charts;
-- add PDF as a first-class fixed-layout/tagged provider for inspection, annotations, forms, pages, outlines, and exact native redaction where supported;
-- test DOCX-to-PDF source/structure/page correspondence;
-- add a LibreOffice fidelity/layout adversary or provider;
-- validate much larger documents and bounded-history policies.
+This file does not authorize:
 
-Build 002 must not reinterpret heuristic PDF paragraphs as exact DOCX-like mutation objects.
-
-## 5. Later provider candidates
-
-Subject to separate research and freeze passes:
-
-| Candidate | Intended boundary |
-| --- | --- |
-| ODF | native ODF package, content, style, change, and layout facets |
-| Static HTML | persistent serialized HTML/document semantics; live state remains eyeBROWSE |
-| Markdown | document/publishing facet correlated with CODEeye source truth |
-| Cloud Word/Google Docs | provider-native item/revision/named-range/coauthoring semantics |
-| OCR/inference | explicitly derived observations over fixed-layout/scanned material |
-
-PPTX and XLSX do not become DOCSeye providers merely because they use OPC. Deep presentation semantics belong to a presentation substrate; workbook/formula semantics belong to DATAeye.
-
-## 6. Permanent non-roadmap
-
-The following are not hidden future obligations of DOCSeye:
-
-- one universal document AST;
-- fuzzy mutation targeting;
-- mandatory hidden ID injection;
-- Word as the sole canonical store;
-- a document graph database or permanent action ledger;
-- general file conversion;
-- arbitrary rich PDF content-stream editing;
-- custom Word-compatible pagination;
-- macro/OLE execution;
-- Office UI automation inside the kernel;
-- XLSX/PPTX ownership.
-
-Any later proposal that introduces one of these must reopen the architecture explicitly and demonstrate why the frozen invariants still hold.
-
-## 7. Change control
-
-Build 001 experiments may change mechanisms—such as lexical patch granularity, exact Word API choice, or streaming thresholds—without reopening the architecture. They may not silently change:
-
-- logical versus provider-native identity;
-- exact-or-stale mutation;
-- provider authority;
-- the separate revision model;
-- full current indexing plus sparse durable promotion;
-- two-dimensional mutation contracts;
-- preservation outside mutation closure;
-- 54 hostile cases, 60 typed calls, or zero metrics.
-
-A semantic change requires an explicit decision update, canonical-document patch, and review before implementation relies on it.
+- Build 001 source or fixture creation;
+- package installation;
+- Microsoft Word or Microsoft 365 trial installation;
+- a visual word processor;
+- a server-side unattended Office architecture;
+- Build 002 issues, detailed milestones, or dates;
+- claims that any experiment, renderer, DOCX round trip, or acceptance has passed.

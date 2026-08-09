@@ -1,244 +1,153 @@
 # 08 — Workflow Pressure Tests
 
-Status: **DESIGN PRESSURE TESTS / NOT EXECUTED**
+Status: **CANONICAL ARCHITECTURE PRESSURE TESTS / NOT EXECUTED**
 
-## 1. Purpose
+These workflows test authority, identity, failure, and capability honesty. They do not claim implementation results.
 
-These workflows test whether the frozen architecture remains coherent when used as ChatGPT would actually use it. They are architectural walkthroughs, not Build 001 evidence. Measured acceptance comes only from `02-BUILD-001-SLICE.md` and the future results document.
+## 1. Create a native professional document
 
-Each workflow must preserve two invariants:
+**Setup:** no provider source; create a native family/branch and the N-001 ontology features.  
+**Required path:** typed objects, roles/styles, assets/math, fields/controls, layout intent, one atomic initial revision/root, then HTML/PDF providers.  
+**Pressure:** artifact and runtime state are separated; output provider warnings are visible.  
+**Success:** native semantics remain complete without Typst/Chromium/Word; renders attribute exact source/layout revision.  
+**Failure:** generated Typst/HTML becomes editable truth, pages become semantic IDs, or Word absence degrades native support.
 
-1. the old handle either reaches the provable current object or refuses to mutate;
-2. accepted work changes only its declared semantic effect and serialization footprint.
+## 2. Edit a retained span across revisions
 
-## 2. Inspect a large policy document without retransmitting it
+**Setup:** two overlapping retained ranges, co-located independent boundaries, repeated quotation, combining/emoji/bidi text.  
+**Required path:** explicit edge policy; insert/delete/replace; split/merge owner; consume deltas.  
+**Pressure:** no permanent transaction history and no text-similarity recovery.  
+**Success:** exact live/collapsed/orphaned/destroyed/multi-interval states and zero wrong anchor mutation.  
+**Failure:** a comment rebounds to repeated text, a cross-reference retargets, or an ordinary read rewrites the document.
 
-**Request:** “Find every unresolved comment under the Security heading, summarize the concerns, and show the two relevant tables.”
+## 3. Reorder duplicate table rows
 
-```mermaid
-flowchart TD
-    A["Sync exact current revision"] --> B["Query heading tree and Security subtree"]
-    B --> C["Query unresolved native comments in subtree"]
-    C --> D["Hydrate two matching table slices"]
-    D --> E["Return compact summary with retained exact objects"]
-```
+**Setup:** two visually and byte-equivalent rows with distinct row/cell IDs.  
+**Required path:** query exact IDs, move one row, insert another, duplicate one, merge/split cells.  
+**Pressure:** coordinates and visible values are indistinguishable evidence.  
+**Success:** moved IDs survive, copied IDs remint, cell lifecycle is exact, header/topology remains valid.  
+**Failure:** coordinate/value matching mutates the wrong row or a copied cell aliases its source.
 
-Pressure points:
+## 4. Raw replica divergence, fork, and merge
 
-- full current index makes the search local;
-- comment anchors and tables remain semantic objects rather than flattened text;
-- the model receives only bounded semantic slices;
-- no persistent ID is assigned to every query hit unless retained;
-- no document mutation or layout rendering is needed.
+**Setup:** copy `A.dnd` byte-for-byte to `B.dnd`, then commit independently.  
+**Required path:** SHELLeye distinguishes carriers; DOCSeye observes common branch/base and divergent heads; writes stop; caller selects fork or merge.  
+**Pressure:** embedded IDs necessarily cloned and timestamps/paths appear tempting.  
+**Success:** `divergent_heads`; fork remints all public IDs/boundaries; merge records explicit mappings/bounded parents.  
+**Failure:** last-writer wins silently, path defines branch, open mutates IDs, or source handle actuates fork.
 
-Failure that would falsify the architecture: the kernel must resend or reparse the whole document for every turn, or the response cannot distinguish comment text from anchor text.
+## 5. Copy/paste and template instantiation
 
-## 3. Edit the middle of identical sentences after external offset drift
+**Setup:** section with comments, fields, controls, figures sharing an asset, retained anchors, and provider facets.  
+**Required path:** within-branch copy, cross-branch paste, cross-family paste, and template instantiate.  
+**Pressure:** deep subgraph references and optional/required unknown facets.  
+**Success:** every occurrence/boundary remints; asset digest may share; facets transform exactly or refuse/declare omission; provenance bounded.  
+**Failure:** copied comments/controls alias source, unknown required meaning drops, or byte equality collapses families.
 
-**Request sequence:** retain the middle of three identical sentences; an external editor inserts text above and introduces a fourth identical sentence; later replace the retained span.
+## 6. Comments and suggestions under deletion
 
-Required behavior:
+**Setup:** open/resolved threads and all six suggestion kinds over retained targets.  
+**Required path:** partial deletion, whole-target deletion, accept/reject, owner deletion, reply/resolution.  
+**Pressure:** quoted text remains elsewhere.  
+**Success:** comments orphan conservatively, suggestions apply/reject atomically then retire, no accepted-change ledger.  
+**Failure:** quote rebound, accepted suggestion mistaken for revision history, or partial review mutation commits.
 
-1. recover the exact parent paragraph;
-2. apply known transforms and surviving native boundary evidence;
-3. prove a unique start/end mapping and precondition;
-4. mutate only if the result is `exact_rebased`;
-5. otherwise return `ambiguous_target` with candidates for a new explicit selection.
+## 7. Global style change without semantic-role drift
 
-Text search, nearest occurrence, embeddings, page location, and old offsets cannot authorize the old write.
+**Setup:** headings/body/list/table styles using theme tokens plus direct override.  
+**Required path:** change one theme token; query effective style/provenance; render both profiles.  
+**Pressure:** direct override and media profile must resolve deterministically.  
+**Success:** heading roles/IDs remain; affected effective styles and layout invalidations are exact.  
+**Failure:** font change reclassifies heading, full CSS ambiguity, or provider computed formatting overwrites native sources.
 
-This is Build 001 case C-20 and the primary wrong-span killer.
+## 8. Full repagination
 
-## 4. Update a retained table cell after duplicate-row edits
+**Setup:** early text edit before large table, footnote, wrapped figure, headers/footer, and page-count field.  
+**Required path:** semantic commit invalidates layout; provider creates a new LayoutRevision and render.  
+**Pressure:** most pages move while semantics mostly survive.  
+**Success:** semantic IDs stable; old pages remain scoped to old layout; page field is stale then qualified; source mapping exact.  
+**Failure:** pages acquire semantic continuity, stale layout is labeled current, or render uses wrong source revision.
 
-**Request sequence:** retain a cell in one of two visually identical rows; insert a row above; move the retained row; duplicate its values; delete/recreate another identical row; then update the old cell.
+## 9. Render accessible HTML and PDF
 
-The kernel must evaluate:
+**Setup:** N-001 typography/accessibility fixture under pinned fonts/providers.  
+**Required path:** semantic mapping to HTML and Typst, browser/accessibility check, tagged PDF/UA-1 validation, source maps.  
+**Pressure:** Arabic/bidi, CJK, Indic, combining, emoji, fallback, table headers, note order, alt text.  
+**Success:** 100% required-object mapping; output/profile warnings reported; Word counters remain zero.  
+**Failure:** output existence is called professional without validation, tags/source attribution missing, or Word-generated oracle is hidden.
 
-- exact table concept;
-- row operation/native lineage;
-- physical cell realization;
-- logical grid interval and merge topology;
-- descendant anchors and structural neighbors;
-- the intervening revision sequence.
+## 10. Import an adversarial DOCX
 
-If the original row/cell is provable, its coordinate may change while identity persists. If evidence is insufficient, the handle is stale/ambiguous. It can never follow the old coordinate or matching values.
+**Setup:** F-001 contains mapped, partially mapped, unknown MC/custom, OMML, controls/revisions/comments, and inert active content.  
+**Required path:** raw OPC/OOXML inspection, typed mapping, scoped provider facets, exact source capsule, capability report, native conversion commit.  
+**Pressure:** importer cannot honestly normalize all features.  
+**Success:** every feature classified; native IDs minted; original bytes remain evidence only; no active content executes.  
+**Failure:** unsupported part disappears, provider ID becomes native ID, or capsule silently retains semantic authority.
 
-This is C-27 and the primary general identity killer.
+## 11. Edit supported imported content
 
-## 5. Bulk editorial pass with comments and native tracking
+**Setup:** converted F-001 with exact capsule and mappings.  
+**Required path:** edit a supported paragraph/list/table/comment disjoint from unknown coverage; update alignment; plan preserved patch.  
+**Pressure:** untouched foreign data must survive while native edit wins semantically.  
+**Success:** DND is sole current truth; source capsule immutable; disjoint provider facets preserved; export outcome exact.  
+**Failure:** source bytes overwrite native edit, whole DOCX normalizes unnecessarily, or report says exact source reuse after a semantic change.
 
-**Request:** “In one operation, revise this section, add two comments, track the substantive insertions/deletions, update a content control, and add a table row.”
+## 12. Encounter an unsupported provider feature
 
-Required flow:
+**Setup:** requested edit intersects an unknown required text/topology facet.  
+**Required path:** evaluate extension/provider coverage before mutation.  
+**Pressure:** payload can be preserved but not safely transformed.  
+**Success:** `blocked_required_extension`/`blocked` with scope/reason; zero commit.  
+**Failure:** edit proceeds, payload drops, scope escapes, or “best effort” is reported as conformant.
 
-1. begin one expected-revision transaction;
-2. resolve every target inside the same coherent representation;
-3. route plain/package-safe operations to the package provider and native-only/live operations through Word without losing transaction semantics;
-4. validate semantic effect and serialization footprint;
-5. recheck provider/physical revisions;
-6. commit one logical DocumentRevision or nothing;
-7. emit a compact delta that distinguishes DOCSeye revision from native tracked changes;
-8. invalidate layout.
+## 13. Export with a capability report
 
-Failure: six loosely sequenced saves, a native tracked change confused with document history, or partial success after a conflict.
+**Setup:** one untouched converted state, one disjoint edited state, and one unsafe-intersection request.  
+**Required path:** exact source reuse, preserved patch, translation/loss/refusal as appropriate; package/schema and LibreOffice observation.  
+**Pressure:** schema validity, alternate provider, and Microsoft behavior are distinct.  
+**Success:** one of six semantic outcomes plus separate evidence; no Boolean high-fidelity claim; no `microsoft_observed`.  
+**Failure:** LibreOffice is called Word evidence, schema validity is called Microsoft fidelity, or unknown loss is hidden.
 
-## 6. Word is open with unsaved edits
+## 14. Large local Program Host workflow
 
-**Request:** edit a paragraph while the corresponding Word document has newer unsaved user changes.
+**Setup:** N-001, independent external writer checkpoint, and exact 96-call script.  
+**Required path:** 18 queries, 48 mutations/16 families, 3 commits, 6 delta calls, 6 checks/refusals, 4 reconciliation, 4 layout/render, 4 export/capability; one invocation.  
+**Pressure:** no intermediate model, no raw SQL/CBOR/OOXML escape, stale and extension refusal branches.  
+**Success:** exact call arithmetic, 48 requested mutations, zero unrequested, exact external reconciliation, HTML/PDF/DOCX plan/report.  
+**Failure:** padding/no-op calls, hidden giant raw script, model re-entry, lost delta, or uncounted semantic mutation.
 
-Required behavior:
+## 15. Runtime loss and index rebuild
 
-- provider coherence reports Word ahead of package;
-- package mutation cannot proceed against the stale disk state;
-- the broker routes through the exact live Word provider epoch, requests a coherent save/snapshot, or returns `provider_ahead`/conflict;
-- a stale COM/Office.js handle from an older epoch is rejected;
-- a successful result identifies the new DocumentRevision, Word ProviderRevision, and persisted PackageRevision relationship.
+**Setup:** committed 5,000-page-equivalent DND with FTS/accelerators/caches.  
+**Required path:** delete runtime directory, reopen artifact, rebuild, query/edit one paragraph, expire one cursor.  
+**Pressure:** runtime previously contained all accelerators.  
+**Success:** identity/root exact; indexes rebuild; local edit remains local; expired cursor resyncs explicitly.  
+**Failure:** IDs remint, semantics depend on FTS/cache, whole-document response is required for every edit, or delta gap is silent.
 
-Failure: silently overwriting the live changes with a patched disk package.
+## 16. Crash and ambiguous response
 
-## 7. External Word save while a transaction is staged
+**Setup:** multi-object transaction with object, text, extension, root/head, and 1 GiB streamed-asset writes.  
+**Required path:** inject failures at every publication stage and lose one post-commit response.  
+**Pressure:** rollback journal/hot state and carrier publication may be in flight.  
+**Success:** old or new whole revision only; bounded idempotency query prevents replay; SHELLeye publishes coherently.  
+**Failure:** mixed root/data, acknowledged partial, hot journal discarded, or retry duplicates mutation.
 
-**Request sequence:** begin at D42/P42, stage several edits, then Word or another process saves D43 before commit.
+## 17. Invalid native artifact and explicit repair
 
-Required behavior:
+**Setup:** duplicate object/boundary IDs, broken reference, corrupt asset/extension, invalid root, malformed CBOR.  
+**Required path:** layered validation, non-write classification, explicit repair proposal.  
+**Pressure:** a superficially plausible object could be substituted.  
+**Success:** invalid artifact never writable; no identity silently minted; uncertain repair creates new branch/artifact with provenance.  
+**Failure:** validator regenerates IDs/root and proceeds as if continuity were proved.
 
-1. precommit revalidation sees the provider/physical mismatch;
-2. if every operation and precondition transforms exactly onto D43, construct and validate a fresh transaction;
-3. otherwise abort with a typed conflict;
-4. never replace the new carrier blindly;
-5. publish no D44 if physical commit did not succeed.
+## 18. Capability-unavailable versus unsupported
 
-This is C-51. The transaction cannot rely only on the revision checked at begin time.
+**Setup:** native document on STEALTHEYELLC with Word absent, plus a request for native render and a separate Microsoft-specific observation.  
+**Required path:** native render uses Typst/HTML; Microsoft request reports provider unavailable.  
+**Pressure:** product status dashboards often collapse provider absence into general degradation.  
+**Success:** native capability remains supported; only Microsoft scope is `unavailable_provider`.  
+**Failure:** Word becomes a hidden native dependency or unsupported is falsely reported as temporary absence.
 
-## 8. Save As, copy, rename, and PDF export
+## 19. Pressure-test completion rule
 
-| Event | Required correspondence result |
-| --- | --- |
-| Rename/move with exact physical continuity | same `document_*`, new location binding |
-| DOCSeye atomic save | same document, new representation/document revision |
-| Word save with exact live lineage | same document, new revision |
-| Save As | new document with `DERIVED_FROM source@revision` |
-| Raw copy/email attachment | new branch candidate; copied IDs do not prove sameness |
-| Unrelated file at old path | old binding detached; no path rebound |
-| DOCX-to-PDF export | new derivative fixed-layout document or retained render revision |
-
-This workflow pressure-tests logical branch identity against physical-carrier convenience.
-
-## 9. Update a TOC and page-dependent fields
-
-**Request:** change a heading, update the TOC/PAGE/PAGEREF fields, and report affected pages.
-
-Required behavior:
-
-- heading/style mutation creates a new semantic DocumentRevision;
-- stored field instruction and cached result remain separately observable;
-- Word performs qualified recalculation and repagination;
-- the kernel waits until the Word layout is based on the new semantic/provider revision;
-- a new LayoutRevision and field-result state are published;
-- old `page_view_*` objects become stale;
-- unchanged paragraph concepts survive even where page numbers shift.
-
-Failure: treating an update-on-open flag as a completed field result or reusing old page handles.
-
-## 10. Edit beside unsupported OOXML
-
-**Request:** replace ordinary paragraph text in a part that also contains unknown ignorable markup and complete `mc:AlternateContent`; the package contains custom XML, an opaque part, OLE/media, and unknown relationships.
-
-The accepted operation must prove:
-
-- the requested semantic postcondition;
-- no unrequested semantic diff;
-- exact untouched-entry payload equality;
-- no relationship/content-type escape;
-- intact AlternateContent and unknown attributes/elements;
-- intact custom XML/opaque/embedding/media payloads;
-- valid package and Word open-without-repair.
-
-If the exact edit boundary intersects unsupported structure that cannot be preserved, the correct result is `unsafe_preservation_boundary`, not a simplified save.
-
-This is C-49 and the primary preservation killer.
-
-## 11. Kernel crash around package commit
-
-The crash harness terminates the kernel at each boundary:
-
-1. before candidate package creation;
-2. during candidate write;
-3. after candidate validation but before physical replacement;
-4. during the replacement protocol;
-5. after physical replacement but before SQLite publication;
-6. after SQLite publication but before response delivery.
-
-Required invariant: every restart reconciles to either the complete old or complete new provider artifact. No half package is acknowledged; no acknowledged commit lacks a complete artifact. If the package advanced but response/publication was interrupted, restart discovers and reconciles the committed truth without replaying the mutation blindly.
-
-## 12. Comment deletion and recreation
-
-**Request sequence:** retain comment “Approved” on one range; an external editor deletes it and creates identical text/author near another identical quote; later resolve the old comment.
-
-Required behavior:
-
-- the old comment becomes destroyed/stale unless its exact native object survives;
-- durable/legacy IDs and native anchor/thread structure outrank text;
-- quoted text and author/time can retrieve candidates only;
-- resolving the old handle never resolves the replacement.
-
-The same rule applies to visually similar native tracked changes.
-
-## 13. Content-control form workflow
-
-**Request:** find controls tagged `Approval`, inspect bindings, and set the one inside the target section.
-
-Required behavior:
-
-- a tag query may return several controls;
-- selection is made using exact control IDs, document lineage, parent concept, type, and binding;
-- setting a retained control validates current native identity and expected value/type;
-- duplicate/malformed IDs or repeating-section reconstruction produce conflict/stale/ambiguous as appropriate;
-- custom XML binding is preserved and updated only inside the declared effect.
-
-Failure: treating Tag as unique or silently selecting the first control.
-
-## 14. Fifty-plus local operations in one model turn
-
-The exact Milestone D program performs 60 typed calls with 29 mutations. The architecture must keep:
-
-- identity decisions in the kernel, not arbitrary JavaScript;
-- raw package access outside the acceptance path;
-- transaction boundaries explicit;
-- local branches based on typed resolution states;
-- only compact deltas, metrics, and selected semantic slices in the final model payload;
-- zero model calls between primitives.
-
-Failure: a single giant raw OpenXML function masquerading as one typed call, or one model round trip per cell/comment/list item.
-
-## 15. Tagged and untagged PDF later
-
-**Tagged PDF request:** inspect headings, figures, and reading order. DOCSeye exposes stored structure-tree truth with provider-scoped keys and notes that native tagging can still be semantically poor.
-
-**Untagged/scanned PDF request:** locate paragraph-like content. DOCSeye returns fixed-layout glyph/region truth plus `heuristic_structure` or `ocr_derived` observations. It does not claim a native paragraph or permit an inferred block to authorize destructive content mutation.
-
-Page objects can have retained identity inside a proven PDF representation lineage; page ordinal remains location. This workflow validates that the common substrate does not force DOCX semantics onto PDF.
-
-## 16. Cross-substrate publication workflow
-
-**Request:** update a Markdown source in a repository, render it to static HTML/PDF, and correlate it to a DOCX publication artifact.
-
-- CODEeye owns the Markdown source and engineering edit.
-- eyeBROWSE owns a live web page if one is involved.
-- DOCSeye owns persistent document representations and semantic/layout/render correspondence.
-- SHELLeye owns physical files and replacements.
-- derivation links connect exact source/document revisions without collapsing identities.
-
-Failure: one universal graph silently makes the rendered document, source file, browser page, and exported PDF the same object.
-
-## 17. Pressure-test verdict
-
-The architecture remains coherent across all workflows because it refuses four seductive shortcuts:
-
-1. path/text/position as identity;
-2. one provider as universal truth;
-3. semantic postcondition as sufficient preservation evidence;
-4. local scripting as permission to bypass typed correspondence.
-
-The workflows expose implementation risk—especially surgical OOXML preservation, Word coherence, table-cell recovery, and exact layout mapping—but no unresolved workflow requires changing the frozen semantic spine. Those risks are isolated in the 30 Build 001 experiments and 54 deterministic hostile cases.
+A workflow passes only when requested outcomes, non-outcomes, authority state, revision/root, target IDs, deltas, capability classifications, and hard metrics all match. A plausible render or semantically similar result is insufficient. These workflows become results only after implementation evidence is published.

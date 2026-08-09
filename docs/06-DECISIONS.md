@@ -1,96 +1,169 @@
 # 06 — Frozen Decision Register
 
-Status: **CANONICAL / FROZEN FOR BUILD 001**
+Status: **CANONICAL / FROZEN FOR BUILD 001**  
+Canonical decision count: **64**
 
 ## 1. Reading this register
 
-Every decision below is active. “Frozen” means implementation must build against the semantic choice. A bounded experiment may choose a mechanism inside the decision's constraints. Reopening a decision requires an explicit canonical-doc change; a surprising library behavior is not permission to weaken correctness silently.
+`N-001` through `N-064` are contiguous and active. A numbered experiment may choose a mechanism inside a decision's invariant; it may not weaken that invariant silently. A report recommendation is not evidence and a proposed benchmark is not a result.
 
-Evidence classes:
+## 2. Authority and scope decisions
 
-- **P** — primary specification or official API evidence;
-- **S** — sibling repository evidence;
-- **F** — first-principles architectural inference;
-- **R** — convergence of the three independent reports;
-- **E** — implementation experiment still required for the mechanism.
+| ID | Frozen decision | Evidence basis | Reopen only if |
+| --- | --- | --- | --- |
+| N-001 | Architecture is **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS**. | ARCHITECTURAL INFERENCE | A Build 001 falsifier shows permanent costs exceed identity/transaction/provider-independence leverage. |
+| N-002 | A validated DND is the sole editable semantic authority in native mode. | ARCHITECTURAL INFERENCE | Never by incidental provider behavior; only an explicit architecture replacement. |
+| N-003 | Canonical DOCSeye retains explicit native-authored, converted/imported, and foreign-managed modes; one state has exactly one semantic authority. | ARCHITECTURAL INFERENCE | Mode complexity proves materially worse than forced conversion or DOCX-only utility under implementation evidence. |
+| N-004 | Source capsules are authority only for historical source bytes/evidence; provider facets may constrain preservation/export but never override current native semantics. | ARCHITECTURAL INFERENCE | Never without replacing the one-authority invariant. |
+| N-005 | DOCSeye freezes a native authored-information ontology, not a universal normalized AST. | ARCHITECTURAL INFERENCE | A broader object family becomes an explicit DOCSeye authored requirement without stealing a sibling domain. |
+| N-006 | Spreadsheet computation, presentation animation, source/app/database state, live DOMs, full temporal media, and arbitrary provider objects remain outside the native core. | ARCHITECTURAL INFERENCE | Owning substrate boundaries are deliberately changed. |
+| N-007 | The DND logical format is openly specified and independent conformance requires canonical vectors, validation, preservation/refusal, and a valid independent commit. | ARCHITECTURAL INFERENCE | E-06/E-08 prove the specification model infeasible, which is an architecture falsifier. |
+| N-008 | Native v1 has no implicit executable content; parsing/rendering executes no code and fetches no remote content automatically. | ARCHITECTURAL INFERENCE | Never for generation 1. |
 
-## 2. Permanent architecture decisions
+## 3. Identity, lifecycle, and time decisions
 
-| ID | Frozen decision | Evidence | Confidence | Rationale and rejected alternatives | Reopen only if |
-| --- | --- | --- | --- | --- | --- |
-| D-001 | DOCSeye is a persistent, preservation-first, provider-federated document correspondence and transaction substrate. | R/F | Very high | This uniquely combines agent continuity, exact mutation, provider truth, preservation, and local computation. Reject editor, wrapper, converter, and document DB definitions. | A simpler architecture proves equal identity, fidelity, layout, recovery, and efficiency under the hostile suite. |
-| D-002 | Providers own their native representation truth; DOCSeye owns conservative correspondence and temporal coherence. | P/R/F | Very high | OOXML, live Word, PDF, layout, render, and filesystem expose incompatible authorities. Reject a single master object tree. | A provider-independent representation is shown to preserve all native truth and behavior without extension escape hatches. |
-| D-003 | There is no universal canonical document AST. | P/R/F | Very high | A universal serialization model necessarily omits or normalizes richer provider structures. A small common correspondence protocol plus native facets is retained. | Lossless cross-format round-trip and native-operation equivalence are demonstrated for the full required feature sets. |
-| D-004 | DOCSeye logical IDs are external and opaque by default. | P/R/F | Very high | Native IDs have different scopes and copy/export behavior. Reject physical path, hashes, `docId`, offsets, or XML nodes as logical identity. | A universal provider-native identity contract exists across all retained formats and branch operations. |
-| D-005 | DOCSeye does not inject hidden IDs by default. | P/R/F | High | Injection is a mutation, clones on copy, can affect signatures, and is not portable. Existing intentional controls/bookmarks/bindings remain strong witnesses. | A managed-document mode proves explicit user-visible benefits and safe copy/signature semantics; it would be a separate operation mode. |
-| D-006 | Build a full compact structural index for every current DOCX revision. | R/F | High | Documents are finite and deterministically enumerable; this minimizes model rediscovery. Reject sparse-only UI-style observation. | Large-document measurements show the compact index is impractical and a measured hybrid retains query guarantees. |
-| D-007 | Promote only useful, evidence-backed concepts to durable cross-revision identity. | R/F | Very high | Full indexing and durable identity solve different problems. Reject permanent IDs for every run, XML node, coordinate, result, or OCR word. | An object family gains a documented or operation-native lifetime with concrete cross-turn value. |
-| D-008 | Every retained binding resolves as exact_current, exact_rebased, stale, ambiguous, destroyed, or inferred; only exact states authorize mutation. | R/F/S | Very high | Persistence must not manufacture certainty. Reject fuzzy fallback and “best candidate” writes. | Never for Build 001; changing this would invalidate the central safety thesis. |
-| D-009 | Provider-native IDs are object-specific scoped evidence, not DOCSeye IDs. | P/R/F | Very high | `paraId`, `textId`, `docId`, comment durable IDs, control IDs, bookmarks, Word live IDs, and PDF references have distinct scopes. | A specific object's documented lifetime expands; only that evidence rule may be updated. |
-| D-010 | Logical document identity is authored-branch identity, not path or physical file identity. | P/R/F/S | Very high | Controlled saves can replace files; unrelated files can occupy the same path. | A new provider supplies stronger immutable branch semantics, added as evidence rather than replacing the abstraction. |
-| D-011 | Rename/move preserves the document; controlled save preserves it; copy and Save As create a new document with DERIVED_FROM; DOCX-to-PDF creates a derivative. | P/R/F | High | This prevents cloned resident/provider IDs from collapsing branches. Reject path-continuation and family-ID identity. | Explicit operation semantics prove a Save As was actually a move, or future user-visible branch semantics require an explicit alternative operation. |
-| D-012 | Temporal state uses separate document, representation, provider, layout, render, world-sequence, and physical-file clocks. | P/R/F | Very high | Unsaved Word, disk, fields, pagination, and render can be out of phase. Reject one universal revision and cargo-cult incarnation for every object. | A formal reduction preserves every coherence state and stale-write rule without ambiguity. |
-| D-013 | Runs, absolute offsets, ordinals, coordinates, DOCX pages, rendered lines, search hits, and OCR words are revision-local by default. | P/R/F | Very high | These are representation locations or observations, not stable semantic identity. | An individual provider gives one type documented stable identity and it has useful retained operations. |
-| D-014 | Retained spans use exact parent identity, named text projection, boundary affinity, native markers where present, contextual witnesses, and deterministic transform history. | P/R/F | Very high | Offset-only and phrase-only anchors fail duplicate-content adversaries. | A stronger native range primitive persists across cold restart with documented scope. |
-| D-015 | Split and merge retire unrestricted old whole-object write authority and return explicit lineage/new concepts. | R/F | Very high | Choosing an arbitrary child or merged successor creates wrong-target capability. | A typed operation has an explicit continuation contract whose semantics are unambiguous. |
-| D-016 | Lists are semantic projections over paragraph identity plus numbering truth; displayed markers are never identity. | P/R/F | Very high | OOXML numbering is computed from definitions, levels, instances, and overrides. | The provider format natively defines a stronger logical list object; add a provider facet. |
-| D-017 | Tables expose physical cells and logical grid regions; row/column coordinates and visible values are locations/evidence only. | P/R/F | Very high | Merges, grid omissions, duplicate rows, and reordering defeat coordinates. | A provider documents stable row/cell keys across the tested lifetime. |
-| D-018 | Styles preserve definitions and inheritance; effective formatting is a provider-identified computed projection. | P/R/F | High | Direct, inherited, numbering, table, theme, and application behavior differ. Reject storing effective formatting as source truth. | Provider behavior can be represented losslessly by a simpler frozen cascade. |
-| D-019 | Comments and native tracked changes are first-class native document objects, separate from DOCSeye revision history. | P/R/F | Very high | Their anchors, threads, authors, states, and structural markup carry real semantics. Reject decoration/flat-text treatment and permanent accepted-change ledger. | Never for Build 001; provider support may broaden. |
-| D-020 | Field instruction, cached result, staleness, and provider recalculation are separate facts. | P/R/F | Very high | A cached result can be stale; layout fields require a qualified engine. | A provider format has a different native field model, represented in its facet. |
-| D-021 | Existing content controls and bookmarks are strong scoped anchors; tags/names alone are not identity. | P/R/F | Very high | Control IDs are strong in Word scope, while duplicate tags/names and recreation exist. Reject blanket hidden-control injection. | Experiments refine strength but cannot make tag/name alone sufficient. |
-| D-022 | Figure occurrence and media asset are different concepts; OMML remains native Word math truth; opaque embeddings are preserved but not executed. | P/R/F | Very high | Asset reuse, placement, crop, wrapping, and equation structure are independent. Reject hash-as-figure ID or flattened equation text. | A provider's native model requires another facet, not collapse. |
-| D-023 | Layout and render have provider/configuration-specific revisions separate from semantic revisions. | P/R/F | Very high | Reflow invalidates pages while semantic objects survive. Reject page number as semantic identity. | Never for reflowable formats; fixed-layout pages remain provider-native objects under their representation revision. |
-| D-024 | PDF is a later fixed-layout/tagged/inference provider, not a DOCX-shaped editing model. | P/R/F | Very high | Tagged structure, content order, pages, object references, annotations, and OCR assurance differ fundamentally. | Common-core pressure tests show even document/representation/correspondence protocols are harmful; then split the substrate. |
+| ID | Frozen decision | Evidence basis | Reopen only if |
+| --- | --- | --- | --- |
+| N-009 | Family, branch, revision, public object, and retained-boundary IDs use opaque RFC 9562 UUIDv4, tag-37/16-byte canonical encoding; type is not embedded. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Collision/privacy/locality measurements show a stronger opaque scheme without adding semantic chronology. |
+| N-010 | Content hashes never serve as semantic object IDs; SHA-256 is for state integrity, canonical records, capsules, and immutable asset identity. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Cryptographic guidance changes or a domain needs another integrity algorithm under an explicit versioned profile. |
+| N-011 | Within a resolved family `(branch_id, object_id)` is direct actuation identity; portable writes add `family_id` and `expected_revision_id`. | ARCHITECTURAL INFERENCE | An independent implementation proves a smaller handle equally prevents cross-family/branch/stale writes. |
+| N-012 | A second kernel logical-concept ID exists only for real correspondence/lineage information, not ordinary native objects. | ARCHITECTURAL INFERENCE | A concrete native actuation case adds information unavailable from branch/object identity. |
+| N-013 | Family membership records authored intent; path and byte equality never define family. | IMPLEMENTATION-DERIVED SIBLING EVIDENCE + ARCHITECTURAL INFERENCE | Never; new carrier evidence may supplement but not replace intent. |
+| N-014 | Save/move/rename preserve branch; controlled replica is same-branch snapshot; Save As/explicit fork create a same-family branch; duplicate/template/import rules are explicit. | ARCHITECTURAL INFERENCE | Tested user semantics require another explicit operation, not path inference. |
+| N-015 | Every new branch remints every public semantic and retained-boundary ID and records bounded origin mappings. | ARCHITECTURAL INFERENCE | Build evidence shows equivalent cross-branch safety with retained IDs and materially lower permanent cost. |
+| N-016 | A raw byte copy initially means another replica of the same branch snapshot; opening at another path does not mutate it. | ARCHITECTURAL INFERENCE | A filesystem/provider supplies explicit authored copy intent in a typed operation. |
+| N-017 | Independently changed same-branch replicas observed together are `divergent_heads`; combined write authority stops until explicit fork or merge. | ARCHITECTURAL INFERENCE | Never for Build 001; silent linearization violates identity correctness. |
+| N-018 | Within-, cross-branch, and cross-family content copy remints every copied public occurrence/boundary ID; immutable asset digests may be shared; provenance is bounded. | ARCHITECTURAL INFERENCE | A specific value-like object is demoted from public identity by decision amendment. |
+| N-019 | Split retires the original and mints every successor; merge retires every input and mints the result for blocks, list items, cells, and regions. | ARCHITECTURAL INFERENCE | A typed object family proves one continuation is semantically inherent, not convenient. |
+| N-020 | Retirement resolves as destroyed/split/merged/unknown_retired; bounded witnesses live only while referenced by current anchors/suggestions/deltas/windows/merge bases/relations. | ARCHITECTURAL INFERENCE | A required lifetime cannot be satisfied without a longer bounded retention rule. |
+| N-021 | No similarity, embedding, diff, path, or quote may resurrect or authorize a retired/ambiguous target. | IMPLEMENTATION-DERIVED SIBLING EVIDENCE + ARCHITECTURAL INFERENCE | Never. |
+| N-022 | A revision tuple contains UUIDv4 commit `revision_id`, branch-local `revision_sequence`, SHA-256 `semantic_root`, and bounded parent witnesses. | ARCHITECTURAL INFERENCE | E-07 shows one field adds no information or prevents independent conformance. |
+| N-023 | Semantic root is a domain-separated Merkle-style current-state tree; exact tree mechanics are E-07; no permanent historical Merkle DAG is required. | ARCHITECTURAL INFERENCE + OPEN QUESTION — BUILD 001 EXPERIMENT REQUIRED | E-07 cannot produce deterministic bounded recomputation; mechanism must change or root decision reopen. |
+| N-024 | Semantically neutral SQLite/index/record maintenance changes neither root nor DocumentRevision. | ARCHITECTURAL INFERENCE | Never; physical layout is explicitly non-semantic. |
+| N-025 | Revision sequence is ordering convenience, not unique causality; divergent children may share it and parents prove bounded ancestry. | ARCHITECTURAL INFERENCE | A simpler causal witness proves equivalent divergence/merge safety. |
 
-## 3. Mutation, preservation, and recovery decisions
+## 4. Transactions, text, and ontology decisions
 
-| ID | Frozen decision | Evidence | Confidence | Rationale and rejected alternatives | Reopen only if |
-| --- | --- | --- | --- | --- | --- |
-| D-025 | The fundamental mutation unit is one expected-revision typed document transaction over one pinned coherent provider snapshot. | R/F | Very high | Resolve-then-reopen by text/path permits target substitution. Reject unversioned individual edits. | Never for Build 001. |
-| D-026 | Multi-operation transactions are all-or-nothing and publish one DocumentRevision per logical commit. | R/F | High | Agent bulk work needs coherent concurrency and compact deltas. Reject one revision per low-level XML edit. | A future collaborative provider requires a documented compound-revision mapping while preserving atomic caller semantics. |
-| D-027 | Automatic rebase is exact and deterministic only; otherwise return stale/conflict/ambiguous. | P/R/F | Very high | DOCSeye lacks an omniscient collaborative transformation server and cannot guess duplicate targets. | Never for Build 001. |
-| D-028 | Revalidate authoritative provider and physical state immediately before commit. | R/F/S | Very high | A correct base can become stale during transaction preparation. Reject blind overwrite. | A provider supplies equivalent atomic compare-and-swap inside its commit, which satisfies rather than removes this requirement. |
-| D-029 | Every mutation has an independent semantic-effect envelope and serialization footprint. Both must pass. | P/R/F | Very high | Semantic correctness does not guarantee native preservation and minimal bytes do not guarantee target correctness. | Never for Build 001. |
-| D-030 | Untouched package entry payloads are copied unchanged; touched XML uses the smallest safe exact patch or bounded subtree reconstruction preserving unknown/MC content. | P/R/F/E | High | Reject subset regeneration and whole-package serializer normalization. Lexical preservation is preferred, not universally assumed. | Experiments identify a safer provider-native mechanism that meets the same contract. |
-| D-031 | If unsupported/unknown structure intersects an edit boundary that cannot be preserved, reject or route to a qualified provider. | R/F | Very high | Powerful but lossy editing violates the preservation thesis. | Provider capability improves enough to prove the operation contract. |
-| D-032 | Semantic diff/change detection never proves identity by itself. | R/F | Very high | “Removed Approved / added Approved” is not succession evidence. Reject diff- or embedding-authorized writes. | Never for Build 001. |
-| D-033 | External recovery first obtains a stable coherent provider snapshot, then indexes, binds strong keys/operation lineage, attempts exact structural correspondence, and classifies the rest. | P/R/F/S | Very high | File events can be partial and similarity candidates unsafe. | Provider offers a stronger atomic change feed; incorporate it as evidence. |
-| D-034 | Deltas are bounded and gap-aware; expired cursors return `resync_required`. | R/F | Very high | Silent gaps corrupt agent state; a permanent ledger is unnecessary. | A future provider supplies durable history, which remains provider truth rather than changing the DOCSeye contract. |
-| D-035 | SQLite WAL plus FTS5 stores operating correspondence/current indexes/bounded deltas, not canonical full document truth or permanent history. | P/R/F | High | Relational current state fits the workload; graph/event-store machinery adds divergence risk. | Measured Build 001 workload demonstrates a concrete inability, accompanied by a migration decision. |
-| D-036 | Pin a corrected SQLite version and record it. | P | Very high | Avoid the documented WAL-reset defect in affected builds. | Never; the exact corrected version may advance. |
+| ID | Frozen decision | Evidence basis | Reopen only if |
+| --- | --- | --- | --- |
+| N-026 | Every semantic write is typed, branch-scoped, expected-revision conditioned, and all-or-nothing; one logical commit publishes one revision/root/delta. | IMPLEMENTATION-DERIVED SIBLING EVIDENCE + ARCHITECTURAL INFERENCE | Never for Build 001. |
+| N-027 | Recovery yields exactly the old or new committed semantic revision; ambiguous response loss uses bounded idempotency query and never blind replay. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Container mechanism changes while preserving the invariant. |
+| N-028 | Deltas are bounded, semantic, and gap-aware; expiry returns `resync_required`, not a silent gap or permanent ledger. | IMPLEMENTATION-DERIVED SIBLING EVIDENCE + ARCHITECTURAL INFERENCE | A provider offers stronger bounded history without changing client correctness. |
+| N-029 | Logical order is independent of identity; v1 starts with 128-bit sparse keys, local rebalance, and root-neutral maintenance; E-05 may select a bounded alternative. | OPEN QUESTION — BUILD 001 EXPERIMENT REQUIRED | E-05 requires another mechanism satisfying the same invariants. |
+| N-030 | Canonical text is exact valid UTF-8; no silent Unicode normalization; boundaries never split scalars and human operations default to extended grapheme clusters. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Unicode conformance changes under an explicit format version. |
+| N-031 | Ordinary query ranges are revision-local; `retain_range` explicitly creates identity-bearing zero-width boundaries and a semantic revision. Reads never materialize boundaries. | ARCHITECTURAL INFERENCE | E-01 finds a stronger explicit primitive with the same read/no-write and portability properties. |
+| N-032 | Range edges use logical include/exclude and collapsed points use before/after insertion; defaults are anchor-type specific and bidi-independent. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-01 exposes an inconsistent default, requiring explicit amended semantics before implementation continues. |
+| N-033 | Anchor states are live/collapsed/orphaned/destroyed/ambiguous; type-specific delete/replace/move rules are normative and ambiguous never writes. | ARCHITECTURAL INFERENCE | Never without replacing exact-targeting thesis. |
+| N-034 | Boundaries may retain their IDs through exact block split/merge owner mappings; allowed range types may become multi-interval; quote similarity never maps. | ARCHITECTURAL INFERENCE + OPEN QUESTION — BUILD 001 EXPERIMENT REQUIRED | E-01 proves a frozen mapping impossible; reopen text mechanism/semantics explicitly. |
+| N-035 | Live collaboration, OT, and CRDT persistence are deferred; no permanent per-character operation history exists in v1. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | A real multi-operator requirement or E-01 falsification proves it necessary. |
+| N-036 | Public identity belongs to targetable cross-revision semantic objects; roles/direct formatting/coordinates are values; pages/runs/offsets are revision-local derived objects. | ARCHITECTURAL INFERENCE | A type gains a concrete independent lifecycle/operation. |
+| N-037 | Lists and list items are first-class; items contain one or more blocks; semantic membership is separate from display numbering/restart rules. | ARCHITECTURAL INFERENCE | A simpler model passes all native/import operations without copying Word numbering ontology. |
+| N-038 | Tables have public table/row/column/cell identities and logical regions; coordinates are locations; merge/split follows all-remint lifecycle; deep computation belongs to DATAeye. | ARCHITECTURAL INFERENCE | A measured operation family requires a refined topology object while preserving boundaries. |
+| N-039 | Semantic role, named style, theme/token, direct override, and layout/media variant are distinct; v1 uses a small deterministic six-layer resolution, not full CSS. | ARCHITECTURAL INFERENCE | Native authored requirements need a broader but still deterministic style model. |
+| N-040 | Threads/comments/replies are native objects with exact targets, author/timestamp, open/resolved state, and orphan behavior; quoted text is display evidence only. | ARCHITECTURAL INFERENCE | Provider support broadens via facets, not by changing target identity. |
+| N-041 | Suggestions are current document content of six frozen types, not revision history; accept/reject is typed and resolution leaves no permanent accepted ledger. | ARCHITECTURAL INFERENCE | A new authored suggestion type is explicitly added. |
+| N-042 | Fields are bounded typed computations with separated source/dependencies/result/revisions/staleness and explicit evaluation policy; arbitrary code is forbidden. | ARCHITECTURAL INFERENCE | A bounded new class is approved without absorbing CODEeye/DATAeye. |
+| N-043 | Native controls are text, rich text, number, boolean, date, enum, repeating group, and object/reference selector; external bindings are inert/typed and DATAeye-bounded. | ARCHITECTURAL INFERENCE | A concrete authored form requirement adds a bounded type. |
+| N-044 | Footnotes/endnotes are note objects with reference occurrences; named anchors are aliases over stable identity; cross-references never retarget by similarity; citations remain a minimum abstraction. | ARCHITECTURAL INFERENCE | A provider facet extends, rather than replaces, native semantics. |
+| N-045 | Assets and figure occurrences are distinct; embedded assets use SHA-256 content addressing; linked/remote/unresolved states are explicit; parse never fetches. | ARCHITECTURAL INFERENCE | Integrity guidance changes or a new asset state is required. |
+| N-046 | Native math authority is Presentation MathML; TeX source and OMML are optional non-authoritative facets; E-20 freezes canonicalization/edit precedence. | CURRENT EXTERNAL EVIDENCE + OPEN QUESTION — BUILD 001 EXPERIMENT REQUIRED | E-20 shows MathML cannot support required native edits independently; choose another bounded math model. |
+| N-047 | v1 has no generic native drawing program; SVG is inert asset content; chart occurrence may be native but data/computation belongs to DATAeye; OLE/executables remain inert. | ARCHITECTURAL INFERENCE | A native authored operation requires bounded drawing primitives. |
 
-## 4. Provider, stack, and Build 001 decisions
+## 5. Extension, storage, validation, and rendering decisions
 
-| ID | Frozen decision | Evidence | Confidence | Rationale and rejected alternatives | Reopen only if |
-| --- | --- | --- | --- | --- | --- |
-| D-037 | Build 001 editable format is modern Word-generated Transitional DOCX; PDF is derived render only. | R/F | Very high | DOCX exercises the richest decisive text-document semantics without a false multi-format slice. | Build 001 is replaced by a separately approved thesis before implementation begins. |
-| D-038 | Build 001 includes a mandatory isolated Word native/layout provider, but Word is not sole semantic, identity, or preservation authority. | P/R/F | Very high | Real Word compatibility/layout/native behavior are decisive; process lifetime and normalization must not own the kernel. | Target-host preflight proves Word unavailable, requiring an explicit scope/freeze change—not a silent omission. |
-| D-039 | Open XML SDK 3.5.1 is the typed interpretation/validation layer, with direct OPC/XML preservation machinery beside it. | P/R/F | High | SDK leverage is strong; typed serialization/MC processing is not a fidelity theorem. | A later compatible SDK is deliberately pinned or experiments justify another provider library while preserving contracts. |
-| D-040 | C#/.NET 10 is the kernel baseline; Node 24 is the non-agentic Program Host baseline. | P/R/F | High | This combines Microsoft document ecosystem leverage with compact local programming. | Platform support or measured implementation results justify a deliberate migration. |
-| D-041 | The Program Host uses the real typed DOCSeye SDK; raw ZIP, giant OpenXML scripts, or out-of-kernel Word/VBA do not count. | R/F | Very high | Otherwise a single call could conceal the architecture rather than prove it. | Never for Build 001 acceptance. |
-| D-042 | Build 001 has exactly 30 bounded experiments. They resolve mechanisms and do not reopen frozen semantics. | R/F | High | The reports identified concrete uncertainties; a finite manifest prevents research drift. | A new blocking mechanism uncertainty is added by canonical decision before implementation and the exact count is deliberately revised. |
-| D-043 | Milestone A retains exactly 24 concepts; unchanged restart is 24 exact; observer gap is 14 exact, 6 stale/destroyed, 4 ambiguous. | R/F | High | A fixed oracle proves useful recovery and conservative failure. | Fixture construction demonstrates an internal inconsistency before implementation, requiring explicit amendment. |
-| D-044 | Milestone C contains exactly 54 deterministic hostile cases and every required zero metric is absolute. | R/F | Very high | The count is the deduplicated union of distinct failure modes. Statistical success is inappropriate for wrong-target and preservation safety. | Only an explicit canonical manifest revision before the affected implementation. |
-| D-045 | Milestone D is exactly 60 meaningful typed calls: 29 mutations, 15 object families, two commits, two deltas, one external reconciliation, layout wait/render, and zero intermediate model calls. | R/F | High | It reaches the research target and proves dense local programmability without hidden raw scripts. | Only an explicit pre-implementation workflow amendment preserving or strengthening the proof. |
-| D-046 | This freeze is documentation-only; source, fixtures, dependencies, runtime artifacts, and results document do not exist yet. | F | Very high | Architecture completion must not be misreported as product completion. | Implementation begins in a later authorized pass; status must then change truthfully. |
+| ID | Frozen decision | Evidence basis | Reopen only if |
+| --- | --- | --- | --- |
+| N-048 | Every extension envelope declares ID, namespace/type/version, encoding/payload/digest, references, coverage, policy, fallback, and required/optional status. | ARCHITECTURAL INFERENCE | E-04 finds a smaller envelope with equal safe intersection behavior. |
+| N-049 | Extension coverage kinds are object/property/subtree/text-interval/relation/topology/layout/document; policies are independent/move-with-target/generic-transform/invalidate/must-understand. | ARCHITECTURAL INFERENCE | E-04 requires a revised operational vocabulary before implementation continues. |
+| N-050 | Unknown payloads preserve exact bytes/canonical values; disjoint edits may proceed; default unknown intersection refuses; required unsupported major capability removes write authority. | ARCHITECTURAL INFERENCE | Never without a replacement that prevents silent loss/scope escape. |
+| N-051 | Canonical logical records use the frozen RFC 8949 deterministic-CBOR DOCSeye profile and independent byte-exact vectors. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-06 falsifies independent deterministic implementation; select another open canonical serializer. |
+| N-052 | SQLite is the application-file/transaction container, not the semantic ontology; pure ZIP/directory/append-log/DAG/relational-ontology alternatives are rejected. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-02/E-03 falsify the application-file profile and another container passes all invariants. |
+| N-053 | Portable DND uses rollback-journal `DELETE` mode and quiescent one-file publication; rebuildable external runtime/index SQLite uses WAL/FTS. | CURRENT EXTERNAL EVIDENCE + OPEN QUESTION — BUILD 001 EXPERIMENT REQUIRED | E-02/E-03 select a safer mode/profile while preserving portability and old/new atomicity. |
+| N-054 | DND contains all current truth and durable round-trip correspondence; FTS/embeddings/caches/process/physical registries are external and deletable. | ARCHITECTURAL INFERENCE | Never for native truth; a durable provider facet may be moved in-artifact explicitly. |
+| N-055 | `.dnd` and `application/vnd.docseye.native+sqlite` are provisional Build 001 dispatch identifiers, not semantic inputs or final registration. | ARCHITECTURAL INFERENCE | Public collision/MIME review selects a final name. |
+| N-056 | Validation strata are container, serialization/schema, identity/reference, semantics, extension, asset/capsule, root, then provider; lower failure removes write authority and repair is explicit. | ARCHITECTURAL INFERENCE | A validator proves a reordered layer preserves the same authority boundary. |
+| N-057 | Parser resource limits, no XXE/traversal/bombs/implicit fetch/active execution, and no silent identity mint on validation failure are intrinsic format safety. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Limits may be raised by measurement; safety invariant never. |
+| N-058 | Native layout intent is semantic; `LayoutRevision` qualifies semantic revision/profile/provider/version/fonts/locale/hyphenation/config; pages/regions are layout-scoped. | ARCHITECTURAL INFERENCE | A fixed-layout native document type is added separately. |
+| N-059 | DOCSeye owns semantic-to-layout/render contracts and mappings; existing engines render; Typst is first paginated candidate and HTML/Chromium the continuous provider. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-12/E-14 choose another provider while preserving ownership. |
+| N-060 | PDF is derived and source-attributed; Build 001 requires independently validated tagged PDF/UA-1 and 100% required-object source mapping, with typography capabilities honestly reported. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-13 proves the profile impossible across qualified existing providers, reopening the render gate. |
 
-## 5. Cross-substrate decisions
+## 6. Interoperability, stack, and Build decisions
 
-| ID | Frozen decision | Evidence | Confidence | Rationale and rejected alternatives | Reopen only if |
-| --- | --- | --- | --- | --- | --- |
-| D-047 | SHELLeye owns physical files and atomic replacement; DOCSeye owns logical document identity and semantic mutation. | S/F | Very high | Path/file semantics and authored-document semantics are not interchangeable. | Sibling contracts change explicitly. |
-| D-048 | DESKTOPeye owns app/window/focus/UI state; DOCSeye owns semantic ranges and provider-native document operations. | S/F | Very high | A caret or Word window is not a durable semantic target. | Sibling contracts change explicitly. |
-| D-049 | CODEeye owns source/engineering semantics; eyeBROWSE owns live web state; DOCSeye may correlate static document representations. | S/F | High | Ownership follows semantic operation, not filename extension. Reject a universal StealthEye graph. | A cross-substrate protocol is explicitly frozen later. |
-| D-050 | Spreadsheet and presentation semantic cores remain future DATAeye/presentation-substrate concerns. | P/R/F | Very high | Shared OPC packaging is implementation reuse, not ontology equivalence. | Those sibling substrate boundaries are deliberately redefined. |
+| ID | Frozen decision | Evidence basis | Reopen only if |
+| --- | --- | --- | --- |
+| N-061 | DOCX import uses raw OPC/OOXML plus Open XML SDK to map native concepts, scoped facets/opaque objects, optional exact source capsule, correspondence, and feature report; unsupported content never disappears. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-15 changes the mechanism while preserving authority/preservation. |
+| N-062 | DOCX export uses six semantic outcomes and separate observation evidence; Word is optional Microsoft-specific infrastructure and native A–D/X acceptance is formally Word-free; ODF is later and LibreOffice is X-04 alternate evidence. | CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | E-16 falsifies practical Word-free interop, requiring explicit DOCX-first/native-later reconsideration. |
+| N-063 | Kernel baseline is .NET 10/C#; Node 24 Program Host is non-agentic; providers are SQLite/CBOR, Typst, pinned Chromium, Open XML SDK/raw OPC, LibreOffice smoke, and SHELLeye; preflight pins latest stable supported patches, not report-incidental versions. | FACT + CURRENT EXTERNAL EVIDENCE + ARCHITECTURAL INFERENCE | Platform support or early experiments require a deliberate compatible substitution. |
+| N-064 | Replacement Build 001 is exactly 20 experiments, 32 native C cases, 4 DOCX X cases, and one 96-call Host run with 48 mutations/16 families/3 commits/6 delta calls; source/fixtures/packages/results do not exist at freeze. | ARCHITECTURAL INFERENCE | Only an explicit preimplementation decision amendment or a falsifier; never padding or implementation convenience. |
 
-## 6. Decision discipline
+## 7. Supersession of the old 50 decisions
 
-An implementation finding should be classified as one of:
+The old decisions remain immutable at the DOCX-first baseline SHA. This table adjudicates, rather than erases, each one.
 
-1. **mechanism refinement** — choose a documented option inside a frozen decision;
-2. **capability limitation** — return unsupported while preserving frozen safety;
-3. **provider-version profile** — record current behavior without generalizing it;
-4. **architecture contradiction** — stop and propose a numbered decision amendment.
+| Old ID | Treatment | Canonical successor | Reason |
+| --- | --- | --- | --- |
+| OLD-D-001 | REPLACE | N-001 | product center moves from provider-federated correspondence to native authority |
+| OLD-D-002 | DEMOTE TO INTEROP | N-003, N-004, N-061 | provider truth remains only in foreign-managed/provider scopes |
+| OLD-D-003 | KEEP | N-005, N-006 | no universal AST remains foundational |
+| OLD-D-004 | AMEND | N-009–N-012 | native IDs are intrinsic; external concept IDs only where informative |
+| OLD-D-005 | DEMOTE TO INTEROP | N-003, N-061 | no hidden provider injection remains a foreign-managed/import rule |
+| OLD-D-006 | DEMOTE TO INTEROP | N-054, N-061 | full DOCX index is provider/runtime behavior, not native truth |
+| OLD-D-007 | KEEP | N-036 | public identity remains selective and useful |
+| OLD-D-008 | AMEND | N-021, N-026, N-033 | native resolution states replace correspondence-specific vocabulary while exact-only write remains |
+| OLD-D-009 | DEMOTE TO INTEROP | N-004, N-061 | provider IDs remain scoped evidence |
+| OLD-D-010 | AMEND | N-013–N-017 | family/branch/replica semantics are now intrinsic and explicit |
+| OLD-D-011 | REPLACE | N-014–N-018 | Save As/fork/duplicate now use the full-remint family rules |
+| OLD-D-012 | AMEND | N-022–N-028, N-058 | native revision/root becomes central; provider/layout clocks remain separate |
+| OLD-D-013 | KEEP | N-036, N-058 | runs/offsets/pages/observations remain revision-local |
+| OLD-D-014 | REPLACE | N-030–N-034 | native retained boundaries replace provider/history-based anchors |
+| OLD-D-015 | AMEND | N-019–N-021 | all affected split/merge results remint with bounded lineage |
+| OLD-D-016 | DEMOTE TO INTEROP | N-037, N-061 | OOXML numbering becomes provider mapping; native lists are first-class |
+| OLD-D-017 | AMEND | N-038 | native rows/columns/cells/regions have intrinsic identity |
+| OLD-D-018 | AMEND | N-039 | native deterministic styles replace provider-only effective projection |
+| OLD-D-019 | KEEP | N-040, N-041 | comments/suggestions remain content, not revision history |
+| OLD-D-020 | KEEP | N-042 | field source/result/staleness separation retained and strengthened |
+| OLD-D-021 | DEMOTE TO INTEROP | N-031, N-044, N-061 | native anchors own identity; controls/bookmarks remain provider evidence |
+| OLD-D-022 | AMEND | N-045–N-047 | asset/figure distinction retained; MathML replaces OMML as native truth |
+| OLD-D-023 | KEEP | N-058–N-060 | layout/render revisions remain separate |
+| OLD-D-024 | KEEP | N-060 | PDF remains derived/fixed-layout provider output |
+| OLD-D-025 | KEEP | N-026 | expected-revision typed transaction retained |
+| OLD-D-026 | KEEP | N-026, N-027 | multi-operation atomic commit retained |
+| OLD-D-027 | KEEP | N-021, N-026 | only exact deterministic behavior may write |
+| OLD-D-028 | AMEND | N-026, N-053, N-056 | revalidate authoritative native/container state before commit |
+| OLD-D-029 | AMEND | N-048–N-050, N-061 | semantic effect plus extension/provider preservation envelopes |
+| OLD-D-030 | DEMOTE TO INTEROP | N-061, N-062 | smallest safe OPC/XML patch remains DOCX-provider behavior |
+| OLD-D-031 | KEEP | N-049, N-050, N-062 | unsafe unknown intersection still refuses/routes |
+| OLD-D-032 | KEEP | N-021 | diff never proves identity |
+| OLD-D-033 | DEMOTE TO INTEROP | N-003, N-061 | provider snapshot/recovery remains foreign-managed/import behavior |
+| OLD-D-034 | KEEP | N-028 | bounded gap-aware deltas retained |
+| OLD-D-035 | REPLACE | N-052–N-054 | SQLite now also carries native truth; external WAL remains rebuildable operating state |
+| OLD-D-036 | AMEND | N-053, N-063 | use latest stable supported preflight patch and test; do not freeze incidental version |
+| OLD-D-037 | REPLACE | N-001, N-064 | Build 001 editable authority becomes DND; DOCX is bounded supplement |
+| OLD-D-038 | REPLACE | N-062 | Word changes from mandatory to optional Microsoft-specific provider |
+| OLD-D-039 | DEMOTE TO INTEROP | N-061, N-063 | Open XML SDK remains provider layer under preflight version rule |
+| OLD-D-040 | AMEND | N-063 | .NET/Node retained; native container/render/interop components added |
+| OLD-D-041 | AMEND | N-063, N-064 | Host must use typed native SDK; raw native/provider escapes do not count |
+| OLD-D-042 | REPLACE | N-064 | 30 experiments replaced by exact 20 native freeze experiments |
+| OLD-D-043 | REPLACE | N-064 | old 24-concept A replaced by exact 32-sentinel native A |
+| OLD-D-044 | REPLACE | N-064 | old 54 combined cases replaced by 32 native + 4 separate provider cases |
+| OLD-D-045 | REPLACE | N-064 | old 60-call workflow replaced by enumerated 96-call native workflow |
+| OLD-D-046 | KEEP | N-064 | freeze remains documentation-only and unimplemented |
+| OLD-D-047 | KEEP | N-013, N-053 | SHELLeye physical ownership remains separate |
+| OLD-D-048 | KEEP | N-005, N-058 | DESKTOPeye UI ownership remains separate |
+| OLD-D-049 | KEEP | N-005, N-006 | CODEeye/eyeBROWSE ownership remains separate |
+| OLD-D-050 | KEEP | N-006, N-038, N-047 | DATAeye/presentation boundaries remain separate |
 
-Only item 4 reopens this register. Implementation convenience, deadline pressure, or library defaults do not.
+Treatment totals: **KEEP 18 / AMEND 13 / DEMOTE TO INTEROP 9 / REPLACE 10 / DELETE 0 = 50**.
+
+No old principle is deleted casually. Decisions replaced as Build cardinalities or authority rules remain historically available at `47b5280b71773ae497b5a56c4b590b9070b4bca5`.
+
+## 8. Decision discipline
+
+Implementation findings are classified as:
+
+1. mechanism selection inside a frozen invariant;
+2. provider/capability limitation with honest refusal/report;
+3. version-qualified behavior;
+4. architecture falsifier requiring stop and numbered amendment.
+
+Only item 4 reopens this register. Convenience, deadlines, majority report preference, or a library default do not.

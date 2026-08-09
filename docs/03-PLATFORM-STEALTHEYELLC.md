@@ -1,137 +1,133 @@
-# 03 — STEALTHEYELLC Platform Contract
+# 03 — STEALTHEYELLC Platform
 
-Status: **FROZEN FOR BUILD 001**
-Target: **Windows STEALTHEYELLC workstation**
-Measured target-host preflight: **REQUIRED BEFORE IMPLEMENTATION**
+Status: **CANONICAL PREIMPLEMENTATION PLATFORM PROFILE**  
+Observation date: **2026-08-09**
 
-## 1. Purpose
+This document separates measured host facts from implementation prerequisites. No dependency was installed or changed during the architecture freeze.
 
-This document separates the frozen platform contract from facts that must be measured on the target workstation. DOCSeye is designed for the STEALTHEYELLC Windows environment and must integrate with sibling substrates without treating their availability as an excuse to weaken standalone correctness.
+## 1. Measured facts
 
-The architecture is portable at the correspondence-kernel boundary. Build 001 is intentionally Windows- and Word-specific because its decisive proof includes real Microsoft Word behavior and pagination.
+### 1.1 Node runtime
 
-## 2. Frozen baseline
+Installed absolute directory:
 
-| Component | Build 001 baseline | Role |
+`C:\AgentBrowser\tools\node-v24.18.1-win-x64\`
+
+Measured executables:
+
+| Tool | Version | Availability |
 | --- | --- | --- |
-| Operating system | Current supported 64-bit Windows on STEALTHEYELLC | Word automation, filesystem integration, local IPC |
-| Kernel | C# on .NET 10 LTS | correspondence, revisions, index, transactions, preservation coordinator |
-| Typed OOXML layer | Open XML SDK 3.5.1 | schema-aware parsing, validation, streaming, typed provider facets |
-| Preservation layer | Direct OPC plus namespace/MC-aware XML machinery | copy-on-write package commit and bounded mutation footprint |
-| Native provider | Current locally installed desktop Microsoft Word | live state, native behavior, layout, field update, compatibility, PDF export |
-| Operating database | Corrected SQLite release with WAL and FTS5; never an affected pre-fix WAL-reset build | current correspondence, indexes, bounded deltas |
-| Program Host | Node.js 24 LTS | disposable, non-agentic local typed programs |
-| Source control | Git on Windows | implementation baseline and evidence |
-| Local RPC | Named pipes or equivalently local authenticated structured transport | kernel/Word adapter/Program Host boundary |
+| Node | `v24.18.1` | usable by absolute path |
+| npm | `11.16.0` | usable by absolute path |
+| npx | `11.16.0` | usable by absolute path |
 
-Current primary sources establish that [.NET 10 is LTS](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support), [Node 24 is an LTS line](https://nodejs.org/en/about/previous-releases), [Open XML SDK 3.5.1 is the current SDK release](https://github.com/dotnet/Open-XML-SDK/releases), and the documented SQLite WAL-reset defect is fixed in [SQLite 3.51.3](https://sqlite.org/releaselog/3_51_3.html). Implementation must pin an actually corrected SQLite package and record the resolved version.
+The directory is not on machine or user `PATH`. Build 001 must invoke the executable by exact absolute path or use a process-local path. A global PATH change is neither required nor authorized by this freeze.
 
-## 3. Target-host preflight
+Node 24 is an LTS line. The measured runtime is valid evidence for the Program Host baseline; implementation preflight must still record its binary digest and verify required APIs.
 
-Before any source or fixture implementation, issue #1 must record:
+### 1.2 Microsoft Word/Office
 
-- Windows edition, version, build, architecture, locale, timezone, and long-path policy;
-- Microsoft Word product, semantic version, build, update channel, architecture, licensing/activation state, and Protected View/Trust Center constraints relevant to fixtures;
-- installed .NET SDKs and runtimes;
-- Node and npm versions;
-- Git version and line-ending configuration;
-- resolved Open XML SDK and SQLite native/managed package versions;
-- fonts required by the deterministic fixture and their exact versions;
-- printer/default-page environment relevant to Word pagination;
-- availability and versions of CODEeye, SHELLeye, DESKTOPeye, and eyeBROWSE interfaces used by the build;
-- filesystem capabilities at the repository, runtime, fixture, and temporary-output locations;
-- Word automation bitness compatibility and a minimal open/close/repaginate/export smoke result;
-- any endpoint security or policy that can block COM, named pipes, atomic replacement, temporary files, or child processes.
+Measured:
 
-Nothing in the research reports proves the exact Word installation on STEALTHEYELLC. That fact remains a measured prerequisite, not a frozen assumption.
+- desktop Microsoft Word is not installed;
+- no `WINWORD.EXE` was found;
+- no `Word.Application` COM registration was found;
+- no Office Click-to-Run desktop installation was found;
+- no Microsoft 365 trial has been started.
 
-## 4. Process topology
+This state is deliberately compatible with native Build 001. It is not a degradation of native capability and must remain the A–D acceptance condition.
 
-| Process | Lifetime | Failure boundary | Canonical state |
-| --- | --- | --- | --- |
-| DOCSeye kernel | long-lived service for a session; restartable | must reconstruct from provider truth plus SQLite | no full canonical document copy |
-| OpenXML provider | in-process initially | transaction abort on provider failure | current pinned package snapshot |
-| Word adapter | isolated, restartable, timeout-governed | a hang cannot own or corrupt kernel state | Word-owned live document only while coherently attached |
-| Program Host | disposable per invocation by default | death aborts uncommitted local program work | owns no durable truth |
-| SQLite | kernel-owned | rebuildable index/correspondence validation after crash | operating state only |
+## 2. Provisioning classification
 
-The Word adapter must use explicit provider epochs. COM or Office.js objects from an earlier epoch are never reused after provider restart.
-
-## 5. Filesystem and paths
-
-The following path shape is a convention for implementation planning, not a claim that the directories already exist:
-
-| Purpose | Planned convention |
-| --- | --- |
-| Repository checkout | `X:\\DOCSeye` or the STEALTHEYELLC engineering checkout root |
-| Runtime state | `C:\\DOCSeye\\state` |
-| Test fixtures | repository-owned deterministic fixture tree |
-| Transaction candidates | an explicit same-volume temporary root near the target artifact when atomic replacement requires it |
-| Logs/results | repository test artifacts during implementation; canonical measured summary in `docs/09-BUILD-001-RESULTS.md` only after acceptance |
-
-The implementation must not rely on paths for logical document identity. Path configuration is operational plumbing. SHELLeye physical-file identity and DOCSeye controlled-operation lineage govern continuity.
-
-## 6. Word provider contract
-
-The provider must:
-
-1. attach to or open the exact representation under a new provider epoch;
-2. expose whether Word is ahead of, aligned with, or behind the persisted package;
-3. refuse package-side writes that would overwrite newer unsaved Word state;
-4. expose bounded native operations required by Build 001;
-5. report save completion separately from raw filesystem events;
-6. repaginate and return evidence that a layout revision is based on the requested document/provider revision;
-7. export fixed-format PDF with exact source-revision metadata in DOCSeye correspondence;
-8. time out, cancel where safely possible, and be restartable without fabricating continuity;
-9. open accepted specimens without repair and surface any repair result as a failed gate;
-10. never become the external logical identity authority or package preservation verifier.
-
-## 7. SQLite contract
-
-SQLite uses WAL plus FTS5 for one local writer and concurrent readers. The database contains current operating state and bounded recovery evidence, not a version-control product.
-
-Required controls:
-
-- pin and record a corrected SQLite version;
-- run startup integrity and schema-version checks;
-- make current package/provider truth sufficient to rebuild indexes;
-- coordinate database commit publication with physical package commit so an acknowledged document revision is never half-published;
-- recover conservatively after crash boundaries;
-- return `resync_required` for expired delta cursors;
-- never store a simplified reserialized document as canonical truth.
-
-## 8. Sibling integration
-
-| Substrate | DOCSeye consumes | DOCSeye does not steal |
+| Component | Classification at freeze | Build 001 role |
 | --- | --- | --- |
-| SHELLeye | exact physical-file observations, rename/replacement correlation, locks, atomic replacement | semantic document identity or structure |
-| DESKTOPeye | Word window/UI correlation and any truly UI-only operation | paragraph, comment, table, or layout semantic authority |
-| CODEeye | repository/source correlation for engineering documents | source symbols, diagnostics, or code actions |
-| eyeBROWSE | live-page correlation when a document derives from web state | live DOM/network/navigation ownership |
+| Node `v24.18.1` / npm `11.16.0` | **ALREADY PRESENT** | one non-agentic Program Host invocation by absolute path |
+| desktop Microsoft Word / COM | **NOT PRESENT / NOT REQUIRED** | zero use in native A–D and DOCX X supplement |
+| Microsoft 365 trial | **NOT STARTED / NOT REQUIRED** | must not be started for native acceptance |
+| .NET 10 LTS SDK/runtime | **IMPLEMENTATION MUST VERIFY/PROVISION** | C# kernel and provider contracts |
+| supported SQLite native library | **IMPLEMENTATION MUST VERIFY/PROVISION** | DND container and external runtime indexes |
+| deterministic CBOR implementation(s) | **IMPLEMENTATION MUST PROVISION** | primary codec plus independent canonical-vector implementation |
+| Typst | **IMPLEMENTATION MUST PROVISION** | first paginated/PDF provider candidate |
+| Chrome for Testing/Chromium | **IMPLEMENTATION MUST PROVISION/PIN** | HTML/accessibility projection and browser checks |
+| Open XML SDK | **IMPLEMENTATION MUST PROVISION** | typed OOXML interpretation/validation beside raw OPC/XML |
+| LibreOffice | **IMPLEMENTATION MUST PROVISION FOR X-04** | alternate-provider smoke only; never Microsoft evidence |
+| PDF validator (for example veraPDF where profile support is suitable) | **IMPLEMENTATION MUST PROVISION/PIN** | independent tagged/PDF-UA validation |
+| fonts and hyphenation data | **IMPLEMENTATION MUST PROVISION/PIN** | qualified LayoutRevision and typography fixture |
+| SHELLeye integration surface | **IMPLEMENTATION MUST VERIFY** | carrier identity, coherent snapshot, and publication |
 
-Build 001 must remain testable with deterministic adapters if a sibling service is unavailable. The substitute may emulate transport, not relax identity or atomicity semantics.
+“Must provision” is a later implementation prerequisite, not authorization to install during synthesis.
 
-## 9. Security and active content
+## 3. Version-selection rule
 
-- DOCSeye does not execute macros, ActiveX, OLE payloads, embedded binaries, or external relationships.
-- A `.docm` preservation experiment may copy VBA parts unchanged; it is not a macro-execution feature.
-- Encrypted Office content remains inaccessible until an authorized provider supplies the necessary access; the system reports this truthfully.
-- Signature coverage and impact are inspected. A mutation that changes signed coverage must not be reported as preserving signature validity.
-- Program Host programs receive a capability-bounded SDK, not arbitrary kernel memory or an uncounted raw-ZIP escape hatch.
-- Logs and errors must avoid dumping full sensitive document content by default.
+At Build 001 preflight, select the latest stable supported patch compatible with the frozen major/platform choices, then record:
 
-## 10. Reproducibility record
+- exact version and release channel;
+- upstream source/release URL;
+- package/binary digest and architecture;
+- license;
+- relevant security/advisory status;
+- configuration, locale, timezone, fonts, hyphenation data, and environment variables;
+- whether the component is product, provider, validator, or test-only.
 
-The eventual results document must record:
+Pin acceptance after its early qualifying experiment. Do not freeze an incidental minor version merely because a research pass observed it.
 
-- Git freeze and implementation commit SHAs;
-- all exact toolchain/provider versions;
-- fixture hashes and adversary version;
-- Word update channel/build and installed-font manifest;
-- operating-system and relevant printer/layout configuration;
-- every experiment and hostile-case result;
-- benchmark machine configuration;
-- known provider normalization profiles;
-- deviations from this frozen plan and the decision that authorized each deviation.
+Current external reference points on 2026-08-09 are SQLite 3.53.4, Typst 0.15.1, Open XML SDK 3.5.1, .NET 10 LTS, and Node 24 LTS. These are re-verification facts, not package manifests.
 
-Until that record exists, platform compatibility and Build 001 acceptance remain **NOT RUN**.
+## 4. Native artifact profile on Windows
+
+The DND is a SQLite application file using rollback-journal `DELETE` mode. A quiescent portable artifact is one main file with no required `-wal`/`-shm` companion. A live database file must never be copied as though quiescent: implementation uses SQLite-supported snapshot/backup behavior and SHELLeye coordination.
+
+External rebuildable runtime/index databases use WAL and may create `-wal` and `-shm`. Those files are operating state, not part of portable semantic truth. Milestone A deletes the entire runtime directory.
+
+Build 001 uses a provisional `.dnd` suffix. File associations, MIME registration, installer behavior, and a public extension decision are outside acceptance.
+
+## 5. Process and isolation requirements
+
+The acceptance harness must record all child processes and network requests. Native open/validate/query/mutate/layout/render must:
+
+- launch no Word process;
+- activate no Word COM/API;
+- execute no macro, OLE, ActiveX, extension payload, field code, or foreign script;
+- perform no implicit remote asset/external-relationship fetch;
+- isolate Typst, browser, LibreOffice, and independent mutator temp/cache directories;
+- pin and report provider executable paths and digests;
+- preserve old/new artifacts around crash injection for postmortem validation.
+
+## 6. Renderer environment
+
+Every `LayoutRevision` and accepted render records:
+
+- semantic revision/root and layout profile;
+- provider name/version/binary digest;
+- complete font manifest/digests and fallback order;
+- locale, language, writing mode, and hyphenation data/version;
+- relevant page/PDF/HTML configuration;
+- warnings, unsupported capabilities, and source-map digest.
+
+The browser test uses a pinned non-auto-updating Chrome for Testing or equivalent pinned Chromium build. Typst source is generated into test-only derived state. Neither source nor DOM is canonical.
+
+## 7. Word-free gate
+
+For native A–D and provider X-01–X-04:
+
+| Counter | Required |
+| --- | ---: |
+| required `WINWORD.EXE` | 0 |
+| observed Word processes | 0 |
+| Word COM activations/calls | 0 |
+| Word API calls | 0 |
+| Word-produced acceptance artifacts/oracles | 0 |
+
+If a test attempts Word use, the native acceptance run is invalid rather than “degraded.” A future conditional Microsoft suite runs elsewhere and records a fully qualified Microsoft environment.
+
+## 8. Repository-state facts at freeze
+
+- Product source: not present.
+- Test projects: not present.
+- Native fixtures/databases: not present.
+- Dependency manifests/lockfiles: not present.
+- `docs/09-BUILD-001-RESULTS.md`: absent by design.
+- Build 001: planned, not started.
+- Acceptance: not run.
+
+Implementation must change these statements only when the corresponding authorized work actually occurs.

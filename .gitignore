@@ -1,17 +1,20 @@
-# Editor and OS noise
+# Editor and operating-system noise
+.DS_Store
+Thumbs.db
 .vs/
 .vscode/
-.idea/
 *.user
 *.suo
 
-# Future implementation outputs (Build 001 is not implemented here)
+# Build and test output
 bin/
 obj/
 node_modules/
 artifacts/
 coverage/
 TestResults/
+
+# Runtime and fixture artifacts are not architecture-source files
 *.db
 *.db-shm
 *.db-wal

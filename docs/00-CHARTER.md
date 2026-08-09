@@ -1,90 +1,78 @@
 # 00 — Charter
 
-Status: **FINAL / FROZEN FOR BUILD 001**
-Operator: **ChatGPT**
-Product implementation: **NOT STARTED**
+Status: **CANONICAL / FROZEN FOR BUILD 001**
 
-## 1. Mission
+## 1. Product thesis
 
-DOCSeye gives ChatGPT a persistent, programmable document world without fabricating a universal document model. It makes useful document concepts conservatively addressable across revisions and provider representations, executes exact structural transactions, preserves unsupported native content, and returns compact semantic state instead of requiring repeated full-document rediscovery.
+DOCSeye is ChatGPT's native persistent authored-information substrate.
 
-DOCSeye is designed for ChatGPT as the product operator. It is not optimized around a human editor UI, selector authoring, macro recording, or a human-facing document-management workflow.
+It gives ChatGPT durable, exact, revision-aware access to authored document semantics across turns, process loss, carrier movement, derived renders, and bounded provider interchange. For a native document, the portable artifact—not a process, path, index, browser tree, Word session, or model memory—originates semantic identity and current truth.
 
-## 2. Five project constraints
+DOCSeye is not a visual word processor. It is not a universal document converter, a giant cross-substrate graph, a permanent action ledger, an agent swarm, or a wrapper around Microsoft Word.
 
-1. **ChatGPT is the operator.** The normal interface is compact typed state, bounded deltas, exact actions, waits, and local programs—not a human productivity UI.
-2. **Native systems retain authority.** OOXML, Word, PDF, ODF, HTML, layout engines, renderers, cloud providers, and sibling StealthEye substrates keep representation-specific truth. DOCSeye owns correspondence and transaction semantics above them.
-3. **Identity must be conservative.** Logical IDs never imply a current exact binding. Position, path, text, visual similarity, and provider IDs cannot be promoted beyond their documented scope. Ambiguity stops mutation.
-4. **Preservation is a correctness boundary.** An accepted edit changes only its declared semantic-effect envelope and serialization footprint. Unsupported surrounding provider truth survives or the operation is rejected/routed elsewhere.
-5. **Operating state is bounded.** DOCSeye is not a permanent action ledger, document version-control system, provenance service, universal graph database, approval service, or duplicated canonical document store.
+## 2. Primary operator and execution model
 
-## 3. Provider-truth principle
+ChatGPT is the intended operator. It plans against typed objects and revision-conditioned transactions. A local, non-agentic Program Host executes dense workflows with no embedded model and returns typed results, deltas, capability reports, refusals, and render references.
 
-> Each provider owns the truth native to the representation it defines. DOCSeye owns conservative logical correspondence, temporal coherence, exact targeting, and agent continuity among those truths.
+The model may reason; the kernel must prove. No verification-agent architecture is permitted. Independent validators and independent format implementations are test or provider components, not additional decision-making agents.
 
-The package provider owns stored OPC/XML truth. Word owns current unsaved Word state and Word-specific application behavior. A layout engine owns one pagination result. PDF owns stored fixed-layout structures. OCR owns an explicitly inferred observation, not native document semantics.
+## 3. Persistent-world invariants
 
-Normative standards and current application behavior may disagree. DOCSeye records both rather than flattening one into the other.
+1. **Artifact-originated identity.** Native family, branch, revision, object, and retained-boundary identity travel in the DND.
+2. **Exact targeting.** A write requires an exact live target in the expected branch and revision or returns a conservative non-write classification.
+3. **False rebound is worse than ambiguity.** Duplicate text, similar structure, a familiar path, or matching bytes never authorizes semantic continuity by itself.
+4. **Authority is explicit.** One state has one editable semantic authority. Native mode and foreign-managed mode cannot silently overlap.
+5. **Transactions are old-or-new.** An acknowledged commit is a whole semantic revision. A partial acknowledged revision is impossible by contract.
+6. **Operating state is rebuildable.** Native truth does not depend on FTS, embeddings, caches, process bindings, or the Program Host database.
+7. **Deltas are bounded and gap-aware.** A missing cursor produces an explicit resynchronization requirement, never a silent omission.
+8. **History is bounded.** Current state, current references, active suggestions, merge bases, recent deltas, and required retirement witnesses may persist; an unbounded action ledger is not required.
+9. **Derived layout does not own semantics.** Pages, shaped runs, regions, HTML, and PDF are scoped to a layout or render revision.
+10. **Unknown meaning is protected.** Unknown extensions are preserved and their declared coverage controls whether an edit may proceed.
 
-## 4. No-fake-identity principle
+## 4. Authored-information boundary
 
-> Loss of continuity is acceptable. False continuity is not.
+The native ontology covers reflowable authored documents: structured flows and blocks, text, lists, tables, relations, styles, review content, computed fields, controls, notes, figures, assets, math, layout intent, and bounded extensions.
 
-A retained concept can be `exact_current`, `exact_rebased`, `stale`, `ambiguous`, or `destroyed`. Its logical ID may continue to exist without a current mutation-authorizing binding. Text equality, path, paragraph ordinal, table coordinate, character offset, page number, visual similarity, and embeddings are never sufficient alone for destructive mutation.
+It does not attempt to normalize every foreign representation. In particular, the native core does not absorb:
 
-## 5. Preservation principle
+- spreadsheets as full computational models;
+- presentation animation and slide-show semantics;
+- source repositories and executable applications;
+- arbitrary database state;
+- live browser DOMs and sessions;
+- full temporal audio/video models;
+- every OOXML/ODF/PDF extension or object;
+- embedded scripts, macros, OLE execution, or arbitrary field code.
 
-> Unsupported provider truth outside an accepted operation's declared mutation closure survives.
+Foreign features that do not fit honestly remain scoped provider facets, opaque objects, inert source-capsule content, or explicitly unsupported capabilities.
 
-Preservation is measured at package, relationship, XML, semantic, native-feature, layout, and application-acceptance layers. Whole-ZIP byte equality is not required; unexplained semantic mutation or unsupported-content loss is forbidden.
+## 5. Cross-substrate ownership
 
-## 6. Domain boundaries
+| Substrate | Owns | DOCSeye interaction |
+| --- | --- | --- |
+| SHELLeye | physical carrier identity, coherent file snapshots, movement, copy, and atomic publication | DOCSeye binds but never substitutes physical identity for family/branch/object identity |
+| DESKTOPeye | windows, focus, caret, app UI, and user-visible takeover | DOCSeye may coordinate a provider session but does not derive semantic identity from UI state |
+| CODEeye | repository, source-file, symbol, and engineering semantics | DOCSeye may embed or link a static representation; executable/source authority stays with CODEeye |
+| DATAeye | computational tables, datasets, query models, and data binding | DOCSeye owns authored table presentation and bounded fields/controls, not deep computation |
+| eyeBROWSE | live web documents, DOM state, sessions, and browser actions | DOCSeye owns derived/static HTML representations only |
+| MEDIAeye | full temporal media and media editing semantics | DOCSeye owns figure occurrences and asset references, not the media timeline |
 
-| Substrate/provider | Owns |
-| --- | --- |
-| DOCSeye | logical documents and retained semantic concepts; revisions; correspondence; typed document transactions; semantic indexes/deltas; semantic-layout correlation |
-| SHELLeye | physical files, paths, physical-file continuity/replacement, processes, locks, atomic physical actuation, filesystem signals |
-| DESKTOPeye | Word windows, dialogs, ribbon, focus, caret, and physical UI interaction |
-| eyeBROWSE | live pages, browser DOM/network/navigation/application state |
-| CODEeye | source, symbols, builds, tests, repositories, and engineering semantics |
-| future DATAeye | workbook, cell, formula, table, pivot, and deep chart-data semantics |
-| future presentation substrate | decks, slides, masters, layouts, animation, timing, and presenter semantics |
+Shared identifiers may express correspondence. They do not erase domain ownership.
 
-Static/saved HTML may be a DOCSeye representation; a live page remains eyeBROWSE. Markdown can participate in CODEeye or DOCSeye according to the requested semantics. Deep PPTX and XLSX semantics are not DOCSeye merely because they share OPC packaging.
+## 6. Interoperability promise
 
-Cross-substrate relations stay sparse and evidence-bearing. There is no universal StealthEye graph.
+DOCX and future ODF providers are explicit mappings, not native truth in native mode. Import reports what was represented, faceted, preserved, or blocked. Export reports translation outcome separately from which application or validator observed the result. Microsoft Word remains optional Microsoft-specific fidelity infrastructure; it is not a hidden dependency of native acceptance.
 
-## 7. Explicit non-goals
+Foreign-managed DOCX remains available for users who choose not to convert. In that mode DOCX is authoritative and the historical DOCX-first correspondence rules apply. Conversion is explicit and irreversible as an authority transition unless the user later exports a new provider representation.
 
-DOCSeye is not:
+## 7. Open format and stewardship
 
-- a universal document AST;
-- a flat-text extraction/regeneration system;
-- a Word-only automation layer;
-- a generic rich-document SDK;
-- a lossless XML patcher without correspondence semantics;
-- a full graph database or duplicated document store;
-- a document-management/version-history product;
-- a human document editor;
-- a workflow, policy, approval, or multi-agent scheduling service;
-- a permanent action/provenance/event ledger;
-- a universal converter;
-- a custom Word-compatible layout engine.
+The DND logical format is openly specified. A conforming independent implementation must be able to decode canonical records, validate identities/references/root, preserve unsupported optional extensions, refuse unsafe required extensions, produce the published deterministic vectors, make a valid independent commit, and survive round-trip through the primary implementation without semantic drift.
 
-Build 001 has narrower non-goals in `02-BUILD-001-SLICE.md`.
+SQLite is the application-file/container substrate and deterministic CBOR is the canonical logical record encoding. Neither SQLite page layout nor the initial SQL schema is the public semantic ontology.
 
-## 8. Architecture authority order
+## 8. Build discipline
 
-When sources disagree, use this order:
+Build 001 proves or falsifies the permanent native core. It does not build a visual editor, collaboration system, universal foreign-format translator, Word clone, or typography engine. Architecture-threatening experiments run early. If a frozen invariant is falsified, implementation stops and reopens only the affected architectural question; it does not quietly weaken the invariant.
 
-1. `docs/AUTHORITY.md` and the current canonical repository state;
-2. `docs/00-CHARTER.md` for mission and constraints;
-3. `docs/01-ARCHITECTURE.md` for permanent semantics;
-4. `docs/02-BUILD-001-SLICE.md` for Build 001 gates;
-5. numbered decisions in `docs/06-DECISIONS.md`;
-6. other canonical numbered documents;
-7. current primary standards/API evidence;
-8. implementation experiments and measured results after they are deliberately promoted;
-9. the three independent research reports as historical input evidence.
-
-Implementation evidence that falsifies a frozen mechanism must update the affected canonical document and decision. It must not create a contradictory shadow specification.
+Build 001 remains planned and unimplemented. Its exact scope is in [02-BUILD-001-SLICE.md](02-BUILD-001-SLICE.md).

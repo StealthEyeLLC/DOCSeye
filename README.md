@@ -1,59 +1,49 @@
 # DOCSeye
 
-Owner: **StealthEyeLLC**
-Operator: **ChatGPT**
+DOCSeye is ChatGPT's persistent authored-information substrate at StealthEyeLLC. Its canonical architecture is **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS**.
 
-```text
-Architecture:           FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001
-Build 001:              PLANNED / NOT IMPLEMENTED
-Product implementation: NOT STARTED
-Build 001 acceptance:   NOT RUN
-```
+For a native-mode document, one portable DOCSeye Native Document (DND) is the sole editable semantic authority. DOCX, ODF, HTML, PDF, Typst, browser DOMs, and Microsoft Word are bounded providers or derived representations; none silently becomes a second native semantic authority.
 
-**DOCSeye is ChatGPT's persistent, preservation-first, provider-federated document correspondence world: a revisioned operating substrate that maintains conservative logical document and semantic-object identity across native package, live application, layout, render, and fixed-layout representations; indexes current structure; executes exact version-aware typed transactions within declared semantic-effect and serialization-footprint contracts; preserves unsupported provider truth; and returns compact local queries and deltas.**
+## Frozen status
 
-DOCSeye is not a universal document AST, Word automation wrapper, flat-text regeneration pipeline, lossless-XML patcher by itself, document database, document-management product, or human-facing editor. Native formats and applications remain authoritative for the truths they actually define. DOCSeye owns conservative correspondence, temporal coherence, exact targeting, transactions, preservation contracts, bounded deltas, and local programmable operation.
-
-## Frozen architecture
-
-The permanent spine is:
-
-```text
-provider-native document truth
-  + full compact current-revision index
-  + sparse durable semantic promotion
-  + object-specific identity evidence
-  + exact-or-stale typed transactions
-  + semantic-effect envelope
-  + serialization footprint
-  + preservation-aware package mutation
-  + separate document / representation / provider / layout / render clocks
-  + bounded deltas, waits, and synchronization
-  + non-agentic local Program Host
-```
-
-The governing correctness rules are:
-
-> Loss of continuity is preferable to mutation of the wrong object.
->
-> Unsupported provider truth outside an accepted operation's declared mutation closure survives.
-
-Provider-native identifiers—including `w14:paraId`, `w14:textId`, `w15:docId`, comment durable IDs, content-control IDs, bookmarks, live Word ranges, and PDF object identifiers—are scoped evidence. None becomes DOCSeye logical identity by itself.
-
-## Build 001
-
-Build 001 is the **Persistent Document Correspondence Kernel Slice**. Its editable format is ordinary Transitional DOCX. A mandatory isolated Microsoft Word provider supplies bounded native compatibility, field/revision behavior, pagination, and fixed-format export; PDF is only a derived layout/render artifact in this build.
-
-| Milestone | Decisive proof |
+| Item | Status |
 | --- | --- |
-| **A — Persistent Document Correspondence** | Twenty-four retained concepts recover exactly across unchanged-byte restart and classify exactly as 14 exact, 6 stale/destroyed, and 4 ambiguous after a deterministic observer-gap rewrite. |
-| **B — Transactional Document World / Delta First** | Two expected-revision typed transactions commit atomically under the two-dimensional mutation contract, emit compact semantic deltas, handle exact and ambiguous rebases correctly, and produce a current Word layout revision. |
-| **C — Identity + Preservation + Concurrency Killer** | All **54** deterministic hostile cases pass with every required zero metric, including zero false rebounds, wrong-target edits, preservation losses, footprint escapes, blind overwrites, partial commits, and silent gaps. |
-| **D — Programmable Document Operation** | One Node 24 Program Host invocation performs exactly **60** meaningful typed operations, including 29 mutations, two commits, external reconciliation, delta consumption, layout wait, affected-page rendering, and zero intermediate model calls. |
+| Architecture | **FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001** |
+| Architecture family | **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS** |
+| Prior DOCX-first freeze | `47b5280b71773ae497b5a56c4b590b9070b4bca5` — **SUPERSEDED AS DOCX-FIRST ARCHITECTURE BASELINE** |
+| Build 001 | **PLANNED / NOT IMPLEMENTED** |
+| Product implementation | **NOT STARTED** |
+| Build 001 acceptance | **NOT RUN** |
+| Microsoft Word | **NOT REQUIRED FOR NATIVE BUILD 001 ACCEPTANCE; OPTIONAL FOR MICROSOFT-SPECIFIC INTEROP/CONFORMANCE** |
 
-Build 001 includes exactly **30** bounded implementation experiments. They resolve implementation mechanisms; they do not reopen the frozen identity, provider-authority, preservation, temporal, or transaction semantics.
+The superseded baseline remains a valid, permanently retained design alternative in Git history. It was not an implementation failure. The native design supersedes it because portable intrinsic identity, revision-conditioned transactions, retained anchors, extension safety, semantic deltas, and renderer/provider independence provide material permanent leverage before implementation begins.
 
-## Canonical documents
+## Authority modes
+
+DOCSeye exposes an explicit mode boundary:
+
+- **Native-authored** — DND is semantic authority from creation.
+- **Converted/imported DOCX** — DND becomes sole editable semantic authority; an original DOCX may remain as non-authoritative source evidence and provider facets.
+- **Foreign-managed DOCX** — an intentionally unconverted DOCX remains provider authority and uses the preserved DOCX-first correspondence architecture. It is not simultaneously a native document.
+
+Conversion is an explicit transaction. No document may be silently both DOCX-authoritative and native-authoritative.
+
+## Build 001 proof
+
+Build 001 is frozen to prove one portable native artifact, not merely a new extension:
+
+> Prove that one portable native DOCSeye artifact carries authoritative semantic identities, family/branch/revision state, retained anchors, extension-preservation contracts, assets, and layout intent; survives total kernel and rebuildable-runtime loss, coherent movement, independent valid native edits, and replica divergence; executes exact revision-conditioned atomic transactions with compact gap-aware semantic deltas; renders attributable accessible HTML and paginated PDF with no Microsoft Word dependency; and crosses one bounded DOCX boundary without false fidelity claims.
+
+The acceptance slice contains:
+
+- 20 numbered implementation experiments;
+- 32 separately scored native hostile cases;
+- 4 separately scored DOCX-provider supplemental cases;
+- one 96-call Program Host invocation with 48 semantic mutations, 16 mutation families, 3 atomic commits, 6 delta consumptions, and zero intermediate model calls.
+
+No experiment has run and no result is claimed.
+
+## Canonical documentation
 
 Read in this order:
 
@@ -63,30 +53,21 @@ Read in this order:
 4. [STEALTHEYELLC platform](docs/03-PLATFORM-STEALTHEYELLC.md)
 5. [Roadmap](docs/04-ROADMAP.md)
 6. [Research baseline](docs/05-RESEARCH-BASELINE.md)
-7. [Decisions](docs/06-DECISIONS.md)
+7. [Decision register](docs/06-DECISIONS.md)
 8. [Capability matrix](docs/07-CAPABILITY-MATRIX.md)
 9. [Workflow pressure tests](docs/08-WORKFLOW-PRESSURE-TESTS.md)
-10. [Authority](docs/AUTHORITY.md)
+10. [Native format](docs/NATIVE-FORMAT.md)
+11. [Authority and status](docs/AUTHORITY.md)
 
-`docs/01-ARCHITECTURE.md` is the canonical permanent design. `docs/02-BUILD-001-SLICE.md` is the complete pre-implementation acceptance contract. The independent research reports remain evidence, not direct implementation authority after this freeze.
+`docs/09-BUILD-001-RESULTS.md` must remain absent until Build 001 is implemented and accepted. This repository contains architecture/specification text only: no product source, test project, fixture, native database, generated binary, dependency manifest, or result artifact.
 
-## Repository state
+## Non-negotiable boundaries
 
-This baseline is intentionally documentation-only:
+- ChatGPT is the primary operator; the local Program Host is deterministic and contains no model.
+- Persistent semantic identity is not a path, byte hash, provider handle, integer offset, page, run, or search result.
+- Exact target or conservative refusal beats plausible rebound.
+- Current semantic state and bounded recovery witnesses are retained; no permanent action ledger is required.
+- SHELLeye owns physical carriers/publication; DESKTOPeye owns UI state; CODEeye owns source semantics; DATAeye owns computational tables/data; eyeBROWSE owns live web state; MEDIAeye owns full temporal media.
+- Opening or rendering a document never executes native or foreign active content and never fetches remote assets automatically.
 
-```text
-README.md
-.gitignore
-docs/00-CHARTER.md
-docs/01-ARCHITECTURE.md
-docs/02-BUILD-001-SLICE.md
-docs/03-PLATFORM-STEALTHEYELLC.md
-docs/04-ROADMAP.md
-docs/05-RESEARCH-BASELINE.md
-docs/06-DECISIONS.md
-docs/07-CAPABILITY-MATRIX.md
-docs/08-WORKFLOW-PRESSURE-TESTS.md
-docs/AUTHORITY.md
-```
-
-There is no `src/`, fixture, generated document, runtime database, Program Host, provider implementation, package dependency, or `docs/09-BUILD-001-RESULTS.md`. Product implementation begins only in a separate implementation pass.
+The next authorized DOCSeye work is Build 001 implementation against this freeze. Another generic architecture pass is unnecessary unless a numbered architecture falsifier fails.

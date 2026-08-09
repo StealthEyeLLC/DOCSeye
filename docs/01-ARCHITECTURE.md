@@ -1,610 +1,256 @@
 # 01 — Architecture
 
-Status: **FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001**
-Operator: **ChatGPT**
-Product implementation: **NOT STARTED**
+Status: **FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001**  
+Architecture family: **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS**
 
-This is the single canonical DOCSeye architecture.
+## 1. Architectural determination
 
-## 1. Definition
+The DOCX-first architecture frozen at `47b5280b71773ae497b5a56c4b590b9070b4bca5` is **SUPERSEDED AS DOCX-FIRST ARCHITECTURE BASELINE**.
 
-**DOCSeye is ChatGPT's persistent, preservation-first, provider-federated document correspondence world: a revisioned operating substrate that maintains conservative logical document and semantic-object identity across native package, live application, layout, render, and fixed-layout representations; indexes current structure; executes exact version-aware typed transactions within declared semantic-effect and serialization-footprint contracts; preserves unsupported provider truth; and returns compact local queries and deltas.**
+Native authority clears the material-advantage threshold because it permanently relocates identity, revision control, retained anchors, atomic semantic transactions, extension safety, and bounded deltas from a provider/correspondence inference problem into the portable authored artifact. Those gains survive application replacement, provider absence, carrier movement, and renderer change. They materially improve exact targeting and local Program Host density rather than merely improving storage elegance.
 
-The ownership rule is:
+The permanent costs—format stewardship, conformance, renderer mappings, DOCX conversion, extension governance, parser surface, and ecosystem friction—are accepted only with a narrow authored-information ontology, an open logical specification, an independent writer/validator, non-authoritative provider facets, and an explicit foreign-managed mode. Build 001 can still falsify that trade.
 
-> Each provider owns the truth native to the representation it defines. DOCSeye owns conservative correspondence, temporal coherence, exact targeting, and agent continuity among those truths.
+## 2. Authority architecture
 
-The correctness rules are:
+### 2.1 Native mode
 
-> Loss of continuity is preferable to mutation of the wrong object.
->
-> Unsupported provider truth outside an accepted operation's declared mutation closure survives.
+One validated DND logical state is the sole editable semantic authority. The artifact carries its family, branch, current revision/root, public object identities, retained boundaries, semantics, extensions, assets, and layout intent.
 
-## 2. Why the architecture is differentiated
+Provider source bytes and facets are evidence and interoperability constraints. A required or unknown facet may block an intersecting edit/export; it may not silently replace current native meaning. Layout and renders are derived realizations scoped to qualified revisions. SHELLeye owns the physical carrier, not authored identity.
 
-Open XML SDK plus helpers cannot replace DOCSeye because it does not supply external logical identity, restart recovery, conservative cross-revision correspondence, document/provider/layout clocks, exact-or-stale transactions, semantic deltas, or a local retained-object program surface.
+### 2.2 Foreign-managed mode
 
-Word automation cannot replace DOCSeye because live Word objects are provider/session realizations, Word may be absent or behind/ahead of disk, Word cannot define PDF/ODF truth, and Word does not provide controller-independent logical identity or DOCSeye's explicit package preservation contract.
+Foreign-managed DOCX is retained because it preserves immediate utility for existing documents without forced conversion and keeps the strong old correspondence/preservation architecture available. The complexity is bounded by a hard mode discriminator:
 
-A universal AST cannot replace DOCSeye without becoming either lossy or an opaque collection of provider-specific escape bags. DOCX, Word live state, tagged PDF, untagged PDF, ODF, and static HTML have overlapping but nonidentical truths.
-
-The permanent architecture therefore combines capabilities that ordinary SDKs separate:
-
-- provider-native truth;
-- full compact current indexing;
-- selective persistent correspondence;
-- object-specific identity evidence;
-- exact structural transactions;
-- preservation-aware mutation;
-- semantic/layout/render separation;
-- bounded deltas and local programs.
-
-## 3. Core invariants
-
-1. Wrong-target mutation is never preferred over continuity loss.
-2. A logical ID does not imply a current exact binding.
-3. Path, offset, ordinal, table coordinate, text equality, page number, appearance, and embeddings are not durable identity.
-4. Provider IDs are evidence only within their documented scope and proven representation lineage.
-5. Provider-specific truth is not flattened into fake universality.
-6. Unsupported or unknown provider truth is never silently dropped by an unrelated accepted edit.
-7. Semantic effect and serialization footprint are independent boundaries and both must pass.
-8. Target resolution and mutation occur against the same pinned coherent provider snapshot.
-9. Automatic rebase is allowed only when the target and boundaries transform deterministically to one exact candidate.
-10. Layout objects never masquerade as semantic identity.
-11. Native tracked changes are document content, not DOCSeye revision history.
-12. Deltas are bounded; expiration is explicit `resync_required`, never a silent gap.
-13. SQLite stores operating correspondence, not canonical document content or permanent history.
-14. The Program Host is non-agentic and never owns canonical state.
-
-## 4. Document, representation, and derivation identity
-
-### 4.1 Logical document
-
-`document_*` denotes one logical authored-document branch. It is not a path, NTFS file object, ZIP byte sequence, Word process, cloud item, or native family ID.
-
-### 4.2 Representation
-
-`representation_*` denotes a provider-native representation associated with a document, such as a continuing DOCX representation, a live Word working representation, or a PDF representation.
-
-`RepresentationIncarnation` is one continuous representation/provider lineage. It does not advance on every ordinary save. A provider restart creates a new `ProviderEpoch`, not automatically a new representation incarnation.
-
-### 4.3 Frozen event semantics
-
-| Event | Result |
-| --- | --- |
-| Rename with exact physical continuity | same `document_*` and representation; location binding changes |
-| DOCSeye-controlled save, including atomic physical replacement | same document/representation; new document and representation revisions |
-| Word save with exact live-provider lineage | same document; new Word/provider state and persisted revisions as applicable |
-| Unexplained file at the same path | never inherits identity from path; old binding detaches/stales |
-| Save As | new `document_*`, `DERIVED_FROM source@DocumentRevision`; source remains its own branch |
-| Copy/email attachment | new document branch by default; observed copy records derivation |
-| DOCX-to-PDF export | new PDF document/representation linked `RENDER_OF` and `EXPORT_OF source@revision` |
-| Semantically neutral package reserialization | same document semantic revision; new representation revision |
-| Merge of authored documents | new document linked `MERGED_FROM` all exact inputs |
-
-An explicitly requested move/rename that retires the old location is not Save As.
-
-`w15:docId` is a family/derivation witness because Microsoft defines it for documents derived from a common source. It is not DOCSeye branch identity.
-
-### 4.4 External identity by default
-
-DOCSeye logical IDs live in its operating database. Existing content controls, bookmarks, modern comment IDs, paragraph IDs, cloud IDs, and PDF identifiers can be strong native witnesses. DOCSeye does not silently inject hidden IDs into every document object because injection is a real mutation, copies clone IDs, foreign editors can remove them, formats differ, and signatures can cover modified content.
-
-An explicit anchor-enrichment operation may add a native bookmark, content control, or custom structure when that change is intentionally part of the authored document.
-
-## 5. Temporal and coherence model
-
-One counter cannot truthfully describe stored package state, unsaved Word state, layout, and render output.
-
-| Clock/object | Meaning |
-| --- | --- |
-| `DocumentRevision` | one coherent semantic/native document state accepted by DOCSeye |
-| `RepresentationRevision` | one observed serialized or live representation state; a byte-only rewrite can advance this without semantic change |
-| `RepresentationIncarnation` | one continuing representation lineage |
-| `ProviderEpoch` | lifetime in which live provider objects/handles are valid |
-| `ProviderRevision` | provider-native state/version within an epoch |
-| `LayoutRevision` | one engine/configuration-specific pagination and semantic-to-layout mapping based on an exact document/provider revision |
-| `RenderRevision` | one PDF/bitmap/fixed-format realization based on an exact layout/provider revision |
-| `PhysicalFileRevision` | SHELLeye physical-file state correlated to a representation |
-| `WorldSequence` | monotonic DOCSeye commit/delta order only |
-| `NativeTrackedChange` | a content object inside a document revision, not a clock |
-
-Example:
-
-```text
-document_7 @ DocumentRevision D43 [working]
-  Word ProviderEpoch E9 / ProviderRevision W71 [current, unsaved]
-  DOCX RepresentationRevision P42            [persisted, behind]
-  LayoutRevision L19 based_on W71             [current for Word]
-```
-
-A representation reports coherence relative to the requested document revision as `current`, `ahead`, `behind`, `conflicted`, `unavailable`, or `incomplete`.
-
-Document objects usually have a logical concept plus revision-local snapshots and provider bindings. They do not mechanically receive an `Incarnation` layer unless a provider-specific lifetime genuinely needs one.
-
-## 6. Provider authority and broker
-
-| Provider/substrate | Authoritative for | Not authoritative for |
+| State | Editable semantic authority | Native identity |
 | --- | --- | --- |
-| OpenXML package provider | stored OPC topology, parts, relationships, XML, binary payloads, package-native semantics | Word pagination, unsaved live state, universal layout |
-| Word native provider | current Word working state, Word-native revisions/comments/fields/comparison/save/export behavior | universal package preservation, cold logical identity, other formats |
-| Word layout provider | Word pagination and Word semantic-range-to-page/region observations | semantic object identity |
-| PDF provider | PDF pages, objects, streams, tags, forms, annotations, signatures, incremental state | invented Word-like semantics in untagged PDF |
-| ODF provider | ODF package/content/style/change semantics | OOXML- or Word-specific truth |
-| static HTML provider | serialized document/DOM semantics | live browser/network/application state |
-| OCR/inference provider | explicitly derived observations with origin/confidence | provider-native semantics |
-| SHELLeye | physical file/path/incarnation, locks, filesystem change, atomic replacement | logical document identity |
-| DESKTOPeye | Word window/dialog/focus/caret/UI operation | document semantics |
-| DOCSeye | logical IDs, correspondence, revisions, exact anchors, transactions, deltas, coherence | provider-native facts |
+| unconverted DOCX | DOCX/provider state | external DOCSeye correspondence only; old baseline rules |
+| converted/imported DOCX | DND | intrinsic; source DOCX optional non-authoritative capsule |
+| native-authored | DND from creation | intrinsic |
 
-There is no global fallback ladder. The broker selects the provider whose authority and preservation profile match the operation. If Word has unsaved current state, direct disk mutation is forbidden until the broker reconciles/saves through Word or returns a coherence conflict.
+The kernel, capability report, and Program Host must expose the mode. No operation may treat one state as both DOCX-authoritative and native-authoritative. Conversion is an explicit transaction that mints a native family/branch and records the source boundary.
 
-Build 001 isolates Word in a restartable process because native application automation can block or outlive a caller. OpenXML package interpretation remains in-process unless measured evidence requires isolation. The Program Host is disposable.
+### 2.3 Authority distinctions
 
-## 7. OPC and OOXML model
+- **semantic authority**: current native logical state, or the provider artifact in explicit foreign-managed mode;
+- **provider-source evidence**: immutable source bytes, digest, and import provenance;
+- **provider-specific semantic facet**: scoped provider meaning/correspondence that may constrain preservation/export;
+- **layout authority**: authored native layout intent;
+- **layout realization authority**: one provider/environment's qualified page/region result;
+- **render authority**: derived output bytes plus attribution/validation;
+- **physical carrier authority**: SHELLeye's coherent file object/publication facts.
 
-A DOCX is an Open Packaging Conventions package, not merely `document → paragraphs → runs`. The representation contains:
+## 3. Rejected and superseded alternatives
 
-- parts and content types;
-- package and part relationships, including external targets;
-- XML and binary payloads;
-- main and subsidiary stories;
-- styles, numbering, settings, themes, headers, footers, notes, comments, revisions, fields, controls, media, equations, embeddings, custom XML, and extensions;
-- Markup Compatibility (`mc:*`) rules and `mc:AlternateContent`;
-- possible signatures, VBA, OLE/ActiveX, custom parts, and encryption envelopes.
-
-The package provider has four layers:
-
-1. **Raw package topology** — entry/part bytes, types, relationships, signatures, and opaque content.
-2. **Namespace/markup preservation** — source XML, unknown attributes/elements, MC context, and exact edit regions.
-3. **Typed interpretation** — current Open XML SDK schema objects, streaming, and validation.
-4. **DOCX semantic facet** — stories, paragraphs, lists, logical tables, comments, changes, fields, controls, figures, and relations.
-
-Open XML SDK is the typed interpretation/validation layer, not the sole fidelity boundary. Its Markup Compatibility preprocessing can remove MC attributes and unselected alternate branches, so destructive preprocessing is prohibited on the preservation write path unless conversion is the explicit operation.
-
-Build 001 edits ordinary Transitional DOCX and retains conformance information. Strict input is detected and reported; complete Strict mutation is deferred unless an exact supported operation proves safe.
-
-Encrypted content reports `encrypted` unless an authorized provider can expose the contained package. DOCM content can be preserved without executing VBA. Signature coverage and impact are intrinsic provider facts, not a separate approval architecture.
-
-## 8. Semantic object model
-
-The common vocabulary is deliberately small and incomplete:
-
-```text
-document_*            authored branch
-representation_*      provider-native representation
-story_* / flow_*      body, header, footer, note, comment, text-box flow
-section_*             section and section-boundary semantics
-block_*               useful provider-neutral block correspondence
-paragraph_*           paragraph-like semantic block
-span_*                retained exact text/inline range
-list_* / list_item_*
-table_* / row_* / physical_cell_* / cell_region_*
-style_*               document-scoped style definition
-comment_*             collaborative comment/thread object
-change_*              native tracked/suggested change
-control_*             content control/form object
-bookmark_*            provider-native marker/range
-field_*               instruction + result/state
-note_*                footnote/endnote
-link_*                hyperlink/cross-reference
-figure_*              one placed visual occurrence
-media_asset_*         underlying reusable bytes
-math_*                semantic math object, OMML-native for Word
-embedded_object_*
-layout_view_* / page_view_* / region_*
-pdf_page_*            provider-native fixed-layout page
-```
-
-Headings are normally paragraph roles/facets. `annotation_*` can be a cross-format conceptual category but does not erase provider-native comment/annotation differences.
-
-Runs, arbitrary XML nodes, offsets, paragraph ordinals, table coordinates, rendered lines, DOCX page numbers, search hits, OCR words, and inferred PDF blocks are revision-local by default. They may be queried and can be promoted only when a real persistent use and sufficient evidence exist.
-
-Provider facets remain first-class. A `paragraph_*` can expose OpenXML, Word-live, and layout facets without any one facet replacing the others.
-
-## 9. Resolution and assurance states
-
-Mutation resolution is one of:
-
-```text
-exact_current
-exact_rebased
-stale
-ambiguous
-destroyed
-unsupported
-```
-
-Observation origin/assurance is separate:
-
-```text
-native_stored
-native_live
-provider_computed
-reconstructed_exact
-heuristic_structure
-ocr_derived
-visual_inferred
-```
-
-An inferred observation can be useful for search while remaining ineligible for destructive mutation.
-
-## 10. Object-specific identity evidence
-
-| Object | Strongest to weakest useful evidence | Exact write rule |
+| Candidate | Determination | Reason |
 | --- | --- | --- |
-| Document | DOCSeye operation/save lineage; immutable cloud/native item lineage; exact live Word save lineage; family/physical/semantic witnesses | path, title, hash, or `docId` alone never proves sameness |
-| Paragraph | operation lineage; `part + paraId` under proven representation lineage plus corroboration; exact semantic container; unique structural correspondence | text, ordinal, style, or page alone never |
-| Span | exact known-edit transform; surviving native marker/control/bookmark; exact parent and unique boundary mapping | nearest/fuzzy occurrence never |
-| Section | operation lineage; exact boundary paragraph/section-property correspondence | split/merge can retire old section concept |
-| List item | exact paragraph identity plus numbering facet | displayed label/ordinal never |
-| List | operation lineage; numbering source plus exact member continuity | `numId` alone not universal |
-| Table | operation lineage; exact provider subtree under exact parent; unique topology/anchors | location alone insufficient |
-| Row | operation lineage; row `paraId` where experimentally proven; exact table plus unique structure | row index/values never |
-| Cell | operation lineage; exact row plus logical grid interval/topology and descendants | coordinate/text alone never |
-| Comment | operation lineage; modern durable ID in proven document scope; legacy ID plus exact anchor/thread | quoted text never |
-| Tracked change | operation lineage; exact provider change element/key/type and owning structure | author/text/time/index never |
-| Content control | operation lineage; native control ID in proven document scope; binding/tag/type corroboration | tag alone not unique |
-| Bookmark | operation lineage; exact current paired markers/name in provider scope | recreated same name is new |
-| Style | operation lineage; provider style ID in document scope; definition graph | visible name alone never |
-| Figure | operation lineage; native drawing/anchor/relationship under exact paragraph | media hash identifies asset, not occurrence |
-| Media asset | exact part/relationship and payload digest | repeated bytes may be one shared asset |
-| PDF page | operation lineage; indirect page object in proven PDF representation | ordinal alone never |
-| Tagged PDF item | exact structure-tree object in proven representation; parent/content mapping | role/text/MCID alone never global |
-| OCR/inferred block | no inherent destructive authority | bind first to exact provider-native representation |
+| DOCX-FIRST | **SUPERSEDED**, retained for foreign-managed mode | Strong interoperability baseline, but permanent semantic identity and transaction correctness remain dependent on external correspondence and provider normalization. |
+| NATIVE-FIRST without capsules/facets | **REJECTED** | Converts unsupported foreign meaning into loss or opaque unscoped bytes and makes export claims dishonest. |
+| TRUE DUAL/BRAIDED AUTHORITY | **REJECTED** | Two editable semantic authorities create irreducible conflict, stale-overwrite, and capability ambiguity. |
+| NATIVE-FORMAT-LATER | **REJECTED for Build 001**, retained fallback if falsified | Defers the highest-leverage identity/anchor/extension questions until after provider coupling hardens. |
+| universal canonical AST | **REJECTED** | Absorbs foreign domains, cannot preserve all provider semantics, and recreates a giant universal graph. |
+| canonical Typst/HTML/DOM/OOXML | **REJECTED** | Confuses renderer or provider representation with authored semantic authority. |
+| append-only historical DAG/CRDT core | **REJECTED for generation 1** | Sole intended operator does not justify permanent per-character/history cost; bounded parents/witnesses satisfy current requirements. |
 
-`w14:paraId` is part-scoped and has an AlternateContent exception. `w14:textId` is paragraph-version evidence. Current Word JavaScript paragraph IDs explicitly differ across sessions and coauthors; they are live-provider keys only. Existing Word content-control IDs and modern comment durable IDs are stronger but still scoped witnesses, not global DOCSeye IDs.
+## 4. Native semantic model
 
-## 11. Paragraphs and spans
+The complete normative object/format rules are in [NATIVE-FORMAT.md](NATIVE-FORMAT.md). The architecture freezes these categories:
 
-A retained span records at least:
+- root, flows/stories, sections, and typed blocks;
+- text blocks with semantic roles and exact UTF-8 text;
+- first-class lists/items and tables/rows/columns/cells/regions;
+- links, citations, references, named anchors, and retained ranges;
+- threads/comments/replies and active suggestions;
+- bounded fields, controls, notes, figures/assets, and math;
+- named styles, themes/tokens, direct overrides, layout profiles;
+- extension objects and provider facets.
 
-```text
-document + base DocumentRevision
-exact parent paragraph/story
-text projection
-provider part/native key witnesses
-start/end semantic boundaries and affinity
-selected-text digest
-bounded left/right context digests
-structural child/neighbor witnesses
-surviving bookmark/control/comment/range anchors
-bounded exact operation-transform chain
-```
+Public objects receive cross-revision UUIDv4 identity. Heading role, direct formatting, list marker policy, coordinate/span values, and similar attributes remain value-like. Assets use SHA-256 content identity. Pages, runs, integer-offset ranges, DOM nodes, layout regions, and search hits remain revision-local derived objects.
 
-Digests and content are witnesses, not identity.
+### 4.1 No universal foreign ontology
 
-Old-span write resolution:
+The ontology describes DOCSeye-authored information. It does not normalize every OOXML extension, every PDF object, spreadsheets, slide animation, executable code, databases, live DOMs, or temporal media. Unsupported foreign semantics remain explicitly scoped provider facets/capsules or inert opaque content. DATAeye, CODEeye, MEDIAeye, DESKTOPeye, eyeBROWSE, and SHELLeye ownership remains intact.
 
-1. resolve the document and exact parent;
-2. pin the current authoritative representation;
-3. transform boundaries through known exact DOCSeye edits;
-4. incorporate surviving strong native markers;
-5. verify semantic/structural preconditions;
-6. require exactly one candidate;
-7. otherwise return `stale` or `ambiguous`.
+## 5. Identity, branch, and lifecycle architecture
 
-Run split/merge is representation churn, not semantic identity churn. Paragraph split retires the old whole-paragraph mutation handle and returns explicit `SPLIT_FROM` descendants. Merge creates a new paragraph `MERGED_FROM` the inputs; old unrestricted handles do not silently alias it.
+### 5.1 Opaque identifiers
 
-Every plain-text query states story scope, tracked-change projection, field instruction/result policy, hidden/deleted inclusion, and base revision.
+Family, branch, revision, object, and boundary identifiers use UUIDv4 encoded as RFC 9562 values. UUIDv7 was rejected for semantic IDs: index locality is useful but time/order leakage and implied chronology add no semantic information. Ordering and physical locality have separate mechanisms.
 
-## 12. Lists
+Within a resolved family, `(branch_id, native_object_id)` directly identifies an object. Portable external writes also carry `family_id` and `expected_revision_id`. A separate kernel logical-concept ID exists only for real cross-provider/cross-branch/lineage correspondence; ordinary native actuation has no redundant ID layer.
 
-Word list display is derived from paragraph numbering properties, numbering instances, abstract definitions, levels, overrides, restarts, styles, and sequence context.
+### 5.2 Family and branch
 
-`list_item_*` normally rides on paragraph identity. Displayed bullets/numbers and ordinals are never identity. A numbering-definition mutation can intentionally change many displayed labels while paragraph concepts remain unchanged. Logical `list_*` grouping is a semantic projection above native numbering truth and never replaces it.
+Path and byte equality never define authored intent. Save/move/rename preserve family/branch. A controlled replica is initially the same branch snapshot. Save As and explicit fork preserve family, create a branch, and remint every public semantic/boundary ID. Independent duplicate and template instantiation create a new family/branch and remint all IDs.
 
-Typed operations include insert/move/relevel/restart, attach/detach numbering, change definition, and conversion to ordinary paragraph. Converting an item can retain the paragraph while retiring the list-item relation.
+The full remint rule differs from the retain-local-ID proposals because it prevents accidental targeting by a bare ID and makes branch separation visible at every realization. Bounded `origin_ref` mappings preserve merge/correspondence ergonomics.
 
-## 13. Tables
+### 5.3 Physical clone paradox
 
-DOCSeye computes both physical WordprocessingML cells and a logical occupancy topology covering declared grid positions, `gridBefore/gridAfter`, horizontal spans, vertical-merge chains, omitted positions, nested tables, and repeating headers.
+`A.dnd` copied byte-for-byte to `B.dnd` initially yields two replicas of the same committed branch snapshot. Opening `B.dnd` does not mutate it. SHELLeye distinguishes carriers. If both later commit from the same base, DOCSeye classifies **`divergent_heads`**, stops combined write authority, and requires explicit fork or merge. No timestamp/path heuristic silently linearizes them.
 
-Cell coordinates are locations. Merge retires original logical cells and creates a `cell_region_*` with explicit lineage. Split retires the merged concept and returns explicit descendants. No upper-left or same-coordinate continuation is assumed.
+### 5.4 Copy, split, merge, retirement
 
-The primary identity adversary is a retained cell in duplicate-valued rows that are inserted, reordered, duplicated, and delete/recreated. The old handle must reach the provable original or refuse.
+Copy/paste remints the copied public object/boundary subgraph. Immutable asset bytes may remain shared by digest. Cross-branch and cross-family paste always remint. Provider facets copy only through a declared safe transform.
 
-## 14. Styles and effective formatting
+Split retires the original and mints every successor. Merge retires every input and mints the result. This applies consistently to text blocks, list items, cells, and table regions. It rejects arbitrary “left side survives” continuity. Stable boundary IDs may survive exact owner transformations; object IDs do not.
 
-DOCSeye distinguishes document defaults, paragraph/character/table styles, latent metadata, `basedOn`/linked relations, theme and numbering effects, table-style context, and direct paragraph/run formatting.
+Bounded witnesses classify old IDs as `destroyed`, `split`, `merged`, or after eligible GC `unknown_retired`. Live anchors, active suggestions, recent/gap-supported deltas, expected-revision windows, unresolved merge bases, and current references retain necessary witnesses. No similarity resurrection and no permanent genealogy are allowed.
 
-`effective_formatting` is a provider-computed projection labeled by provider/version. A style definition edit intentionally fans out. The delta reports one style definition change plus summarized dependents rather than false paragraph-identity churn.
+## 6. Temporal and transaction architecture
 
-Provider style ID is a strong current-document key. Display name is not identity.
+### 6.1 Revision
 
-## 15. Comments and native tracked changes
+Each head carries an opaque UUIDv4 `revision_id`, branch-local `revision_sequence`, SHA-256 `semantic_root`, and zero/one/two bounded parents. The root is semantic state identity; revision ID is commit identity; sequence is convenience, not causality. Divergent siblings may share a sequence.
 
-Comments are native collaborative objects with separate body, thread/replies, resolved/current state, and range anchor. Modern durable IDs and paragraph correlation provide strong scoped evidence. Legacy IDs require exact part, range, thread, and document scope. Quote text is display evidence only.
+The root is a domain-separated Merkle-style current-state tree over canonical logical semantics, including identities, order, text/boundaries, relations, extensions, required assets/capsules, layout intent, and currently required lifecycle witnesses. It excludes SQLite physical layout, indexes, caches, renders, and history. Exact tree shape is E-07; the invariant is frozen.
 
-Tracked changes are native content objects. DOCSeye exposes explicit stored-markup, original/rejected, and final/accepted projections. It supports exact native tracked insertion/deletion and exact accept/reject in Build 001 through the qualified provider path.
+`VACUUM`, page movement, index maintenance, and logically neutral record reorder do not create a revision or change the root.
 
-`change_*` is never a `DocumentRevision`. Acceptance can retire native markup; bounded deltas report the transition without inventing permanent history.
+### 6.2 Atomic transactions and recovery
 
-Word Compare may be an optional external-diff provider because it can compare formatting, tables, headers, notes, fields, comments, and moves. It never proves identity by itself.
+Every write is typed, branch-scoped, and conditioned on `expected_revision_id`. Multi-operation commits are all-or-nothing and publish one revision/root, exact delta, and layout invalidation set. On recovery the artifact is the whole old or whole new committed semantic revision.
 
-## 16. Fields, content controls, and bookmarks
+A stale revision, divergent head, ambiguous target, invalid artifact, or unsafe extension intersection returns a non-write classification. Post-commit response loss uses bounded idempotency/outcome witnesses; mutation is never blindly replayed. SHELLeye's coherent physical publication is a separate clock after SQLite commit.
 
-A field exposes instruction, switches, cached result, dirty/staleness state, locking, nesting, and qualified provider result. The package provider owns stored instruction/result. Word owns Word-specific recalculation when requested and completed. PAGE, PAGEREF, NUMPAGES, REF, TOC, and similar results depend on layout/provider state.
+### 6.3 Bounded deltas
 
-Content controls expose native ID, tag, title, type, lock state, custom-XML mapping, repeating-section relations, and value. Existing native ID is unusually strong in one proven document lineage. Tags can collide. Duplicate native IDs and repeating-section reconstruction are conservative hostile cases.
+Native deltas are intrinsic semantic changes, not provider diffs. Cursors are branch/revision scoped and bounded. Cursor expiry/gaps return `resync_required`; no silent gap is allowed. Runtime indexes update delta-first, and a local edit must not require full-document retransmission when bounded fragments suffice.
 
-Bookmarks expose paired boundaries, provider ID, and name. Existing bookmarks are strong anchors while intact. Delete/recreate of the same name is a new provider object. DOCSeye does not silently inject bookmarks everywhere.
+## 7. Ordering and text architecture
 
-## 17. Figures, media, equations, and embeddings
+### 7.1 Order
 
-`media_asset_*` represents underlying bytes/MIME/dimensions/hash. `figure_*` represents one use: relationship, inline/floating placement, transform, crop, wrapping, anchor, alt text, and caption relation. The same asset can back several figures.
+Identity and order are independent. Build 001 begins with 128-bit sparse sibling keys and local rebalance. Canonical hashing uses logical order rather than maintenance keys. E-05 may select a chunked sequence alternative if necessary, but moves must retain IDs, inserts must not renumber unrelated IDs, and maintenance must be root-neutral.
 
-OMML remains native Word equation truth. MathML can be a derived projection. Equations are never flattened to visible Unicode as canonical state.
+### 7.2 Text and boundaries
 
-Charts, embedded workbooks, OLE, ActiveX, macros, and packages remain provider-native. DOCSeye owns document placement/relations and preservation. Future DATAeye owns deep workbook/formula semantics. Preservation never implies execution.
+Canonical text is exact UTF-8 with no silent Unicode normalization. Boundaries never split scalars; human operations default to extended grapheme clusters. Runtime rope/piece structures are not persistence.
 
-## 18. Layout and render
+Ordinary ranges remain revision-local. `retain_range` explicitly creates portable, identity-bearing zero-width boundaries and changes the revision. Overlapping/co-located ranges coexist without implicit identity sharing. Edge policies are logical include/exclude or before/after, not visual left/right.
 
-Semantic objects belong to `DocumentRevision`. Pages, lines, columns, and regions belong to one `LayoutRevision` defined by engine, engine version, fonts/environment, settings, and exact source revision.
+Boundary semantics through insert/delete/replace/move/split/merge are frozen in the native-format document. A split may produce a multi-interval range for permitted anchor types. A comment never rebounds to duplicate quoted text and a cross-reference never retargets by similarity. E-01 chooses the storage mechanism and is an architecture falsifier if no bounded non-CRDT structure satisfies these rules.
 
-A paragraph may retain identity while moving from page 12 to 13. Every old `page_view_*` expires when reflow creates a new layout revision.
+### 7.3 Collaboration deferral
 
-Microsoft Word is the Build 001 layout authority. Its native APIs can repaginate, expose page/range information, and export tagged fixed-format output. A Word PDF is a derived render/fixed-layout representation, never the semantic source truth of its DOCX.
+Live multi-user collaboration is outside Build 001. ProseMirror mappings, Yjs relative positions, Automerge, and Peritext demonstrate useful mechanisms but do not prove that DOCSeye requires permanent operation/character history for one operator. Future compatibility is preserved by explicit boundaries, branch/revision preconditions, and bounded parents. A CRDT/OT core is adopted only if E-01 proves the frozen semantics impossible without it.
 
-Render only affected/current pages when sufficient. Visual comparison is used when the operation makes layout relevant; it is not mandatory for ordinary semantic edits.
+## 8. Extension architecture
 
-First-class waits include:
+Unknown data is safe only when the system knows what it covers. Every extension declares identity, namespace/type/version, encoding/payload/digest, native references, coverage, required/optional status, edit policy, and fallback.
 
-```text
-document/representation revision became coherent
-external save became complete and parseable
-Word provider reflects DocumentRevision R
-field update completed for R
-LayoutRevision based_on R exists
-RenderRevision based_on LayoutRevision L exists
-```
+Coverage kinds are object, property, subtree, text interval, relation, topology region, layout profile, and document global. Policies are `independent`, `move_with_target`, `generic_transform`, `invalidate`, and `must_understand_before_edit`. Default unsafe intersection is refusal. This vocabulary was chosen over abstract `DECORATE/CONSTRAIN/OWN` because it states concrete behavior for move, copy, delete, split, merge, text edit, topology change, and export.
 
-## 19. PDF and other format boundaries
+An older writer may edit around unknown optional content and preserve it exactly. It may not silently drop it. Unsupported required major capability removes write authority. Optional invalidation is explicit and uses/report fallback. The extension model is a core architecture falsifier in E-04/E-19.
 
-PDF remains in DOCSeye only through a format-specific provider. Its native objects include indirect objects, page tree, content streams, resources, annotations, forms, outlines, tags/structure tree, signatures, and incremental-update state.
+## 9. Storage and serialization architecture
 
-Tagged PDF supplies stored author/provider logical structure and reading order; it can be wrong but remains native truth. Untagged PDF paragraph/table/order extraction is derived. Scans flow through render → OCR → layout inference with explicit assurance. PDF pages are fixed-layout provider objects, unlike reflowable DOCX pages.
+### 9.1 Logical records
 
-Build 001 does not implement a resident PDF provider or arbitrary PDF editing. It creates/observes Word-exported PDF only as a derived layout/render artifact and measures source-to-page/structure correlation.
+Deterministic CBOR under the DOCSeye profile is canonical for logical records. It supplies compact binary values, independent implementation, unknown extension payloads, and deterministic hashing without making serialization the runtime object model. Canonical JSON was rejected for binary/number ambiguity and size; XML for verbosity/parser surface; Protobuf/FlatBuffers/Cap'n Proto for schema/unknown-field and canonicalization mismatch; MessagePack for the weaker standard deterministic profile.
 
-ODF later receives its own native facet. Static HTML can be a DOCSeye artifact; live HTML remains eyeBROWSE. Deep PPTX and XLSX semantics belong to specialized future substrates.
+The profile forbids indefinite lengths, duplicate keys, non-shortest integers, binary floating semantic values, invalid UTF-8, and implicit normalization. UUID/digest encodings and resource limits are normative. E-06 requires byte-identical vectors from two independent implementations.
 
-## 20. Full current index and sparse durable promotion
+### 9.2 Container
 
-For every current DOCX revision, index compact useful structure:
+SQLite is the canonical application-file container and transaction substrate. It beats ZIP for in-place atomic multi-object updates, a directory store for portable publication, an append-only custom container for complexity/history pressure, and a pure content-addressed DAG for mutable authored state. A pure relational schema was rejected as the public ontology; SQL mapping is container detail around canonical logical records.
 
-- stories and sections;
-- paragraph text summaries/headings/style bindings;
-- lists and items;
-- tables, rows, physical/logical cells;
-- comments, changes, bookmarks, controls, fields, notes, links;
-- figures/media references and metadata;
-- provider/native keys and relations needed for current queries.
+The native artifact uses rollback-journal `DELETE` mode and quiescent one-file publication. WAL's `-wal`/`-shm` state makes an incautious live main-file copy incomplete. External rebuildable indexes use SQLite WAL and FTS. E-02/E-03 validate crash, backup, coherent copy, cloud/sync pressure, disk-full behavior, and SHELLeye publication before the container is trusted.
 
-Binary media, embeddings, raw XML, detailed drawings, and layout are lazy. Large parts can stream. SQLite FTS5 indexes text retrieval. Embeddings may aid retrieval later but never identity or mutation.
+### 9.3 Canonical file and runtime state
 
-Current index records are revision-local. Retain/promote objects only when ChatGPT targets, watches, reuses, names, or needs cross-revision correspondence, or when a first-class native object naturally warrants it.
+The DND contains all current native truth and durable provider correspondence needed for a requested round trip. External state contains FTS, embeddings, query/layout/render caches, provider availability, process bindings, physical carriers, and open registries. Milestone A deletes all external state and proves exact recovery.
 
-## 21. Queries, semantic slices, deltas, and synchronization
+The `.dnd` suffix and provisional media type exist only for Build 001 dispatch. The architecture does not depend on the brand or suffix.
 
-Queries support headings/sections, text/style predicates, list/table topology, comment/change state, controls/fields, notes/links/figures, and changes since a cursor. Results are compact candidates with revision and assurance.
+## 10. Validation, security, and active content
 
-Content retrieval returns semantic slices: one heading subtree, paragraph neighborhood, table, comment thread plus anchor, field instruction/result, or section plus effective headers—not a routine full document.
+Validation strata are container, serialization/schema, identity/reference, semantic invariants, extension integrity, asset/capsule integrity, semantic root, then provider-specific validation. A failure before provider validation removes native write authority. Repair is explicit and may create a new branch/artifact if identity cannot be proved.
 
-One delta may report:
+Parsing/rendering executes no code and performs no automatic network fetch. Resource limits cover malformed SQLite/CBOR, huge counts/strings/assets/extensions, nesting, recursion, decompression bombs, traversal, external XML entities, and remote URLs. Macros/OLE/ActiveX/scripts remain inert provider bytes. Validation failure never mints identity.
 
-```text
-D42 → D43
-paragraph_118 text changed
-table_8 row_77 created
-comment_21 reply added
-change_17 tracked insertion created
-style_4 definition changed; 312 dependents affected
-layout invalidated
-```
+Signatures/encryption are deferred. Root/domain separation and extension points preserve future work; Build 001 implements no proprietary cryptography and no partial signatures.
 
-Self-generated deltas use exact operation lineage. External semantic diff describes change but never establishes identity by itself. Expired cursors return `resync_required` with scope; no silent gap is allowed.
+## 11. Layout and render architecture
 
-`document.sync(document_*, scopes)` incorporates current dirty signals and reconciles requested providers. It is a coherence barrier, not a claim of global quiescence.
+Native semantics plus layout intent produce a `LayoutRevision`. Layout intent covers page/media/column/break/keep/header/footer/numbering/figure/table/note/language/hyphenation/writing-mode properties without cloning Word quirks.
 
-## 22. Transaction model
+A layout revision is qualified by semantic revision, layout profile, provider/version, font manifest, locale, hyphenation data, and configuration. Pages/regions are layout-scoped. Reflow never changes semantic IDs.
 
-A transaction begins with:
+DOCSeye owns semantic-to-layout and semantic-to-render contracts, mapping, capability reporting, source attribution, and correspondence. Existing engines own shaping/typesetting/rendering in Build 001:
 
-```text
-logical document
-expected DocumentRevision
-expected authoritative RepresentationRevision/ProviderRevision
-exact retained targets
-semantic preconditions
-semantic-effect envelope
-serialization footprint
-```
+- **Typst** is the first paginated provider candidate. Generated Typst is derived, never truth. Its warnings/gaps are surfaced. Current evidence shows tagged/PDF-UA facilities, but professional output is not assumed; E-12/E-13 measure the ceiling.
+- **HTML + pinned Chrome for Testing/Chromium** is the continuous human/accessibility/web projection. The DOM is derived. Browser PDF is an optional comparison, not the native oracle.
+- **PDF** is a derived, source-attributed render. The Build 001 target is tagged PDF/UA-1 for the required fixture, independently validated. A failed accessibility/typography/source-map gate is a render falsifier, not a reason to relabel output “professional.”
 
-Commit sequence:
+Typography fixtures cover Latin/OpenType, Arabic/RTL and mixed bidi, Japanese CJK, Devanagari, decomposed combining marks, emoji/ZWJ, font fallback, hyphenation, tables, and notes. Unsupported vertical writing or other untested areas remain capability-reported.
 
-1. confirm provider coherence and pin one authoritative snapshot;
-2. resolve every target in that snapshot as `exact_current` or `exact_rebased`;
-3. validate text/style/topology/native-ID preconditions;
-4. apply all typed mutations in the same provider transaction;
-5. record exact operation lineage and proposed semantic/index state;
-6. check semantic-effect envelope;
-7. check serialization footprint;
-8. validate package, relationships, schema/native constraints, and signature impact;
-9. re-witness provider/physical base immediately before commit;
-10. if changed, rebuild only through a deterministic exact rebase or abort conflict;
-11. write a complete candidate representation;
-12. atomically replace or use the provider's qualified native commit;
-13. reopen/reparse committed truth;
-14. publish one new persisted `DocumentRevision`, one bounded delta, and layout invalidation.
+## 12. DOCX and Word provider architecture
 
-Open transactions die on process failure. A reported successful commit always names a complete validated current representation.
+### 12.1 Import and source capsules
 
-## 23. Deterministic rebase and concurrency
+DOCX import combines raw OPC/OOXML inspection with Open XML SDK interpretation. It maps supported native concepts, retains partially representable provider facets, scopes opaque unknowns with edit contracts, optionally embeds exact source bytes, records correspondence, and emits a capability report. Provider IDs remain evidence.
 
-Automatic rebase requires exact parent identity, exact boundary/topology transform, satisfied preconditions, and one candidate. Examples include a known insertion before a retained span or a row inserted above an exact retained row.
+The source capsule is embedded by default when round-trip preservation is requested and optional otherwise. It is immutable source evidence. After native edits it may be aligned or stale but never current semantic authority.
 
-Duplicate text, delete/recreate, indistinguishable row reorder, unsupported topology intersection, or weak native-ID churn returns `stale`, `ambiguous`, or `conflict`. There is no fuzzy self-healing write.
+### 12.2 Export and evidence
 
-If Word has unsaved state, package mutation does not overwrite it. The broker operates through Word, reconciles a save, or returns `coherence_conflict`.
+Export reports one semantic outcome: `exact_source_reuse`, `preserved_patch`, `translated_conformant`, `translated_with_declared_loss`, `unsupported`, or `blocked`. It separately reports `package_validated`, `schema_validated`, `alternate_provider_observed`, and only when actually tested `microsoft_observed`.
 
-## 24. Two-dimensional mutation contract
+Untouched provider facets may constrain a preserved patch or force refusal/downgrade. They may never override current native semantics. Schema-valid does not mean Word-observed; LibreOffice evidence does not mean Microsoft evidence.
 
-Every operation declares independent boundaries.
+### 12.3 Word independence
 
-### Semantic-effect envelope
+Native Build 001 A–D acceptance runs on STEALTHEYELLC with desktop Word absent:
 
-The semantic facts allowed to change, including intentional fan-out. Example: changing one style definition can allow dependent effective-formatting changes without authorizing paragraph text changes.
+- `WINWORD.EXE` required: 0;
+- Word processes: 0;
+- Word COM calls: 0;
+- Word APIs: 0;
+- Word-produced native acceptance artifacts: 0.
 
-### Serialization footprint
+Word absence is not native capability degradation. It is `unavailable_provider` only for Microsoft-specific capabilities.
 
-The exact package parts, XML regions/subtrees/tokens, relationships, content types, and opaque content that the chosen provider may rewrite.
+Word can later provide Microsoft conformance observation, layout/field/revisions/comments/control behavior, normalization/save, and Microsoft PDF export on a suitable licensed Windows environment. It must never become a hidden mandatory dependency or an unsupported unattended server architecture.
 
-An operation commits only if both checks pass. A small serialization footprint can have broad legitimate semantic effect; a semantically small edit can still be rejected if a writer rewrites an undeclared provider region.
+ODF 1.4 is architecturally a peer future provider, not Build 001 scope. LibreOffice is an alternate-provider DOCX smoke in the separately scored supplement and never Microsoft evidence.
 
-## 25. Preservation architecture
+## 13. Kernel, runtime indexes, and Program Host
 
-Before mutation, the package provider records a baseline manifest of entries/parts, content types, relationships, uncompressed payload hashes, signatures, parsed/opaque XML regions, MC context, custom/opaque parts, and relevant semantic state.
+The C#/.NET kernel validates and mutates typed native objects. External SQLite WAL state supplies rebuildable FTS and acceleration. Queries return exact typed IDs/revisions, bounded fragments, effective-style provenance, anchor state, extension coverage, and capability state.
 
-The writer chooses the smallest safe mechanism per operation:
+The Node 24 Program Host is one deterministic local invocation with no model. Counted acceptance calls must use the typed SDK. Raw SQL, raw CBOR, raw OOXML/ZIP, VBA, or giant hidden provider scripts do not count. Provider-specific operations remain separately typed.
 
-1. lexical/token splice where exact and valuable;
-2. bounded known-subtree reconstruction carrying unknown attributes/children/namespaces;
-3. qualified Word-native mutation with a provider-specific normalization profile;
-4. reject `unsupported` when no route can meet the contract.
+Milestone D is exactly 96 meaningful calls: 18 query/retain, 48 semantic mutations across 16 families, 6 transaction controls for 3 commits, 6 delta consumptions, 6 postcondition/refusal checks, 4 external-head reconciliation calls, 4 layout/render calls, and 4 export/capability calls. There are zero repeated no-op/getter padding calls and zero intermediate model calls.
 
-Untouched part payloads are copied byte-identically. ZIP order, compression, timestamps, and semantically equivalent namespace-prefix changes are not universal fidelity metrics.
+## 14. Implementation stack and preflight rule
 
-Accepted package-provider operation requirements:
+Architecture-level Build 001 choices are:
 
-- requested semantic postcondition present;
-- unrequested semantic mutation = 0;
-- unsupported-content loss = 0;
-- changed parts/regions/relationships stay inside footprint;
-- untouched fixture payloads remain identical;
-- unknown and AlternateContent semantics survive;
-- package/relationship validation passes;
-- signature effect is detected;
-- current Word opens without repair for compatibility-gated outputs.
+- C# on .NET 10 LTS for kernel/provider contracts;
+- installed Node 24 LTS by absolute path for Program Host;
+- SQLite native artifact plus external SQLite WAL/FTS;
+- deterministic CBOR;
+- Typst paginated provider;
+- HTML plus pinned Chrome for Testing/Chromium;
+- Open XML SDK plus raw OPC/XML DOCX provider;
+- LibreOffice alternate-provider smoke;
+- SHELLeye physical publication/snapshot coordination.
 
-Word open/save/reparse is a compatibility/generalization pass. Word normalization is characterized separately from the stricter pre-Word DOCSeye footprint.
+Implementation must select the latest stable supported patch at preflight, record version, provenance, binary/package digest, fonts, locale, and configuration, then pin the acceptance environment. Exact research-observed minor versions are evidence, not architecture, except the measured installed Node path/version recorded in the platform document. No dependency is installed by this freeze.
 
-## 26. External-edit recovery
+## 15. Cross-substrate architecture
 
-```mermaid
-flowchart TD
-    A["Physical/provider change signal"] --> B["Acquire complete coherent representation"]
-    B --> C{"Representation continuation proven?"}
-    C -->|No| D["Detach, fork, or mark ambiguous"]
-    C -->|Yes| E["Parse full current structural index"]
-    E --> F["Bind strong native keys and operation lineage"]
-    F --> G["Attempt exact structural correspondence"]
-    G --> H["exact / stale / ambiguous / destroyed"]
-    H --> I["New DocumentRevision + bounded semantic delta"]
-```
+- SHELLeye owns physical files, coherent snapshots, movement, copies, and atomic replacement.
+- DESKTOPeye owns windows/focus/caret/UI state.
+- CODEeye owns source and repository semantics.
+- eyeBROWSE owns live web/DOM/session state.
+- DATAeye owns computational data/table semantics and external data binding.
+- MEDIAeye owns full temporal media.
 
-Watcher events only mark dirty. Multiple/partial save events are never ingested as a committed revision. Change detection and identity proof remain separate. Similarity can nominate query candidates; it cannot authorize retained mutation.
+DOCSeye may correlate or embed representations but does not seize ownership. There is no permanent universal StealthEye graph merely because relations exist.
 
-## 27. Persistence
+## 16. What Build 001 can still falsify
 
-SQLite WAL + FTS5 stores:
-
-- logical documents, representations, and current physical/provider bindings;
-- revision/coherence witnesses and provider epochs;
-- retained semantic concepts, current bindings, anchors, and resolution states;
-- current/rebuildable structural and FTS indexes;
-- bounded exact transform/correspondence data;
-- bounded semantic deltas/cursors;
-- layout/render metadata and provider health.
-
-It does not canonically store the document, full history, every XML node forever, every action/receipt, all renders, or an unbounded provenance graph. A corrected SQLite release is mandatory because the historical WAL-reset bug is incompatible with the correctness boundary.
-
-If the sidecar database disappears, private logical IDs are lost. Native witnesses may reconstruct candidates, but DOCSeye does not invent certainty.
-
-## 28. Program Host and gateway
-
-Kernel/providers are C#/.NET 10. The non-agentic local Program Host is Node 24. It uses one structured local RPC connection and can query, retain, traverse, filter, aggregate, transact, branch on exactness, wait, render, and validate.
-
-Representative small ChatGPT-facing surface:
-
-```text
-docs.query
-docs.content
-docs.act
-docs.program
-docs.sync
-docs.wait
-```
-
-The local SDK can expose document, section, paragraph, text, list, table, style, comment, change, control, field, note, link, figure, math, layout, render, transaction, world, and provider namespaces.
-
-The host contains no model, cannot infer an ambiguous identity, cannot bypass the kernel through raw ZIP/python-docx/Word VBA for acceptance, and owns no canonical state.
-
-## 29. Typed outcomes
-
-Frozen logical outcomes include:
-
-```text
-not_found
-stale
-destroyed
-ambiguous
-conflict
-coherence_conflict
-unsupported
-provider_unavailable
-provider_timeout
-revision_mismatch
-preservation_violation
-invalid_package
-incomplete_representation
-layout_unavailable
-encrypted
-signature_affected
-resync_required
-```
-
-`signature_affected` reports an intrinsic consequence and can accompany a rejected or explicitly supported operation. It is not a project-specific approval result.
-
-## 30. Cross-substrate ownership
-
-Relations are sparse:
-
-```text
-DOCSeye document_7 representation_docx_3 ↔ SHELLeye file_42
-DOCSeye Word provider                     ↔ DESKTOPeye window/app instance
-DOCSeye static HTML                       ↔ eyeBROWSE source page/export relation
-DOCSeye authored Markdown                 ↔ CODEeye source artifact
-DOCSeye embedded workbook                 ↔ future DATAeye workbook
-```
-
-Each substrate keeps its native half. DOCSeye does not create a universal StealthEye ontology.
-
-## 31. Architecture quality tests
-
-The architecture is ready only if all answers are yes:
-
-1. Can a 500-page document be queried locally without sending the whole document to ChatGPT? **Yes.**
-2. Can 50+ deterministic semantic operations execute under one model decision? **Yes.**
-3. Can a page disappear after repagination while its paragraph remains the same semantic concept? **Yes.**
-4. Can a physical file be atomically replaced during a controlled save while the logical document remains? **Yes.**
-5. Can an unrelated file at the same path fail to steal document identity? **Yes.**
-6. Can an old duplicate-row cell handle reacquire the exact original or refuse without touching another cell? **Yes; Build 001 must prove it.**
-7. Can one known paragraph edit preserve foreign markup, AlternateContent, opaque parts, and relationships? **Yes; Build 001 must prove it.**
-8. Can a preservation contract reject an unsafe operation instead of normalizing unknown content? **Yes.**
-9. Can retained identity become stale/ambiguous without deleting the logical concept? **Yes.**
-10. Can neither Open XML SDK helpers nor Word automation alone replace the stated capabilities? **Yes.**
-
-The implementation-ready acceptance contract is `02-BUILD-001-SLICE.md`.
-
-## 32. Primary architecture sources
-
-- [ECMA-376](https://ecma-international.org/publications-and-standards/standards/ecma-376/) — OOXML vocabularies, OPC, Markup Compatibility, and Transitional material.
-- [Open XML SDK](https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk) and [current releases](https://github.com/dotnet/Open-XML-SDK/releases) — typed package/schema implementation foundation.
-- [Markup Compatibility preprocessing](https://learn.microsoft.com/en-us/office/open-xml/general/introduction-to-markup-compatibility) — why typed preprocessing is not the fidelity boundary.
-- Microsoft Word extensions: [`docId`](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/b5058d55-0aa8-44e0-9a37-0c84b6e9f68b), [`paraId`](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/a0e7d2e2-2246-44c6-96e8-1cf009823615), and [`textId`](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/b7eeddec-7c50-47fb-88b6-1feec3ed832c).
-- [Word paragraph live identifier](https://learn.microsoft.com/en-us/javascript/api/word/word.paragraph?view=word-js-preview), [ContentControl.ID](https://learn.microsoft.com/en-us/office/vba/api/word.contentcontrol.id), and [modern comment durable ID](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/a7b57225-42e5-43e7-8d98-d90eabf3ca25).
-- [Word Compare](https://learn.microsoft.com/en-us/office/vba/api/word.application.comparedocuments), [repagination](https://learn.microsoft.com/en-us/office/vba/api/word.document.repaginate), [page model](https://learn.microsoft.com/en-us/javascript/api/word/word.page?view=word-js-preview), and [improved fixed-format export](https://learn.microsoft.com/en-us/office/vba/api/word.document.exportasfixedformat3).
-- [SQLite WAL](https://sqlite.org/wal.html) and [current release](https://sqlite.org/releaselog/current.html).
-- [Tagged PDF background](https://pdfa.org/techniques-for-accessible-pdf-background/) and [PDFium structure-tree API](https://pdfium.googlesource.com/pdfium/+/main/public/fpdf_structtree.h).
-- [OASIS OpenDocument 1.4](https://docs.oasis-open.org/office/OpenDocument/v1.4/os/v1.4-os.html).
+Build 001 can falsify the boundary model, replica/fork identity, SQLite application-file profile, extension intersection model, independent conformance specification, renderer ceiling, practical Word-free DOCX export, large-document locality, or Program Host advantage. If an architecture-level falsifier fails, implementation stops and reopens only that numbered question. It must not quietly patch around a failed invariant, claim acceptance, or proceed to a broader build.

@@ -1,33 +1,75 @@
-# DOCSeye Authority
+# Canonical Authority and Status
 
-Status: **Canonical**
+Status: **CANONICAL**
 
-## Source hierarchy
+## 1. Source hierarchy
 
-1. The current `main` branch of `StealthEyeLLC/DOCSeye` is the project source of truth.
-2. `00-CHARTER.md` governs mission, constraints, and domain boundaries.
-3. `01-ARCHITECTURE.md` governs permanent architecture and semantics.
-4. `02-BUILD-001-SLICE.md` governs Build 001 scope, experiments, fixtures, cases, metrics, and completion.
-5. `06-DECISIONS.md` records the reasons and rejected alternatives for frozen choices.
-6. The remaining numbered documents provide platform, roadmap, evidence, capability, and workflow detail.
-7. GitHub issues may restate and track canonical requirements but cannot silently override the documents above.
+For the current architecture, authority descends in this order:
 
-## Freeze authority
+1. the commit on `main` that first contains this complete native-authority canonical set (the publication SHA reported and remotely verified at freeze time);
+2. [01-ARCHITECTURE.md](01-ARCHITECTURE.md) for system authority, identity, time, storage, render/provider, and substrate boundaries;
+3. [NATIVE-FORMAT.md](NATIVE-FORMAT.md) for normative DND logical-format semantics;
+4. [02-BUILD-001-SLICE.md](02-BUILD-001-SLICE.md) for exact implementation experiments and A–D/X acceptance;
+5. [06-DECISIONS.md](06-DECISIONS.md) for 64 numbered frozen decisions and old-decision adjudication;
+6. the remaining canonical documents for charter, platform, roadmap, research trace, capabilities, and workflow pressure;
+7. replacement GitHub Build 001 issues as tracking views of the canonical slice.
 
-The documentation-only `main` commit that contains this file and the complete corrected `docs/00`–`docs/08` baseline, recorded in parent issue #5 as the `architecture-freeze` SHA, is the canonical pre-implementation architecture freeze. Its exact SHA must also be included in the publication completion report.
+If a tracking issue, provider output, generated artifact, report, or comment conflicts with the committed canonical documents, the committed canonical documents win until an explicit later canonical amendment.
 
-## Implementation discipline
+The freeze SHA is not written into its own tree, avoiding an impossible self-referential commit. Remote publication verification and the final synthesis report record the exact SHA.
 
-A separate implementation tab must begin by reading, in order:
+## 2. Historical authority
 
-1. `README.md`;
-2. `docs/00-CHARTER.md`;
-3. `docs/01-ARCHITECTURE.md`;
-4. `docs/02-BUILD-001-SLICE.md`;
-5. `docs/03-PLATFORM-STEALTHEYELLC.md`;
-6. `docs/06-DECISIONS.md`;
-7. GitHub issues #1–#5.
+`47b5280b71773ae497b5a56c4b590b9070b4bca5` is permanently labeled:
 
-The independent research reports supplied on 2026-08-09 remain valuable evidence, but they are no longer direct implementation authority after the freeze. Where they disagree with this repository, this repository governs.
+> **SUPERSEDED AS DOCX-FIRST ARCHITECTURE BASELINE**
 
-Build 001 is not complete until all four child workstream issues pass their measured gates, parent issue #5 closes, and a measured `docs/09-BUILD-001-RESULTS.md` is deliberately added. Architecture-freeze language must never be reported as product implementation or acceptance.
+It remains the strongest completed DOCX-first candidate and the historical authority for the original provider-federated architecture and Build 001 issues #1–#5. It is not failed, invalid, rewritten, squashed, or erased. Its issue bodies retain their original meaning.
+
+The current native freeze supersedes that SHA only for canonical future DOCSeye architecture and replacement Build 001 implementation.
+
+## 3. Canonical file set
+
+Required current files:
+
+- `.gitignore`
+- `README.md`
+- `docs/00-CHARTER.md`
+- `docs/01-ARCHITECTURE.md`
+- `docs/02-BUILD-001-SLICE.md`
+- `docs/03-PLATFORM-STEALTHEYELLC.md`
+- `docs/04-ROADMAP.md`
+- `docs/05-RESEARCH-BASELINE.md`
+- `docs/06-DECISIONS.md`
+- `docs/07-CAPABILITY-MATRIX.md`
+- `docs/08-WORKFLOW-PRESSURE-TESTS.md`
+- `docs/NATIVE-FORMAT.md`
+- `docs/AUTHORITY.md`
+
+`docs/09-BUILD-001-RESULTS.md` MUST remain absent until implementation and acceptance actually occur.
+
+## 4. Current truth
+
+| Item | Status |
+| --- | --- |
+| Architecture | **FINAL / SYNTHESIZED / VERIFIED / FROZEN FOR BUILD 001** |
+| Architecture family | **NATIVE SEMANTIC AUTHORITY WITH NON-AUTHORITATIVE PROVIDER FACETS** |
+| Prior DOCX-first freeze | `47b5280b71773ae497b5a56c4b590b9070b4bca5` — **SUPERSEDED AS DOCX-FIRST BASELINE** |
+| Build 001 | **PLANNED / NOT IMPLEMENTED** |
+| Product implementation | **NOT STARTED** |
+| Build 001 acceptance | **NOT RUN** |
+| Microsoft Word | **NOT REQUIRED FOR NATIVE BUILD 001 ACCEPTANCE / OPTIONAL FOR MICROSOFT-SPECIFIC INTEROP/CONFORMANCE** |
+
+No experiment, hostile suite, Program Host workflow, renderer quality, PDF conformance, DOCX round trip, LibreOffice observation, or Word compatibility result is claimed.
+
+## 5. Change discipline
+
+A future canonical amendment must:
+
+- identify the numbered decision/experiment/falsifier being changed;
+- preserve the DOCX-first baseline and this freeze in history;
+- distinguish mechanism evidence from architecture change;
+- update every affected canonical file and issue coherently;
+- never rewrite history or relabel an unrun test as accepted.
+
+Implementation convenience does not override the freeze. If a numbered architecture falsifier fails, implementation stops and reopens only the affected question.

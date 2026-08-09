@@ -5,6 +5,7 @@ namespace DOCSeye.Core;
 public sealed class SemanticTransactionBuilder
 {
     private readonly Func<Guid> newId;
+    private readonly HashSet<Guid> transformedExtensions = [];
     public SemanticState BaseState { get; }
     public SemanticState State { get; }
     public List<SemanticOperationRecord> Operations { get; } = [];
@@ -100,17 +101,17 @@ public sealed class SemanticTransactionBuilder
 
     public (Guid Row,IReadOnlyList<Guid> Cells) InsertTableRow(Guid tableId,int rowIndex,IReadOnlyList<string> cellTexts)
     {
-        var table=LiveObject(tableId);if(table.Type!="table")throw Refuse("invalid_structure","target is not table");CheckExtensions(new("table_insert_row",tableId,TopologyMutation:true));Guid row=CreateObject("table_row",tableId,"table_row",new(StringComparer.Ordinal){{"index",rowIndex},{"is_header",false}},rowIndex);var cells=new List<Guid>();for(int c=0;c<cellTexts.Count;c++)cells.Add(CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",rowIndex},{"column",c},{"row_span",1},{"column_span",1},{"row_header",false},{"column_header",false},{"text",cellTexts[c]}}));Record("table_insert_row",row,("table_id",tableId),("cell_count",cells.Count));LayoutInvalidations.Add("table:"+Ids.Lower(tableId));return(row,cells);
+        var table=LiveObject(tableId);if(table.Type!="table")throw Refuse("invalid_structure","target is not table");CheckTopologyExtensions(new("table_insert_row",tableId,TopologyMutation:true));Guid row=CreateObject("table_row",tableId,"table_row",new(StringComparer.Ordinal){{"index",rowIndex},{"is_header",false}},rowIndex);var cells=new List<Guid>();for(int c=0;c<cellTexts.Count;c++)cells.Add(CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",rowIndex},{"column",c},{"row_span",1},{"column_span",1},{"row_header",false},{"column_header",false},{"text",cellTexts[c]}}));Record("table_insert_row",row,("table_id",tableId),("cell_count",cells.Count));LayoutInvalidations.Add("table:"+Ids.Lower(tableId));return(row,cells);
     }
 
     public Guid MergeTableCells(Guid tableId,IReadOnlyList<Guid> cellIds,int row,int column,int rowSpan,int columnSpan,string text)
     {
-        _=LiveObject(tableId);if(cellIds.Count<2)throw Refuse("invalid_structure","cell merge needs multiple cells");CheckExtensions(new("table_merge_cells",tableId,TopologyMutation:true));foreach(Guid id in cellIds){var cell=LiveObject(id);if(cell.Type!="table_cell")throw Refuse("invalid_structure","merge input not cell");State.Objects[id]=cell with{Retired=true};State.Retired[id]=new(id,RetiredResolution.Merged,[],State.Sequence+128);}Guid result=CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",row},{"column",column},{"row_span",rowSpan},{"column_span",columnSpan},{"row_header",false},{"column_header",false},{"text",text}});foreach(Guid id in cellIds)State.Retired[id]=State.Retired[id] with{Successors=[result]};Record("table_merge_cells",result,("table_id",tableId),("input_ids",cellIds.Cast<object?>().ToArray()));return result;
+        _=LiveObject(tableId);if(cellIds.Count<2)throw Refuse("invalid_structure","cell merge needs multiple cells");CheckTopologyExtensions(new("table_merge_cells",tableId,TopologyMutation:true));foreach(Guid id in cellIds){var cell=LiveObject(id);if(cell.Type!="table_cell")throw Refuse("invalid_structure","merge input not cell");State.Objects[id]=cell with{Retired=true};State.Retired[id]=new(id,RetiredResolution.Merged,[],State.Sequence+128);}Guid result=CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",row},{"column",column},{"row_span",rowSpan},{"column_span",columnSpan},{"row_header",false},{"column_header",false},{"text",text}});foreach(Guid id in cellIds)State.Retired[id]=State.Retired[id] with{Successors=[result]};Record("table_merge_cells",result,("table_id",tableId),("input_ids",cellIds.Cast<object?>().ToArray()));return result;
     }
 
     public IReadOnlyList<Guid> SplitTableCell(Guid tableId,Guid cellId,int rows,int columns)
     {
-        _=LiveObject(tableId);var cell=LiveObject(cellId);if(cell.Type!="table_cell")throw Refuse("invalid_structure","split input not cell");CheckExtensions(new("table_split_cell",tableId,TopologyMutation:true));int row=Convert.ToInt32(cell.Data["row"]),col=Convert.ToInt32(cell.Data["column"]);State.Objects[cellId]=cell with{Retired=true};var result=new List<Guid>();for(int rr=0;rr<rows;rr++)for(int cc=0;cc<columns;cc++)result.Add(CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",row+rr},{"column",col+cc},{"row_span",1},{"column_span",1},{"row_header",false},{"column_header",false},{"text",$"split-{rr}-{cc}"}}));State.Retired[cellId]=new(cellId,RetiredResolution.Split,result,State.Sequence+128);Record("table_split_cell",cellId,("table_id",tableId),("successors",result.Cast<object?>().ToArray()));return result;
+        _=LiveObject(tableId);var cell=LiveObject(cellId);if(cell.Type!="table_cell")throw Refuse("invalid_structure","split input not cell");CheckTopologyExtensions(new("table_split_cell",tableId,TopologyMutation:true));int row=Convert.ToInt32(cell.Data["row"]),col=Convert.ToInt32(cell.Data["column"]);State.Objects[cellId]=cell with{Retired=true};var result=new List<Guid>();for(int rr=0;rr<rows;rr++)for(int cc=0;cc<columns;cc++)result.Add(CreateObject("table_cell",tableId,"table_cell",new(StringComparer.Ordinal){{"row",row+rr},{"column",col+cc},{"row_span",1},{"column_span",1},{"row_header",false},{"column_header",false},{"text",$"split-{rr}-{cc}"}}));State.Retired[cellId]=new(cellId,RetiredResolution.Split,result,State.Sequence+128);Record("table_split_cell",cellId,("table_id",tableId),("successors",result.Cast<object?>().ToArray()));return result;
     }
 
     public Guid AddExtension(ExtensionEnvelope extension)
@@ -123,6 +124,12 @@ public sealed class SemanticTransactionBuilder
         if(!State.Extensions.TryGetValue(extensionId,out var e))throw Refuse("not_found","extension missing");try{var copy=ExtensionPolicyEngine.RemapForCopy(e,remap,newId);State.Extensions[copy.ExtensionId]=copy;Record("copy_extension",copy.ExtensionId,("source_extension_id",extensionId));return copy.ExtensionId;}catch(InvalidOperationException ex){throw Refuse(ex.Message,ex.Message);}
     }
 
+    public void TransformExtension(Guid extensionId,byte[] transformedPayload)
+    {
+        if(!State.Extensions.TryGetValue(extensionId,out var e))throw Refuse("not_found","extension missing");
+        if(e.EditPolicy!=ExtensionEditPolicy.GenericTransform)throw Refuse(e.Required?"blocked_required_extension":"unsupported","extension does not permit generic transform");
+        byte[] payload=transformedPayload.ToArray();State.Extensions[extensionId]=e with{ExactPayload=payload,PayloadDigest=SHA256.HashData(payload)};transformedExtensions.Add(extensionId);Record("transform_extension",extensionId,("payload_bytes",payload.Length));
+    }
     public void MoveExtensionWithOwner(Guid extensionId,Guid newTargetId)
     {
         if(!State.Extensions.TryGetValue(extensionId,out var e))throw Refuse("not_found","extension missing");if(e.EditPolicy is not (ExtensionEditPolicy.MoveWithTarget or ExtensionEditPolicy.GenericTransform))throw Refuse(e.Required?"blocked_required_extension":"unsupported","extension cannot move");_ = LiveObject(newTargetId);State.Extensions[extensionId]=e with{TargetId=newTargetId};Record("move_extension",extensionId,("new_target_id",newTargetId));
@@ -133,6 +140,32 @@ public sealed class SemanticTransactionBuilder
         if(decision is not ("accept" or "reject"))throw new ArgumentOutOfRangeException(nameof(decision));var s=LiveObject(suggestionId);if(s.Type!="suggestion")throw Refuse("invalid_structure","target is not suggestion");State.Objects[suggestionId]=s with{Retired=true};State.Retired[suggestionId]=new(suggestionId,RetiredResolution.Destroyed,[],State.Sequence+128);if(s.Data.GetValueOrDefault("range_id") is Guid rangeId&&State.Ranges.TryGetValue(rangeId,out var targetRange)){State.Ranges[rangeId]=targetRange with{State="destroyed"};foreach(Guid boundaryId in targetRange.EffectiveIntervals.SelectMany(i=>new[]{i.StartBoundaryId,i.EndBoundaryId}).Distinct())if(!State.Ranges.Values.Any(r=>r.Id!=rangeId&&r.State!="destroyed"&&r.EffectiveIntervals.Any(i=>i.StartBoundaryId==boundaryId||i.EndBoundaryId==boundaryId))&&State.Boundaries.TryGetValue(boundaryId,out var boundary))State.Boundaries[boundaryId]=boundary with{State=AnchorState.Destroyed};}Record("suggestion_"+decision,suggestionId);InvalidateObject(suggestionId,s.ParentId);
     }
 
+    public void RetireObject(Guid id,RetiredResolution resolution=RetiredResolution.Destroyed)
+    {
+        if(resolution is RetiredResolution.Split or RetiredResolution.Merged)throw Refuse("invalid_retirement","split/merge retirement requires typed operation");
+        var o=LiveObject(id);CheckExtensions(new("retire_object",id));
+        if(State.Objects.Values.Any(x=>!x.Retired&&x.ParentId==id))throw Refuse("invalid_structure","object with live children requires typed structural retirement");
+        var ownedBoundaries=State.Boundaries.Values.Where(b=>b.OwnerId==id&&b.State!=AnchorState.Destroyed).Select(b=>b.Id).ToArray();
+        if(ownedBoundaries.Length>0)throw Refuse("retained_boundary_requires_typed_retirement","object owns retained boundaries");
+        State.Objects[id]=o with{Retired=true};State.Retired[id]=new(id,resolution,[],State.Sequence+128);Record("retire_object",id,("resolution",CanonicalCbor.RetiredToken(resolution)));InvalidateObject(id,o.ParentId);
+    }
+
+    public int GarbageCollectRetiredWitnesses(long retentionFloor)
+    {
+        int changed=0;foreach(Guid id in State.Retired.Values.Where(w=>w.Resolution!=RetiredResolution.UnknownRetired&&w.ExpiresAfterSequence<retentionFloor).Select(w=>w.ObjectId).ToArray())
+        {
+            var witness=State.Retired[id];State.Retired[id]=witness with{Resolution=RetiredResolution.UnknownRetired,Successors=Array.Empty<Guid>(),ExpiresAfterSequence=long.MaxValue};changed++;
+        }
+        if(changed>0)Record("gc_retired_witnesses",null,("retention_floor",retentionFloor),("changed",changed));return changed;
+    }
+
+    public StreamedAssetDescriptor AttachEmbeddedAssetCommitment(byte[] digest,long length,Guid? figureObjectId=null,int chunkBytes=1024*1024)
+    {
+        if(digest.Length!=32)throw Refuse("invalid_asset","SHA-256 digest requires 32 bytes");if(length<0)throw Refuse("invalid_asset","negative asset length");if(chunkBytes<64*1024||chunkBytes>8*1024*1024)throw new ArgumentOutOfRangeException(nameof(chunkBytes));
+        string key=Convert.ToHexString(digest);State.Assets[key]=new(digest.ToArray(),length,"embedded");
+        if(figureObjectId is Guid figure){var o=LiveObject(figure);if(o.Type!="figure")throw Refuse("invalid_asset_target","asset target is not a figure");var data=CloneData(o.Data);data["asset_digest"]=digest.ToArray();State.Objects[figure]=o with{Data=data};InvalidateObject(figure,o.ParentId);}
+        Record("attach_embedded_asset",figureObjectId,("digest",digest.ToArray()),("length",length),("chunk_bytes",chunkBytes));LayoutInvalidations.Add("asset");return new(digest.ToArray(),length,figureObjectId,chunkBytes);
+    }
     public void SetProviderFacetAlignment(Guid facetId,string alignment)
     {
         if(!State.ProviderFacets.TryGetValue(facetId,out var facet))throw Refuse("not_found","provider facet missing");State.ProviderFacets[facetId]=facet with{Alignment=alignment};Record("provider_facet_alignment",facetId,("alignment",alignment));
@@ -145,6 +178,7 @@ public sealed class SemanticTransactionBuilder
     private IEnumerable<RetainedRange> LiveRanges()=>State.Ranges.Values.Where(r=>r.State!="destroyed");
     private static SemanticRefusalException Refuse(string code,string? message=null)=>new(code,message);
     private void CheckExtensions(EditIntent edit){var d=ExtensionPolicyEngine.Check(State,edit);if(!d.Allowed)throw Refuse(d.Classification,$"{d.Classification}: {string.Join(",",d.Intersecting.Select(Ids.Lower))}");}
+    private void CheckTopologyExtensions(EditIntent edit){var d=ExtensionPolicyEngine.Check(State,edit);if(!d.Allowed)throw Refuse(d.Classification,$"{d.Classification}: {string.Join(",",d.Intersecting.Select(Ids.Lower))}");if(d.RequiresTransform){var missing=d.Intersecting.Where(id=>State.Extensions.TryGetValue(id,out var e)&&e.EditPolicy==ExtensionEditPolicy.GenericTransform&&!transformedExtensions.Contains(id)).ToArray();if(missing.Length>0)throw Refuse("extension_transform_required",$"extension_transform_required: {string.Join(",",missing.Select(Ids.Lower))}");}}
     private bool IsDescendant(Guid candidate,Guid ancestor){Guid? p=candidate;var seen=new HashSet<Guid>();while(p is Guid id&&seen.Add(id)&&State.Objects.TryGetValue(id,out var o)){if(o.ParentId==ancestor)return true;p=o.ParentId;}return false;}
 
     private OrderKey AllocateOrder(Guid? parent,int? insertIndex,Guid? excludeId=null)

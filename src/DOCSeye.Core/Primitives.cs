@@ -283,7 +283,17 @@ public sealed record SemanticDelta(
     public IReadOnlyList<Guid> ChangedProviderFacets { get; init; } = Array.Empty<Guid>();
     public IReadOnlyList<Guid> ChangedRetiredWitnesses { get; init; } = Array.Empty<Guid>();
 }
-public sealed record SemanticOperationRecord(string Kind, Guid? TargetId, IReadOnlyDictionary<string,object?> Detail);
+public sealed record SemanticOperationRecord(string Kind, Guid? TargetId, IReadOnlyDictionary<string,object?> Detail);public enum TransactionFaultPoint
+{
+    None,
+    BeforeSemanticWrite,
+    AfterSemanticRecords,
+    DuringAssetWrite,
+    AfterRoot,
+    AfterHeadWrite,
+    DiskFull
+}
+public sealed record StreamedAssetDescriptor(byte[] Digest,long Length,Guid? FigureObjectId,int ChunkBytes);
 public sealed class SemanticRefusalException(string code,string? message=null) : InvalidOperationException(message??code)
 {
     public string Code { get; } = code;

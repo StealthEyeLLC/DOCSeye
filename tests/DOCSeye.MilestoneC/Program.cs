@@ -1,0 +1,1 @@
+string repo=Path.GetFullPath(Path.Combine(AppContext.BaseDirectory,"..","..","..","..",".."));var h=new CHarness(repo);h.RunIdentityStorageCases();h.RunAnchorExtensionCases();h.RunConcurrencyRenderCases();h.Finish();

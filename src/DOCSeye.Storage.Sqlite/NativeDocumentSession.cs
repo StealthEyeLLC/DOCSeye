@@ -38,6 +38,7 @@ public sealed class NativeDocumentSession : IDisposable
     public TransactionResult CommitTransaction(SemanticTransactionBuilder builder,Guid expectedRevisionId,string idempotencyKey)
     {
         if(!WriteAuthority) return new(false,"invalid_artifact",TryHead(),null,[Validation.Classification]);
+        var known=store.QueryIdempotency(idempotencyKey);if(known is not null)return known;
         var current=store.ReadHead();
         if(expectedRevisionId!=current.RevisionId)return new(false,"stale_revision",current,null,["expected revision mismatch"]);
         if(validatedHead!.RevisionId!=current.RevisionId || !validatedHead.SemanticRoot.SequenceEqual(current.SemanticRoot))
@@ -69,6 +70,10 @@ public sealed class NativeDocumentSession : IDisposable
         return result;
     }
 
+    public TransactionResult CommitTransactionWithAsset(SemanticTransactionBuilder builder,Stream source,Guid expectedRevisionId,string idempotencyKey,Guid? figureObjectId=null,int chunkBytes=1024*1024,TransactionFaultPoint faultPoint=TransactionFaultPoint.None)
+    {
+        if(!WriteAuthority)return new(false,"invalid_artifact",TryHead(),null,[Validation.Classification]);var known=store.QueryIdempotency(idempotencyKey);if(known is not null)return known;var current=store.ReadHead();if(expectedRevisionId!=current.RevisionId)return new(false,"stale_revision",current,null,["expected revision mismatch"]);if(validatedHead!.RevisionId!=current.RevisionId||!validatedHead.SemanticRoot.SequenceEqual(current.SemanticRoot))return new(false,"external_change_requires_reconciliation",current,null,["validated head changed outside session"]);var result=store.CommitSemanticTransactionWithAsset(builder,source,expectedRevisionId,idempotencyKey,figureObjectId,chunkBytes,faultPoint);if(result.Success&&result.Head is not null)validatedHead=result.Head;return result;
+    }
     public (TransactionResult Result,LocalMutationMetrics Metrics,byte[] Digest) CommitEmbeddedAsset(Stream source,Guid expectedRevisionId,string idempotencyKey,Guid? figureObjectId=null,int chunkBytes=1024*1024,Action<int>? chunkProgress=null)
     {
         if(!WriteAuthority) return(new(false,"invalid_artifact",TryHead(),null,[Validation.Classification]),new(0,0,0,0,0),[]);

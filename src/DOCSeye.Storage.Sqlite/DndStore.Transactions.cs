@@ -15,7 +15,7 @@ public sealed partial class DndStore
         if(builder.Operations.Count==0)return new(false,"empty_transaction",before,null,["semantic transaction contains no operations"]);
         try{ValidateStaged(builder.State);}catch(SemanticRefusalException ex){return new(false,ex.Code,before,null,[ex.Message]);}catch(Exception ex){return new(false,"invalid",before,null,[ex.Message]);}
 
-        SemanticState prior=LoadState();var changedObjects=Changed(prior.Objects,builder.State.Objects,CanonicalCbor.EncodeObject);var changedBoundaries=Changed(prior.Boundaries,builder.State.Boundaries,CanonicalCbor.EncodeBoundary);var changedRanges=Changed(prior.Ranges,builder.State.Ranges,CanonicalCbor.EncodeRange);var changedExtensions=Changed(prior.Extensions,builder.State.Extensions,CanonicalCbor.EncodeExtension);var changedFacets=Changed(prior.ProviderFacets,builder.State.ProviderFacets,CanonicalCbor.EncodeProviderFacet);var changedRetired=Changed(prior.Retired,builder.State.Retired,CanonicalCbor.EncodeRetiredWitness);var changedOrigins=Changed(prior.OriginRefs,builder.State.OriginRefs,CanonicalCbor.EncodeOriginRef);var changedAssets=ChangedString(prior.Assets,builder.State.Assets,CanonicalCbor.EncodeAsset);
+        SemanticState prior=LoadState();var changedObjects=Changed(prior.Objects,builder.State.Objects,EncodeObjectForPersistence);var changedBoundaries=Changed(prior.Boundaries,builder.State.Boundaries,CanonicalCbor.EncodeBoundary);var changedRanges=Changed(prior.Ranges,builder.State.Ranges,CanonicalCbor.EncodeRange);var changedExtensions=Changed(prior.Extensions,builder.State.Extensions,CanonicalCbor.EncodeExtension);var changedFacets=Changed(prior.ProviderFacets,builder.State.ProviderFacets,CanonicalCbor.EncodeProviderFacet);var changedRetired=Changed(prior.Retired,builder.State.Retired,CanonicalCbor.EncodeRetiredWitness);var changedOrigins=Changed(prior.OriginRefs,builder.State.OriginRefs,CanonicalCbor.EncodeOriginRef);var changedAssets=ChangedString(prior.Assets,builder.State.Assets,CanonicalCbor.EncodeAsset);
         if(!CapsulesEqual(prior,builder.State))return new(false,"immutable_source_capsule",before,null,["source capsules cannot be mutated by semantic transaction"]);
 
         using var tx=c.BeginTransaction();
@@ -53,13 +53,18 @@ public sealed partial class DndStore
 
     public TransactionResult? QueryIdempotency(string key)
     {
-        var head=ReadHead();using var cmd=c.CreateCommand();cmd.CommandText="SELECT revision_id,sequence,result_cbor,expires_after_sequence FROM idempotency WHERE key=$k";cmd.Parameters.AddWithValue("$k",key);using var r=cmd.ExecuteReader();if(!r.Read())return null;long expires=r.GetInt64(3);if(expires<head.Sequence)return new(false,"outcome_unknown",head,null,["idempotency witness expired"]);Guid revision=Ids.GuidFromRfcBytes((byte[])r[0]);long seq=r.GetInt64(1);var map=(Dictionary<string,object?>)CanonicalCbor.Decode((byte[])r[2])!;byte[] root=(byte[])map["semantic_root"]!;Guid from=(Guid)map["from_revision_id"]!;var knownHead=new RevisionHead(head.FamilyId,head.BranchId,revision,seq,root,[from],head.Mode);return new(true,"committed_known",knownHead,null,["idempotency witness matched committed outcome"]);
+        var head=ReadHead();using var cmd=c.CreateCommand();cmd.CommandText="SELECT revision_id,sequence,result_cbor,expires_after_sequence FROM idempotency WHERE key=$k";cmd.Parameters.AddWithValue("$k",key);using var r=cmd.ExecuteReader();if(!r.Read())
+        {
+            using var expired=c.CreateCommand();expired.CommandText="SELECT 1 FROM expired_idempotency WHERE key=$k";expired.Parameters.AddWithValue("$k",key);return expired.ExecuteScalar() is null?null:new(false,"outcome_unknown",head,null,["idempotency witness expired"]);
+        }
+        long expires=r.GetInt64(3);if(expires<head.Sequence)return new(false,"outcome_unknown",head,null,["idempotency witness expired"]);Guid revision=Ids.GuidFromRfcBytes((byte[])r[0]);long seq=r.GetInt64(1);var map=(Dictionary<string,object?>)CanonicalCbor.Decode((byte[])r[2])!;byte[] root=(byte[])map["semantic_root"]!;Guid from=(Guid)map["from_revision_id"]!;var knownHead=new RevisionHead(head.FamilyId,head.BranchId,revision,seq,root,[from],head.Mode);return new(true,"committed_known",knownHead,null,["idempotency witness matched committed outcome"]);
     }
 
     public void ForceExpireDeltasBefore(long sequence)=>c.Exec(null,"DELETE FROM deltas WHERE sequence<$s",("$s",sequence));
 
     private TransactionResult? KnownIdempotentResult(string key)=>QueryIdempotency(key);
     private static string EntryKey(RootEntry e)=>e.Domain+":"+Convert.ToHexString(e.Key);
+    private static byte[] EncodeObjectForPersistence(SemanticObject o)=>[..CanonicalCbor.EncodeObject(o),..o.Order.Bytes()];
 
     private static IReadOnlyList<Guid> Changed<T>(IReadOnlyDictionary<Guid,T> old,IReadOnlyDictionary<Guid,T> next,Func<T,byte[]> encode)
     {

@@ -52,6 +52,7 @@ CREATE TABLE merkle_nodes(domain TEXT NOT NULL,depth INTEGER NOT NULL,prefix BLO
 CREATE INDEX ix_merkle_children ON merkle_nodes(domain,depth,parent_prefix,last_byte);
 CREATE TABLE deltas(sequence INTEGER PRIMARY KEY,from_revision_id BLOB NOT NULL,to_revision_id BLOB NOT NULL,delta_cbor BLOB NOT NULL,acknowledged INTEGER NOT NULL DEFAULT 0,expires_after_sequence INTEGER NOT NULL);
 CREATE TABLE idempotency(key TEXT PRIMARY KEY,revision_id BLOB NOT NULL,sequence INTEGER NOT NULL,result_cbor BLOB NOT NULL,expires_after_sequence INTEGER NOT NULL);
+CREATE TABLE expired_idempotency(key TEXT PRIMARY KEY,expired_at_sequence INTEGER NOT NULL,forget_after_sequence INTEGER NOT NULL);
 CREATE TABLE provider_state(key TEXT PRIMARY KEY,value BLOB NOT NULL);
 ";cmd.ExecuteNonQuery();
     }
@@ -191,7 +192,12 @@ CREATE TABLE provider_state(key TEXT PRIMARY KEY,value BLOB NOT NULL);
     public void AcknowledgeDeltasThrough(long sequence)=>c.Exec(null,"UPDATE deltas SET acknowledged=1 WHERE sequence<=$s",("$s",sequence));
     public void PruneExpiredWitnesses(long keepFromSequence)
     {
-        c.Exec(null,"DELETE FROM deltas WHERE sequence<$s",("$s",keepFromSequence));c.Exec(null,"DELETE FROM idempotency WHERE expires_after_sequence<$s",("$s",keepFromSequence));
+        using var tx=c.BeginTransaction();
+        c.Exec(tx,"DELETE FROM expired_idempotency WHERE forget_after_sequence<$s",("$s",keepFromSequence));
+        c.Exec(tx,"INSERT OR REPLACE INTO expired_idempotency(key,expired_at_sequence,forget_after_sequence) SELECT key,$s,$f FROM idempotency WHERE expires_after_sequence<$s",("$s",keepFromSequence),("$f",keepFromSequence+64));
+        c.Exec(tx,"DELETE FROM deltas WHERE sequence<$s",("$s",keepFromSequence));
+        c.Exec(tx,"DELETE FROM idempotency WHERE expires_after_sequence<$s",("$s",keepFromSequence));
+        tx.Commit();
     }
     public TransactionResult CommitBoundaryOffset(Guid boundaryId,int newOffset,Guid expectedRevisionId,string idempotencyKey)
     {

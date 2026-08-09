@@ -38,6 +38,37 @@ public static class LayoutQualification
         };
         string id=Convert.ToHexString(SHA256.HashData(CanonicalCbor.Encode(payload))).ToLowerInvariant();return new(id,head.FamilyId,head.BranchId,head.RevisionId,Convert.ToHexString(head.SemanticRoot).ToLowerInvariant(),profile,env);
     }
+    public static IReadOnlyList<string> RequalificationWarnings(ProviderEnvironment prior,ProviderEnvironment current)
+    {
+        var warnings=new List<string>();
+        static bool Same(IReadOnlyDictionary<string,string> a,IReadOnlyDictionary<string,string> b)=>a.Count==b.Count&&a.All(kv=>b.TryGetValue(kv.Key,out var v)&&v==kv.Value);
+        if(!Same(prior.FontDigests,current.FontDigests))warnings.Add("font_manifest_changed_requires_requalification");
+        if(prior.Provider!=current.Provider||prior.ProviderVersion!=current.ProviderVersion)warnings.Add("provider_version_changed_requires_requalification");
+        if(prior.Locale!=current.Locale)warnings.Add("locale_changed_requires_requalification");
+        if(prior.HyphenationVersion!=current.HyphenationVersion)warnings.Add("hyphenation_manifest_changed_requires_requalification");
+        if(!Same(prior.Configuration,current.Configuration))warnings.Add("provider_configuration_changed_requires_requalification");
+        return warnings;
+    }
+}
+
+public sealed record RenderValidationResult(bool Valid,string Classification,IReadOnlyList<string> Diagnostics);
+public static class RenderValidation
+{
+    public static RenderValidationResult ValidateHtml(SemanticState state,RevisionHead head,string path,IReadOnlyCollection<Guid> requiredMapping)
+    {
+        if(state.RevisionId!=head.RevisionId||!state.ComputeRoot().SequenceEqual(head.SemanticRoot))return new(false,"semantic_head_mismatch",["semantic revision/root mismatch"]);
+        if(!File.Exists(path))return new(false,"render_output_missing",["render output missing"]);
+        string html=File.ReadAllText(path);var diagnostics=new List<string>();string revision=Ids.Lower(head.RevisionId),root=Convert.ToHexString(head.SemanticRoot).ToLowerInvariant();
+        if(!html.Contains("name=\"docseye-revision\" content=\""+revision+"\"",StringComparison.Ordinal)||!html.Contains("name=\"docseye-semantic-root\" content=\""+root+"\"",StringComparison.Ordinal))return new(false,"semantic_head_mismatch",["render source metadata mismatch"]);
+        var missing=requiredMapping.Where(id=>!html.Contains("data-docseye-object-id=\""+Ids.Lower(id)+"\"",StringComparison.Ordinal)).Select(Ids.Lower).ToArray();if(missing.Length>0)return new(false,"required_render_mapping_missing",missing);
+        var required=requiredMapping.Where(state.Objects.ContainsKey).Select(id=>state.Objects[id]).Where(o=>!o.Retired).ToArray();
+        if(required.Any(o=>o.Type=="figure")&&(!html.Contains("role=\"img\"",StringComparison.Ordinal)||!html.Contains("aria-label=\"",StringComparison.Ordinal)))diagnostics.Add("figure_accessibility_missing");
+        if(required.Any(o=>o.Type=="table")&&(!html.Contains("<table",StringComparison.OrdinalIgnoreCase)||!html.Contains("<caption",StringComparison.OrdinalIgnoreCase)))diagnostics.Add("table_accessibility_missing");
+        if(required.Any(o=>o.Type=="table_cell"&&Convert.ToBoolean(o.Data.GetValueOrDefault("column_header")??false))&&!html.Contains("scope=\"col\"",StringComparison.Ordinal))diagnostics.Add("table_column_header_scope_missing");
+        if(required.Any(o=>o.Type=="link")&&!html.Contains("href=\"",StringComparison.Ordinal))diagnostics.Add("link_accessibility_missing");
+        if(required.Any(o=>o.Type=="note")&&!html.Contains("role=\"note\"",StringComparison.Ordinal))diagnostics.Add("note_accessibility_missing");
+        return diagnostics.Count>0?new(false,"accessibility_validation_failed",diagnostics):new(true,"validated",[]);
+    }
 }
 
 public sealed class HtmlProvider
@@ -65,7 +96,7 @@ public sealed class HtmlProvider
             if(o.Type=="table"){RenderTable(o);return;}
             if(o.Type=="figure"){string alt=E(o.Data.GetValueOrDefault("alt_text") as string??"Figure"),caption=E(o.Data.GetValueOrDefault("caption") as string??"Figure");Mark(o.Id,"figure","<div role=\"img\" aria-label=\""+alt+"\">Figure</div><figcaption>"+caption+"</figcaption>"+label);return;}
             if(o.Type=="link"){string href=E(o.Data.GetValueOrDefault("href") as string??"#"),text=E(o.Data.GetValueOrDefault("label") as string??href);Mark(o.Id,"p","<a href=\""+href+"\">"+text+"</a>"+label);return;}
-            if(o.Type=="note"){string body=DescendantText(state,o.Id);Mark(o.Id,"aside",E(body)+label,"role=\"note\"");foreach(var t in Descendants(state,o.Id).Where(x=>x.Type=="text_block"))map[t.Id]=new(t.Id,"#obj_"+o.Id.ToString("N"),null,null,null);return;}
+            if(o.Type=="note"){var noteTexts=Descendants(state,o.Id).Where(x=>x.Type=="text_block").ToArray();string body=string.Join(" ",noteTexts.Select(t=>E(t.Data.GetValueOrDefault("text") as string??string.Empty)+ChildMarker(t)));Mark(o.Id,"aside",body+label,"role=\"note\"");foreach(var t in noteTexts)map[t.Id]=new(t.Id,"#obj_"+o.Id.ToString("N"),null,null,null);return;}
             if(o.Type=="math"){string math=E(o.Data.GetValueOrDefault("presentation_mathml") as string??"Math");Mark(o.Id,"div","<code>"+math+"</code>"+label,"role=\"math\"");return;}
             if(o.Type=="field"){string cls=o.Data.GetValueOrDefault("class") as string??"field";string value=cls=="page_count"?"Page count is layout-dependent":(o.Data.GetValueOrDefault("cached_result")?.ToString()??cls);Mark(o.Id,"p",E(value)+label,"data-field-class=\""+E(cls)+"\"");return;}
         }

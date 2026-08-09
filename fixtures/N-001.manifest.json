@@ -5,7 +5,7 @@
   "FamilyId": "bc279791-084b-4090-baec-dcc6dca35f11",
   "BranchId": "3edcc06a-989b-46fd-897c-b1515388faf6",
   "RevisionId": "a48cc936-b7a8-412f-880b-add58633f26a",
-  "SemanticRoot": "bb109721b1efbadb5aa11ccd18187f297f50c2164702ae335cdcb47ce2172fb5",
+  "SemanticRoot": "d85817cacb067521e60b75f1082ee0b18519a3238ea4c2c85359222d679c9879",
   "Objects": [
     {
       "Id": "fd24b14d-a8c6-4497-a62e-c4a4d59a9df8",
@@ -1189,7 +1189,7 @@
       "ParentId": "fd8df045-cb58-4fbb-96e7-d841f1005ac0",
       "OrderKey": "00000008000000000000000000000000",
       "SemanticRole": "body",
-      "RequiredRenderMapping": true
+      "RequiredRenderMapping": false
     }
   ],
   "Boundaries": [

@@ -1,11 +1,11 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T11:36:26.4265704+00:00",
+  "generated_utc": "2026-08-09T12:16:21.5552573+00:00",
   "machine": "STEALTHEYELLC",
   "fixture": "N-001",
   "seed": "0x00000000D0C50001",
   "manifest": "fixtures/N-001.manifest.json",
-  "semantic_root": "bb109721b1efbadb5aa11ccd18187f297f50c2164702ae335cdcb47ce2172fb5",
+  "semantic_root": "d85817cacb067521e60b75f1082ee0b18519a3238ea4c2c85359222d679c9879",
   "sentinel_recovery": {
     "required": 32,
     "recovered": 32,
@@ -17,8 +17,8 @@
       "result": "PASS",
       "evidence": {
         "seed": "0x00000000D0C50001",
-        "root": "bb109721b1efbadb5aa11ccd18187f297f50c2164702ae335cdcb47ce2172fb5",
-        "independent_root": "bb109721b1efbadb5aa11ccd18187f297f50c2164702ae335cdcb47ce2172fb5",
+        "root": "d85817cacb067521e60b75f1082ee0b18519a3238ea4c2c85359222d679c9879",
+        "independent_root": "d85817cacb067521e60b75f1082ee0b18519a3238ea4c2c85359222d679c9879",
         "sentinels": 32,
         "objects": 148,
         "boundaries": 13,
@@ -49,38 +49,38 @@
             "bootEpoch": "boot_2"
           },
           "retained": {
-            "id": "file_38",
+            "id": "file_46",
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d3010000000d000000000000000000"
+              "fileId128": "d8d30100000012000000000000000000"
             },
             "revision": {
               "length": 1445888,
-              "lastWriteFileTime": 134307489815898670
+              "lastWriteFileTime": 134307513763612350
             }
           },
           "renamed": {
-            "id": "file_38",
+            "id": "file_46",
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d3010000000d000000000000000000"
+              "fileId128": "d8d30100000012000000000000000000"
             },
             "revision": {
               "length": 1445888,
-              "lastWriteFileTime": 134307489815898670
+              "lastWriteFileTime": 134307513763612350
             }
           },
           "after": {
             "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\milestone-a\\N-001-moved.dnd",
             "identity": {
               "volumeSerial": 6829950013575736000,
-              "fileId128": "d8d3010000000d000000000000000000"
+              "fileId128": "d8d30100000012000000000000000000"
             },
             "revision": {
               "length": 1445888,
-              "lastWriteFileTime": 134307489815898670
+              "lastWriteFileTime": 134307513763612350
             }
           }
         }
@@ -108,9 +108,9 @@
       "id": "A-DIVERGENCE",
       "result": "PASS",
       "evidence": {
-        "base_revision": "39bcbcd7-b9d9-40f9-ab54-4761099aaa72",
-        "head_a": "822ed151-eba8-4a10-8a23-9b48024d7955",
-        "head_b": "b5d64444-a8ad-4183-a9f1-9d08bd84bb1e",
+        "base_revision": "da0c9e67-6d6a-45ad-a839-e75a31b23af5",
+        "head_a": "4f001392-9836-4edc-b34d-4ae19def0b55",
+        "head_b": "1d60dce4-6451-459b-9847-deb23bcaa953",
         "classification": "divergent_heads",
         "stale_handle": "stale_revision"
       }
@@ -120,7 +120,7 @@
       "result": "PASS",
       "evidence": {
         "same_family": true,
-        "new_branch": "c02140f6-9bc5-4a28-9313-861d84464f4e",
+        "new_branch": "b1593a7a-d347-41d5-885a-3e5cbe66a55c",
         "object_remint_percent": 100,
         "boundary_remint_percent": 100,
         "origin_refs": 175,
@@ -132,7 +132,7 @@
       "result": "PASS",
       "evidence": {
         "source_id": "17795730-18d6-451f-8f3e-134af941775c",
-        "pasted_id": "530b275f-d0e5-4c17-b5ae-1ce2d5a9ed4e",
+        "pasted_id": "034b85f7-d984-4e02-ad03-914d6a2d1df6",
         "reminted": true,
         "source_handle_write": 0
       }
@@ -142,8 +142,8 @@
       "result": "PASS",
       "evidence": {
         "parents": 2,
-        "head_left": "519c92ec-607e-468a-a623-58f2195babc0",
-        "head_right": "18579806-8cf1-4b6b-b09d-e23442f5bb39",
+        "head_left": "e5b4a6df-0e85-4ce3-9fa2-537d136d4db8",
+        "head_right": "a801dcb1-be03-41f4-b69a-a6cb250d99c5",
         "surviving_ids_preserved": true
       }
     },

@@ -276,7 +276,18 @@ public sealed record SemanticDelta(
     IReadOnlyList<Guid> ChangedBoundaries,
     IReadOnlyList<Guid> ChangedExtensions,
     IReadOnlyList<string> LayoutInvalidations,
-    byte[] ExactBytes);
+    byte[] ExactBytes)
+{
+    public IReadOnlyList<Guid> ChangedRanges { get; init; } = Array.Empty<Guid>();
+    public IReadOnlyList<string> ChangedAssets { get; init; } = Array.Empty<string>();
+    public IReadOnlyList<Guid> ChangedProviderFacets { get; init; } = Array.Empty<Guid>();
+    public IReadOnlyList<Guid> ChangedRetiredWitnesses { get; init; } = Array.Empty<Guid>();
+}
+public sealed record SemanticOperationRecord(string Kind, Guid? TargetId, IReadOnlyDictionary<string,object?> Detail);
+public sealed class SemanticRefusalException(string code,string? message=null) : InvalidOperationException(message??code)
+{
+    public string Code { get; } = code;
+}
 public sealed record TransactionResult(bool Success, string Classification, RevisionHead? Head, SemanticDelta? Delta, IReadOnlyList<string> Diagnostics);
 public sealed record LocalMutationMetrics(
     int LogicalRecordsRead,

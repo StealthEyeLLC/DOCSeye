@@ -1,6 +1,6 @@
 {
     "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-    "generated_utc":  "2026-08-09T11:28:58.5097233Z",
+    "generated_utc":  "2026-08-09T12:16:25.2792902Z",
     "experiments":  [
                         {
                             "id":  "E-12",
@@ -222,9 +222,9 @@
                     ],
     "artifacts":  {
                       "base_source_sha256":  "36c756c18aaa3c4dfa9fd6b83b05335cd89ae253d19d923bd925712997b3a6ba",
-                      "base_pdf_sha256":  "ce4ceab838a139950c6cdeb7a9c62f4cc39068875dc16afd5b9fc9903eb5532c",
+                      "base_pdf_sha256":  "daf0ac0f6a480be6213a255b64b974fd1829f0ab6c4e505ca054667bac396127",
                       "reflow_source_sha256":  "3ec108b89f3f61d35d520b13584ce9d9b9ebcb46e6d6a733e6d345a1fca7e219",
-                      "reflow_pdf_sha256":  "e9a3233534314aff2f71045f75748371d5e50edf911348af6d57f8167f6cdeb5"
+                      "reflow_pdf_sha256":  "5295b5ff3ae9e6caaf064264fc41a2fd77dbd544968d8ae778c54e49ba9e96ab"
                   },
     "word":  {
                  "winword_processes":  0,

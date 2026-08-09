@@ -44,8 +44,8 @@ public static class N001Generator
         Guid h1=Add("text_block",section1,"heading",D(("text","1. Identity and Authority"),("heading_level",1),("keep_with_next",true)));
         Guid h2=Add("text_block",section1,"heading",D(("text","1.1 Boundaries under pressure"),("heading_level",2),("keep_with_next",true)));
         Guid h3=Add("text_block",section2,"heading",D(("text","2. Structured Content"),("heading_level",1),("keep_with_next",true)));
-        Guid h4=Add("text_block",section2,"heading",D(("text","2.1 Tables, review, and fields"),("heading_level",3),("keep_with_next",true)));
-        Guid h5=Add("text_block",section3,"heading",D(("text","3. Layout and Interoperability"),("heading_level",2),("keep_with_next",true)));
+        Guid h4=Add("text_block",section2,"heading",D(("text","2.1 Tables, review, and fields"),("heading_level",2),("keep_with_next",true)));
+        Guid h5=Add("text_block",section3,"heading",D(("text","3. Layout and Interoperability"),("heading_level",3),("keep_with_next",true)));
 
         string duplicate="Identity must never follow duplicate text.";
         string repeated="correspondence pressure phrase";
@@ -197,7 +197,8 @@ public static class N001Generator
         };
         if(sentinels.Sum(x=>x.Value.Length)!=32) throw new InvalidOperationException("sentinel cardinality drift");
 
-        bool RenderMap(SemanticObject o)=>o.Type is "text_block" or "list_item" or "table" or "table_cell" or "figure" or "note" or "link" or "math";
+        Guid renderExemptSplitMergeSource=bodies[5]; // canonical B-T3 split/merge victim: its retired source identity is not final render authority.
+        bool RenderMap(SemanticObject o)=>(o.Type is "text_block" or "list_item" or "table" or "table_cell" or "figure" or "note" or "link" or "math")&&o.Id!=renderExemptSplitMergeSource;
         var objectManifest=s.Objects.Values.OrderBy(o=>o.ParentId).ThenBy(o=>o.Order).ThenBy(o=>Ids.Lower(o.Id),StringComparer.Ordinal)
             .Select(o=>new FixtureObjectManifest(Ids.Lower(o.Id),o.Type,o.ParentId is Guid p?Ids.Lower(p):null,Convert.ToHexString(o.Order.Bytes()).ToLowerInvariant(),o.Role,RenderMap(o))).ToArray();
         var boundaryManifest=s.Boundaries.Values.OrderBy(b=>Ids.Lower(b.Id),StringComparer.Ordinal).Select(b=>new FixtureBoundaryManifest(Ids.Lower(b.Id),Ids.Lower(b.OwnerId),b.ScalarOffset,CanonicalCbor.AffinityToken(b.Affinity),b.State.ToString().ToLowerInvariant())).ToArray();

@@ -184,7 +184,7 @@ CREATE TABLE provider_state(key TEXT PRIMARY KEY,value BLOB NOT NULL);
     }
     public DeltaReadResult ReadDeltas(long cursorSequence)
     {
-        var head=ReadHead();long? min=null;object? m=c.Scalar(null,"SELECT min(sequence) FROM deltas");if(m is not null&&m is not DBNull)min=Convert.ToInt64(m);if((min is long mn&&cursorSequence<mn-1)||(min is null&&cursorSequence<head.Sequence))return new("cursor_expired",cursorSequence,head.Sequence,[],true);
+        var head=ReadHead();long? min=null;object? m=c.Scalar(null,"SELECT min(sequence) FROM deltas");if(m is not null&&m is not DBNull)min=Convert.ToInt64(m);if((min is long mn&&cursorSequence<mn-1)||(min is null&&cursorSequence<head.Sequence))return new("resync_required",cursorSequence,head.Sequence,[],true);
         var list=new List<byte[]>();using var cmd=c.CreateCommand();cmd.CommandText="SELECT delta_cbor FROM deltas WHERE sequence>$s ORDER BY sequence";cmd.Parameters.AddWithValue("$s",cursorSequence);using var r=cmd.ExecuteReader();while(r.Read())list.Add((byte[])r[0]);return new("ok",cursorSequence,head.Sequence,list,false);
     }
 

@@ -33,6 +33,20 @@ public sealed class NativeDocumentSession : IDisposable
         Validation=store.Validate(verifyAssets); if(Validation.Writable)store.ReconcilePrivateMerkleCache(); validatedHead=Validation.Writable?store.ReadHead():null; return Validation;
     }
 
+    public SemanticTransactionBuilder BeginTransaction() => new(LoadState());
+
+    public TransactionResult CommitTransaction(SemanticTransactionBuilder builder,Guid expectedRevisionId,string idempotencyKey)
+    {
+        if(!WriteAuthority) return new(false,"invalid_artifact",TryHead(),null,[Validation.Classification]);
+        var current=store.ReadHead();
+        if(expectedRevisionId!=current.RevisionId)return new(false,"stale_revision",current,null,["expected revision mismatch"]);
+        if(validatedHead!.RevisionId!=current.RevisionId || !validatedHead.SemanticRoot.SequenceEqual(current.SemanticRoot))
+            return new(false,"external_change_requires_reconciliation",current,null,["validated head changed outside session"]);
+        var result=store.CommitSemanticTransaction(builder,expectedRevisionId,idempotencyKey);if(result.Success&&result.Head is not null)validatedHead=result.Head;return result;
+    }
+
+    public TransactionResult? QueryIdempotency(string key)=>store.QueryIdempotency(key);
+    public void PruneExpiredWitnesses(long keepFromSequence)=>store.PruneExpiredWitnesses(keepFromSequence);
     public TransactionResult CommitObjectData(PortableWriteHandle handle,Dictionary<string,object?> newData,string idempotencyKey)
     {
         if(!WriteAuthority) return new(false,"invalid_artifact",TryHead(),null,[Validation.Classification]);

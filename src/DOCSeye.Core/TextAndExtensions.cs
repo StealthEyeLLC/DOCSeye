@@ -153,11 +153,11 @@ public static class BoundaryTransform
         state.Retired[left]=new(left,RetiredResolution.Merged,[result],lineageExpiry);state.Retired[right]=new(right,RetiredResolution.Merged,[result],lineageExpiry);return result;
     }
     private static bool AtSplitGoesRight(TextBoundary b,string? role)=>b.Affinity switch{EdgeAffinity.AfterInsertion=>true,EdgeAffinity.BeforeInsertion=>false,EdgeAffinity.IncludeAtEdge=>role=="start",EdgeAffinity.ExcludeAtEdge=>role=="start",_=>role=="start"};
-    private static Dictionary<Guid,string> Roles(IEnumerable<RetainedRange> ranges){var d=new Dictionary<Guid,string>();foreach(var r in ranges)foreach(var interval in r.EffectiveIntervals){AddRole(d,interval.StartBoundaryId,"start");AddRole(d,interval.EndBoundaryId,"end");}return d;}
+    private static Dictionary<Guid,string> Roles(IEnumerable<RetainedRange> ranges){var d=new Dictionary<Guid,string>();foreach(var r in ranges)foreach(var interval in r.EffectiveIntervals){if(interval.StartBoundaryId==interval.EndBoundaryId){AddRole(d,interval.StartBoundaryId,"point");continue;}AddRole(d,interval.StartBoundaryId,"start");AddRole(d,interval.EndBoundaryId,"end");}return d;}
     private static void AddRole(Dictionary<Guid,string> roles,Guid id,string role){if(roles.TryGetValue(id,out var existing)&&existing!=role)throw new InvalidOperationException("boundary_role_conflict");roles[id]=role;}
 }
 
-public sealed record EditIntent(string Kind,Guid? TargetId=null,string? PropertyName=null,Guid? StartBoundaryId=null,Guid? EndBoundaryId=null,bool TopologyMutation=false,bool Copy=false,bool Move=false);
+public sealed record EditIntent(string Kind,Guid? TargetId=null,string? PropertyName=null,Guid? StartBoundaryId=null,Guid? EndBoundaryId=null,bool TopologyMutation=false,bool Copy=false,bool Move=false,int? StartScalar=null,int? EndScalar=null);
 public sealed record ExtensionDecision(bool Allowed,string Classification,bool RequiresTransform,IReadOnlyList<Guid> Intersecting);
 
 public static class ExtensionPolicyEngine
@@ -186,6 +186,7 @@ public static class ExtensionPolicyEngine
         if(e.CoverageKind==ExtensionCoverageKind.TextInterval)
         {
             if(e.TargetId!=edit.TargetId)return false;if(e.StartBoundaryId is not Guid sb||e.EndBoundaryId is not Guid eb||!state.Boundaries.TryGetValue(sb,out var s)||!state.Boundaries.TryGetValue(eb,out var end))return true;
+            if(edit.StartScalar is int ss){int eeScalar=edit.EndScalar??ss;if(eeScalar<ss)(ss,eeScalar)=(eeScalar,ss);int a=Math.Min(s.ScalarOffset,end.ScalarOffset),b=Math.Max(s.ScalarOffset,end.ScalarOffset);if(ss==eeScalar)return ss>=a&&ss<=b;return ss<b&&eeScalar>a;}
             if(edit.StartBoundaryId is Guid es&&state.Boundaries.TryGetValue(es,out var isb)&&edit.EndBoundaryId is Guid ee&&state.Boundaries.TryGetValue(ee,out var ieb))return isb.ScalarOffset<=end.ScalarOffset&&ieb.ScalarOffset>=s.ScalarOffset;
             return edit.Kind.Contains("text",StringComparison.Ordinal)||edit.Kind.Contains("split",StringComparison.Ordinal)||edit.Kind.Contains("delete",StringComparison.Ordinal);
         }

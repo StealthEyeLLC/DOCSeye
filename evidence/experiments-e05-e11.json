@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T11:36:09.1263912+00:00",
+  "generated_utc": "2026-08-09T12:16:12.1153662+00:00",
   "experiments": [
     {
       "id": "E-05",
@@ -70,7 +70,7 @@
         {
           "pages": 10,
           "file_bytes": 344064,
-          "create_ms": 116,
+          "create_ms": 108,
           "cold_validation_ms": 2,
           "cold_validation_workingset_delta_bytes": 0,
           "local_query_ms": 0,
@@ -86,11 +86,11 @@
         {
           "pages": 500,
           "file_bytes": 6987776,
-          "create_ms": 580,
-          "cold_validation_ms": 38,
-          "cold_validation_workingset_delta_bytes": 4431872,
+          "create_ms": 584,
+          "cold_validation_ms": 42,
+          "cold_validation_workingset_delta_bytes": 0,
           "local_query_ms": 0,
-          "local_edit_ms": 131,
+          "local_edit_ms": 9,
           "touched_logical_records": 1,
           "read_logical_records": 1,
           "merkle_path_nodes": 33,
@@ -102,11 +102,11 @@
         {
           "pages": 5000,
           "file_bytes": 68321280,
-          "create_ms": 6305,
-          "cold_validation_ms": 414,
+          "create_ms": 6060,
+          "cold_validation_ms": 401,
           "cold_validation_workingset_delta_bytes": 0,
           "local_query_ms": 0,
-          "local_edit_ms": 69,
+          "local_edit_ms": 46,
           "touched_logical_records": 1,
           "read_logical_records": 1,
           "merkle_path_nodes": 33,
@@ -124,8 +124,8 @@
       "result": "PASS",
       "asset_bytes": 1073741824,
       "chunk_bytes": 4194304,
-      "add_ms": 3000,
-      "replace_ms": 2894,
+      "add_ms": 2993,
+      "replace_ms": 2687,
       "peak_process_workingset_increase_bytes": 0,
       "digest_a": "0ed1488d36b2b8092aea6ad9cb9202f90ce44e8abf23452fd54b49ebc5f9c8c6",
       "digest_b": "9f625dfaae17ed86f295741cdf2532225e0490a0dec2c31a637eff82ebfe40da",
@@ -142,7 +142,7 @@
       "index_rebuilt_from_dnd": true,
       "semantic_identity_exact": true,
       "semantic_root_unchanged": true,
-      "expired_cursor_classification": "cursor_expired",
+      "expired_cursor_classification": "resync_required",
       "resync_required": true,
       "external_state_is_truth": false
     }

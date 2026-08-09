@@ -10,5 +10,6 @@
     <Project Path="tests/DOCSeye.Experiments/DOCSeye.Experiments.csproj" />
     <Project Path="tests/DOCSeye.Fixtures/DOCSeye.Fixtures.csproj" />
     <Project Path="tests/DOCSeye.MilestoneA/DOCSeye.MilestoneA.csproj" />
+    <Project Path="tests/DOCSeye.MilestoneB/DOCSeye.MilestoneB.csproj" />
   </Folder>
 </Solution>

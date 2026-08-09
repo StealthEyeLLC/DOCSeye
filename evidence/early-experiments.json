@@ -1,6 +1,6 @@
 {
   "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
-  "generated_utc": "2026-08-09T11:36:39.8413993+00:00",
+  "generated_utc": "2026-08-09T12:15:12.2492467+00:00",
   "machine": "STEALTHEYELLC",
   "runtime": "10.0.10",
   "experiments": [
@@ -19,7 +19,7 @@
       "independent_writer": {
         "classification": "committed",
         "sequence": 1,
-        "revision_id": "61499284-749f-48b3-ad2a-06588084a94f",
+        "revision_id": "37a11a26-a7a9-468f-b767-98d41d68b14c",
         "semantic_root": "97207cb02e50068c7ae0979a84b32b65ab5d8ef865ae1c81e568897518515652",
         "boundary_id": "629af7dc-4fa6-408b-ab71-fe7eae0005ac",
         "new_offset": 30
@@ -57,38 +57,38 @@
           "bootEpoch": "boot_2"
         },
         "retained": {
-          "id": "file_39",
+          "id": "file_45",
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-published.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "18d30100000067000000000000000000"
+            "fileId128": "04d5010000005b000000000000000000"
           },
           "revision": {
             "length": 200704,
-            "lastWriteFileTime": 134307489997913200
+            "lastWriteFileTime": 134307513121978780
           }
         },
         "renamed": {
-          "id": "file_39",
+          "id": "file_45",
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "18d30100000067000000000000000000"
+            "fileId128": "04d5010000005b000000000000000000"
           },
           "revision": {
             "length": 200704,
-            "lastWriteFileTime": 134307489997913200
+            "lastWriteFileTime": 134307513121978780
           }
         },
         "after": {
           "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
           "identity": {
             "volumeSerial": 6829950013575736000,
-            "fileId128": "18d30100000067000000000000000000"
+            "fileId128": "04d5010000005b000000000000000000"
           },
           "revision": {
             "length": 200704,
-            "lastWriteFileTime": 134307489997913200
+            "lastWriteFileTime": 134307513121978780
           }
         }
       }

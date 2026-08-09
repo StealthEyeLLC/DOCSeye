@@ -1,0 +1,22 @@
+# Editor and OS noise
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Future implementation outputs (Build 001 is not implemented here)
+bin/
+obj/
+node_modules/
+artifacts/
+coverage/
+TestResults/
+*.db
+*.db-shm
+*.db-wal
+*.docx
+*.docm
+*.pdf
+*.tmp
+*.log

@@ -1,0 +1,235 @@
+{
+    "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+    "generated_utc":  "2026-08-09T11:11:16.9867919Z",
+    "experiments":  [
+                        {
+                            "id":  "E-12",
+                            "result":  "PASS_EARLY_QUALIFICATION",
+                            "provider":  "Typst",
+                            "provider_version":  "typst 0.15.1 (9dfd3a08)",
+                            "mechanism":  "generated paginated Typst with semantic labels queried to page/x/y locations",
+                            "required_mapping":  12,
+                            "mapped":  12,
+                            "mapping_percent":  100,
+                            "source_map":  {
+                                               "value":  [
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "50.4pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "67.7pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "137.51pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "156.67pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "175.84pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "194.84pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "214.35pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "251.65pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "381.14pt"
+                                                             },
+                                                             {
+                                                                 "page":  1,
+                                                                 "x":  "54pt",
+                                                                 "y":  "545.24pt"
+                                                             },
+                                                             {
+                                                                 "page":  2,
+                                                                 "x":  "54pt",
+                                                                 "y":  "50.4pt"
+                                                             },
+                                                             {
+                                                                 "page":  3,
+                                                                 "x":  "316.08pt",
+                                                                 "y":  "50.4pt"
+                                                             }
+                                                         ],
+                                               "Count":  12
+                                           },
+                            "reflow_late_objects_before":  [
+                                                               {
+                                                                   "page":  1,
+                                                                   "x":  "54pt",
+                                                                   "y":  "251.65pt"
+                                                               },
+                                                               {
+                                                                   "page":  1,
+                                                                   "x":  "54pt",
+                                                                   "y":  "381.14pt"
+                                                               },
+                                                               {
+                                                                   "page":  1,
+                                                                   "x":  "54pt",
+                                                                   "y":  "545.24pt"
+                                                               },
+                                                               {
+                                                                   "page":  2,
+                                                                   "x":  "54pt",
+                                                                   "y":  "50.4pt"
+                                                               },
+                                                               {
+                                                                   "page":  3,
+                                                                   "x":  "316.08pt",
+                                                                   "y":  "50.4pt"
+                                                               }
+                                                           ],
+                            "reflow_late_objects_after":  {
+                                                              "value":  [
+                                                                            {
+                                                                                "page":  2,
+                                                                                "x":  "54pt",
+                                                                                "y":  "145.38pt"
+                                                                            },
+                                                                            {
+                                                                                "page":  2,
+                                                                                "x":  "54pt",
+                                                                                "y":  "274.86pt"
+                                                                            },
+                                                                            {
+                                                                                "page":  2,
+                                                                                "x":  "54pt",
+                                                                                "y":  "438.96pt"
+                                                                            },
+                                                                            {
+                                                                                "page":  3,
+                                                                                "x":  "54pt",
+                                                                                "y":  "50.4pt"
+                                                                            },
+                                                                            {
+                                                                                "page":  4,
+                                                                                "x":  "316.08pt",
+                                                                                "y":  "50.4pt"
+                                                                            }
+                                                                        ],
+                                                              "Count":  5
+                                                          },
+                            "downstream_reflow_changed":  true,
+                            "warnings":  [
+
+                                         ],
+                            "layout_features":  [
+                                                    "US Letter",
+                                                    "two columns",
+                                                    "explicit page break",
+                                                    "explicit column break",
+                                                    "header/footer/page numbering",
+                                                    "figure",
+                                                    "table",
+                                                    "footnote",
+                                                    "hyphenation-sensitive prose"
+                                                ]
+                        },
+                        {
+                            "id":  "E-13",
+                            "result":  "PASS_EARLY_QUALIFICATION",
+                            "pdf_standard":  "PDF/UA-1",
+                            "validator":  "veraPDF 1.30.2",
+                            "base":  {
+                                         "compliant":  true,
+                                         "profile":  "PDF/UA-1 validation profile",
+                                         "passed_rules":  106,
+                                         "failed_rules":  0,
+                                         "passed_checks":  21668,
+                                         "failed_checks":  0
+                                     },
+                            "reflow":  {
+                                           "compliant":  true,
+                                           "profile":  "PDF/UA-1 validation profile",
+                                           "passed_rules":  106,
+                                           "failed_rules":  0,
+                                           "passed_checks":  26456,
+                                           "failed_checks":  0
+                                       },
+                            "semantic_expectations":  {
+                                                          "headings":  true,
+                                                          "table_header_semantics":  true,
+                                                          "figure_alt_text":  true,
+                                                          "link":  true,
+                                                          "footnote":  true,
+                                                          "latin":  true,
+                                                          "arabic_rtl":  true,
+                                                          "mixed_bidi":  true,
+                                                          "devanagari":  true,
+                                                          "japanese_cjk":  true,
+                                                          "combining_sequences":  true,
+                                                          "emoji_zwj":  true,
+                                                          "font_fallback":  true
+                                                      },
+                            "fonts":  [
+                                          {
+                                              "name":  "segoeui.ttf",
+                                              "sha256":  "8134dbcd09e7b123c9a7f229d49cffbcb01352cc72ea5e1076b65d0dca9f73cd"
+                                          },
+                                          {
+                                              "name":  "segoeuib.ttf",
+                                              "sha256":  "aeb9e4a6ec5cc59f4d72df8189032d7dbb28f45161cf1552174818b5465dac4e"
+                                          },
+                                          {
+                                              "name":  "Nirmala.ttc",
+                                              "sha256":  "ad02cdfc06e144ac45f318e8e5a64cbe04c7479d4beb91d25f5a319a466b1767"
+                                          },
+                                          {
+                                              "name":  "YuGothR.ttc",
+                                              "sha256":  "cd24b5617c1e26572b0a7fe7e558f7121ca42c36f7b50e8d9216ac222a1c0a93"
+                                          },
+                                          {
+                                              "name":  "YuGothB.ttc",
+                                              "sha256":  "d923a57f781f06198167da4f58287be7ac64a954a47aff4295e078a42b4b68b2"
+                                          },
+                                          {
+                                              "name":  "seguiemj.ttf",
+                                              "sha256":  "f07cbd7886f4a1a5255a1bdf4ca5ea29db3be3357414003a92bec5d1c3165578"
+                                          },
+                                          {
+                                              "name":  "arial.ttf",
+                                              "sha256":  "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a"
+                                          }
+                                      ],
+                            "warnings":  [
+
+                                         ]
+                        }
+                    ],
+    "artifacts":  {
+                      "base_source_sha256":  "36c756c18aaa3c4dfa9fd6b83b05335cd89ae253d19d923bd925712997b3a6ba",
+                      "base_pdf_sha256":  "6c1f6f70e72828e142bab1fb75ab6944a46dcbfc587130e483ecb7e7a0bdf3d2",
+                      "reflow_source_sha256":  "3ec108b89f3f61d35d520b13584ce9d9b9ebcb46e6d6a733e6d345a1fca7e219",
+                      "reflow_pdf_sha256":  "3687150435719cb30dc3ac08c24f1834af16a602d81115fa1a54b3ff4a4cb29c"
+                  },
+    "word":  {
+                 "winword_processes":  0,
+                 "winword_exe_present":  false,
+                 "com_calls":  0,
+                 "api_calls":  0
+             }
+}

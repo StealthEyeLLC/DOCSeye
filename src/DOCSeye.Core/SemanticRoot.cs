@@ -9,6 +9,9 @@ public readonly record struct RootEntry(string Domain, byte[] Key, byte[] Value)
     public static RootEntry ForBoundary(TextBoundary b) => new("boundaries", SemanticRoot.Key("boundary", Ids.RfcBytes(b.Id)), CanonicalCbor.EncodeBoundary(b));
     public static RootEntry ForExtension(ExtensionEnvelope e) => new("extensions", SemanticRoot.Key("extension", Ids.RfcBytes(e.ExtensionId)), CanonicalCbor.EncodeExtension(e));
     public static RootEntry ForAsset(AssetCommitment a) => new("assets", SemanticRoot.Key("asset", a.Digest), CanonicalCbor.EncodeAsset(a));
+    public static RootEntry ForProviderFacet(ProviderFacet f) => new("providers", SemanticRoot.Key("provider-facet", Ids.RfcBytes(f.Id)), CanonicalCbor.EncodeProviderFacet(f));
+    public static RootEntry ForSourceCapsule(SourceCapsuleEvidence c) => new("providers", SemanticRoot.Key("source-capsule", c.Digest), CanonicalCbor.EncodeSourceCapsule(c));
+    public static RootEntry ForRetired(RetiredWitness w) => new("lifecycle", SemanticRoot.Key("retired-object", Ids.RfcBytes(w.ObjectId)), CanonicalCbor.EncodeRetiredWitness(w));
 }
 
 public static class SemanticRoot
@@ -48,13 +51,13 @@ public static class SemanticRoot
 
     public static byte[] ComputeDomain(string domain, IReadOnlyCollection<RootEntry> entries)
     {
+        if (!DndConstants.RootDomains.Contains(domain, StringComparer.Ordinal))
+            throw new InvalidOperationException("unknown semantic-root domain");
         var root = new TrieNode();
         foreach (var entry in entries)
         {
-            if (!string.Equals(entry.Domain, domain, StringComparison.Ordinal))
-                throw new InvalidOperationException("domain mismatch");
-            if (entry.Key.Length != 32)
-                throw new InvalidOperationException("root key must be 32 bytes");
+            if (!string.Equals(entry.Domain, domain, StringComparison.Ordinal)) throw new InvalidOperationException("domain mismatch");
+            if (entry.Key.Length != 32) throw new InvalidOperationException("root key must be 32 bytes");
             Insert(root, entry.Key, 0, LeafHash(domain, entry.Key, entry.Value));
         }
         return HashNode(domain, 0, root);
@@ -99,16 +102,10 @@ public static class SemanticRoot
     }
 
     public static byte[] LeafHash(string domain, byte[] key, byte[] value) => Hash(
-        LeafPrefix,
-        Encoding.ASCII.GetBytes(domain),
-        new byte[] { 0 },
-        key,
-        SHA256.HashData(value));
+        LeafPrefix, Encoding.ASCII.GetBytes(domain), new byte[] { 0 }, key, SHA256.HashData(value));
 
     public static byte[] EmptyHash(string domain, int depth) => Hash(
-        EmptyPrefix,
-        Encoding.ASCII.GetBytes(domain),
-        new byte[] { 0, checked((byte)depth) });
+        EmptyPrefix, Encoding.ASCII.GetBytes(domain), new byte[] { 0, checked((byte)depth) });
 
     public static byte[] InternalHash(string domain, int depth, IEnumerable<(byte child, byte[] hash)> children)
     {
@@ -155,7 +152,10 @@ public sealed class SemanticState
     public Dictionary<Guid, TextBoundary> Boundaries { get; } = new();
     public Dictionary<Guid, ExtensionEnvelope> Extensions { get; } = new();
     public Dictionary<string, AssetCommitment> Assets { get; } = new(StringComparer.Ordinal);
+    public Dictionary<Guid, ProviderFacet> ProviderFacets { get; } = new();
+    public Dictionary<string, SourceCapsuleEvidence> SourceCapsules { get; } = new(StringComparer.Ordinal);
     public Dictionary<Guid, RetiredWitness> Retired { get; } = new();
+    public SortedSet<string> RequiredCapabilities { get; } = new(DndConstants.DefaultRequiredCapabilities, StringComparer.Ordinal);
 
     public IReadOnlyList<RootEntry> RootEntries()
     {
@@ -164,6 +164,9 @@ public sealed class SemanticState
         entries.AddRange(Boundaries.Values.Where(b => b.State is AnchorState.Live or AnchorState.Collapsed or AnchorState.Orphaned).Select(RootEntry.ForBoundary));
         entries.AddRange(Extensions.Values.Select(RootEntry.ForExtension));
         entries.AddRange(Assets.Values.Select(RootEntry.ForAsset));
+        entries.AddRange(ProviderFacets.Values.Select(RootEntry.ForProviderFacet));
+        entries.AddRange(SourceCapsules.Values.Select(RootEntry.ForSourceCapsule));
+        entries.AddRange(Retired.Values.Select(RootEntry.ForRetired));
 
         foreach (var group in Objects.Values.Where(o => !o.Retired && o.ParentId is not null).GroupBy(o => o.ParentId!.Value))
         {
@@ -179,13 +182,17 @@ public sealed class SemanticState
             entries.Add(new RootEntry("relations", KeyForRelation(group.Key), CanonicalCbor.Encode(relation)));
         }
 
-        var commit = new Dictionary<string, object?>(StringComparer.Ordinal)
+        var format = new Dictionary<string, object?>(StringComparer.Ordinal)
         {
+            ["format_major"] = DndConstants.FormatMajor,
+            ["format_minor"] = DndConstants.FormatMinor,
+            ["root_mechanism"] = DndConstants.RootMechanism,
             ["family_id"] = FamilyId,
             ["branch_id"] = BranchId,
-            ["mode"] = ModeToken(Mode)
+            ["mode"] = ModeToken(Mode),
+            ["required_capabilities"] = RequiredCapabilities.Cast<object?>().ToArray()
         };
-        entries.Add(new RootEntry("commit", SemanticRoot.Key("branch", Ids.RfcBytes(BranchId)), CanonicalCbor.Encode(commit)));
+        entries.Add(new RootEntry("commit", SemanticRoot.Key("branch", Ids.RfcBytes(BranchId)), CanonicalCbor.Encode(format)));
         return entries;
     }
 

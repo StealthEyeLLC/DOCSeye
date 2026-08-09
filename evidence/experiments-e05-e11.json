@@ -1,0 +1,150 @@
+{
+  "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+  "generated_utc": "2026-08-09T11:11:04.0476444+00:00",
+  "experiments": [
+    {
+      "id": "E-05",
+      "result": "PASS",
+      "page_equivalent": 5000,
+      "initial_siblings": 5000,
+      "pressure_inserts": 2200,
+      "max_local_rebalance_records": 256,
+      "total_rebalanced_records": 6144,
+      "explicit_maintenance_rebalanced_records": 512,
+      "semantic_root_neutral_maintenance": true,
+      "moves_preserve_ids": true,
+      "mechanism": "unsigned 128-bit sparse keys with bounded local rebalance"
+    },
+    {
+      "id": "E-06",
+      "result": "PASS",
+      "valid_vectors": 7,
+      "byte_identical": 7,
+      "byte_identity_percent": 100,
+      "invalid_vectors": 7,
+      "invalid_classifications_identical": 7,
+      "classifications": {
+        "indefinite_array": "malformed_cbor",
+        "nonshort_int": "malformed_cbor",
+        "duplicate_map_key": "malformed_cbor",
+        "binary_float": "malformed_cbor",
+        "bad_uuid": "malformed_cbor",
+        "truncated": "malformed_cbor",
+        "too_deep": "resource_limit"
+      }
+    },
+    {
+      "id": "E-07",
+      "result": "PASS",
+      "mechanism": "sha256-domain-separated-sparse-radix-256-v1",
+      "fanout": 256,
+      "path_nodes_per_entry": 33,
+      "independent_root": true,
+      "vacuum_neutral": true,
+      "physical_record_reorder_neutral": true,
+      "index_rebuild_neutral": true,
+      "local_mutation_bounded": true,
+      "historical_merkle_dag": false
+    },
+    {
+      "id": "E-08",
+      "result": "PASS",
+      "valid_external_commits": [
+        "move",
+        "split",
+        "merge",
+        "extension"
+      ],
+      "product_private_serializer_shared": false,
+      "identity_remints_by_product": 0,
+      "malformed_rejections": [
+        "duplicate_id",
+        "broken_reference"
+      ],
+      "auto_repair": 0
+    },
+    {
+      "id": "E-09",
+      "result": "PASS",
+      "tiers": [
+        {
+          "pages": 10,
+          "file_bytes": 323584,
+          "create_ms": 94,
+          "cold_validation_ms": 2,
+          "cold_validation_workingset_delta_bytes": 0,
+          "local_query_ms": 0,
+          "local_edit_ms": 5,
+          "touched_logical_records": 1,
+          "read_logical_records": 1,
+          "merkle_path_nodes": 33,
+          "payload_bytes_read": 3591,
+          "payload_bytes_written": 3604,
+          "whole_document_materialization_for_local_query": false,
+          "whole_document_materialization_for_local_edit": false
+        },
+        {
+          "pages": 500,
+          "file_bytes": 6967296,
+          "create_ms": 599,
+          "cold_validation_ms": 37,
+          "cold_validation_workingset_delta_bytes": 249856,
+          "local_query_ms": 0,
+          "local_edit_ms": 36,
+          "touched_logical_records": 1,
+          "read_logical_records": 1,
+          "merkle_path_nodes": 33,
+          "payload_bytes_read": 3592,
+          "payload_bytes_written": 3605,
+          "whole_document_materialization_for_local_query": false,
+          "whole_document_materialization_for_local_edit": false
+        },
+        {
+          "pages": 5000,
+          "file_bytes": 68300800,
+          "create_ms": 6177,
+          "cold_validation_ms": 404,
+          "cold_validation_workingset_delta_bytes": 0,
+          "local_query_ms": 0,
+          "local_edit_ms": 14,
+          "touched_logical_records": 1,
+          "read_logical_records": 1,
+          "merkle_path_nodes": 33,
+          "payload_bytes_read": 3593,
+          "payload_bytes_written": 3606,
+          "whole_document_materialization_for_local_query": false,
+          "whole_document_materialization_for_local_edit": false
+        }
+      ],
+      "mechanism": "direct keyed SQLite object access plus bounded Merkle path update",
+      "persistent_unbounded_growth": false
+    },
+    {
+      "id": "E-10",
+      "result": "PASS",
+      "asset_bytes": 1073741824,
+      "chunk_bytes": 4194304,
+      "add_ms": 2827,
+      "replace_ms": 2553,
+      "peak_process_workingset_increase_bytes": 0,
+      "digest_a": "0ed1488d36b2b8092aea6ad9cb9202f90ce44e8abf23452fd54b49ebc5f9c8c6",
+      "digest_b": "9f625dfaae17ed86f295741cdf2532225e0490a0dec2c31a637eff82ebfe40da",
+      "figure_identity_preserved": true,
+      "unrelated_semantic_records_touched": 0,
+      "streaming": true,
+      "crash_recovery": "old",
+      "successful_commit_outcome": "new"
+    },
+    {
+      "id": "E-11",
+      "result": "PASS",
+      "runtime_state_deleted_completely": true,
+      "index_rebuilt_from_dnd": true,
+      "semantic_identity_exact": true,
+      "semantic_root_unchanged": true,
+      "expired_cursor_classification": "cursor_expired",
+      "resync_required": true,
+      "external_state_is_truth": false
+    }
+  ]
+}

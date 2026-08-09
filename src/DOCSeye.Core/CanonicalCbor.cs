@@ -29,6 +29,25 @@ public static class CanonicalCbor
         ["extension_id"]=e.ExtensionId,["namespace_uri"]=e.NamespaceUri,["type_name"]=e.TypeName,["major"]=e.Major,["minor"]=e.Minor,["payload_encoding"]=e.PayloadEncoding,["exact_payload"]=e.ExactPayload,["payload_digest"]=e.PayloadDigest,["coverage_kind"]=CoverageToken(e.CoverageKind),["target_id"]=e.TargetId,["property_name"]=e.PropertyName,["start_boundary_id"]=e.StartBoundaryId,["end_boundary_id"]=e.EndBoundaryId,["edit_policy"]=PolicyToken(e.EditPolicy),["required"]=e.Required,["fallback"]=e.Fallback
     });
     public static byte[] EncodeAsset(AssetCommitment a)=>Encode(new Dictionary<string,object?>{{"digest",a.Digest},{"length",a.Length},{"state",a.State},{"shell_reference",a.ShellReference}});
+    public static byte[] EncodeProviderFacet(ProviderFacet f)=>Encode(new Dictionary<string,object?>
+    {
+        ["id"]=f.Id,["provider"]=f.Provider,["kind"]=f.Kind,["target_id"]=f.TargetId,
+        ["coverage_kind"]=CoverageToken(f.CoverageKind),["edit_policy"]=PolicyToken(f.EditPolicy),
+        ["payload_digest"]=f.Digest,["alignment"]=f.Alignment,["required"]=f.Required
+    });
+    public static byte[] EncodeSourceCapsule(SourceCapsuleEvidence c)=>Encode(new Dictionary<string,object?>
+    {
+        ["provider"]=c.Provider,["digest"]=c.Digest,["length"]=c.Length,["alignment"]=c.Alignment
+    });
+    public static byte[] EncodeRetiredWitness(RetiredWitness w)=>Encode(new Dictionary<string,object?>
+    {
+        ["object_id"]=w.ObjectId,["resolution"]=RetiredToken(w.Resolution),
+        ["successors"]=w.Successors.Cast<object?>().ToArray(),["expires_after_sequence"]=w.ExpiresAfterSequence
+    });
+    public static string RetiredToken(RetiredResolution r)=>r switch
+    {
+        RetiredResolution.Destroyed=>"destroyed",RetiredResolution.Split=>"split",RetiredResolution.Merged=>"merged",RetiredResolution.UnknownRetired=>"unknown_retired",_=>throw new ArgumentOutOfRangeException()
+    };
     public static string AffinityToken(EdgeAffinity a)=>a switch{EdgeAffinity.IncludeAtEdge=>"include_at_edge",EdgeAffinity.ExcludeAtEdge=>"exclude_at_edge",EdgeAffinity.BeforeInsertion=>"before_insertion",EdgeAffinity.AfterInsertion=>"after_insertion",_=>throw new ArgumentOutOfRangeException()};
     public static string CoverageToken(ExtensionCoverageKind k)=>k switch{ExtensionCoverageKind.Object=>"object",ExtensionCoverageKind.Property=>"property",ExtensionCoverageKind.Subtree=>"subtree",ExtensionCoverageKind.TextInterval=>"text_interval",ExtensionCoverageKind.Relation=>"relation",ExtensionCoverageKind.TopologyRegion=>"topology_region",ExtensionCoverageKind.LayoutProfile=>"layout_profile",ExtensionCoverageKind.DocumentGlobal=>"document_global",_=>throw new ArgumentOutOfRangeException()};
     public static string PolicyToken(ExtensionEditPolicy k)=>k switch{ExtensionEditPolicy.Independent=>"independent",ExtensionEditPolicy.MoveWithTarget=>"move_with_target",ExtensionEditPolicy.GenericTransform=>"generic_transform",ExtensionEditPolicy.Invalidate=>"invalidate",ExtensionEditPolicy.MustUnderstandBeforeEdit=>"must_understand_before_edit",_=>throw new ArgumentOutOfRangeException()};

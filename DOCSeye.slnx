@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DOCSeye.Core/DOCSeye.Core.csproj" />
+    <Project Path="src/DOCSeye.Kernel/DOCSeye.Kernel.csproj" />
+    <Project Path="src/DOCSeye.Providers/DOCSeye.Providers.csproj" />
+    <Project Path="src/DOCSeye.Storage.Sqlite/DOCSeye.Storage.Sqlite.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DOCSeye.Acceptance/DOCSeye.Acceptance.csproj" />
+  </Folder>
+</Solution>

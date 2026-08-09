@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\DOCSeye.Core\DOCSeye.Core.csproj" />
+    <ProjectReference Include="..\DOCSeye.Storage.Sqlite\DOCSeye.Storage.Sqlite.csproj" />
+    <ProjectReference Include="..\DOCSeye.Providers\DOCSeye.Providers.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

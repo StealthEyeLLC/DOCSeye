@@ -1,0 +1,261 @@
+{
+    "architecture_freeze":  "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+    "captured_utc":  "2026-08-09T10:41:14.2855308Z",
+    "machine":  {
+                    "computer":  "STEALTHEYELLC",
+                    "os":  "Microsoft Windows 11 Home",
+                    "version":  "10.0.26200",
+                    "build":  "26200",
+                    "architecture":  "AMD64",
+                    "locale":  "en-US",
+                    "timezone":  "Eastern Standard Time",
+                    "unicode_grapheme_version":  "17.0.0",
+                    "node_path":  "C:\\AgentBrowser\\tools\\node-v24.18.1-win-x64\\node.exe",
+                    "global_path_modified":  false
+                },
+    "word":  {
+                 "winword_exe_present":  false,
+                 "winword_processes":  0,
+                 "word_com_calls":  0,
+                 "word_api_calls":  0,
+                 "word_expected_artifacts":  0,
+                 "microsoft_365_trial":  "NOT STARTED"
+             },
+    "dependencies":  [
+                         {
+                             "name":  ".NET SDK/runtime",
+                             "version":  "SDK 10.0.302 / runtime 10.0.10",
+                             "channel":  "LTS/current servicing",
+                             "source":  "official Microsoft .NET installation",
+                             "path":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                             "sha256":  "4377F10C78400F0370B88156773DE9843C07F14E65B3232005EC3179EF38D463",
+                             "arch":  "x64",
+                             "license":  "MIT plus bundled notices",
+                             "role":  "product/build"
+                         },
+                         {
+                             "name":  "SQLite",
+                             "version":  "3.53.4",
+                             "channel":  "stable",
+                             "source":  "sqlite.org 2026 official win-x64 DLL",
+                             "path":  ".tools\\sqlite-native\\sqlite3.dll",
+                             "package_sha256":  "8B959B7EFF4A81F6A62FC3468F9273E5CFE78D4A927E62215AED231B654FB104",
+                             "sha256":  "AB57D0437795ECC757CB693F32EA224173FA9856594D95CFA6B5033E645CD1EC",
+                             "arch":  "x64",
+                             "license":  "Public Domain",
+                             "role":  "product container"
+                         },
+                         {
+                             "name":  "System.Formats.Cbor",
+                             "version":  "10.0.10",
+                             "source":  "NuGet official",
+                             "sha256":  "F2DF64D5B7C4F7C194EB7B9A6D97B703A0B9ADB629BC7AB549AB9D0F6937385B",
+                             "license":  "MIT",
+                             "role":  "primary canonical CBOR"
+                         },
+                         {
+                             "name":  "Microsoft.Data.Sqlite.Core",
+                             "version":  "10.0.10",
+                             "source":  "NuGet official",
+                             "sha256":  "DD5FC629B84581E5B6A31D9D6D1186997CED72D9EA62B825F1CF0ABC76ABE695",
+                             "license":  "MIT",
+                             "role":  "product SQLite managed binding"
+                         },
+                         {
+                             "name":  "SQLitePCLRaw.provider.sqlite3",
+                             "version":  "3.0.5",
+                             "source":  "NuGet official",
+                             "sha256":  "E2D33FFEF6F53F8B3B85C4A23DDB6695743B9AEF976040D81748DC795916C5C5",
+                             "license":  "Apache-2.0",
+                             "role":  "product binding to separately pinned SQLite"
+                         },
+                         {
+                             "name":  "SQLitePCLRaw.core",
+                             "version":  "3.0.5",
+                             "source":  "NuGet official",
+                             "sha256":  "7476B4B8E067D88C4CB598A31893B511037B88E05C28D524F4B4433FE9F69048",
+                             "license":  "Apache-2.0",
+                             "role":  "product binding"
+                         },
+                         {
+                             "name":  "Node.js",
+                             "version":  "24.18.1",
+                             "channel":  "24 LTS",
+                             "source":  "pre-existing measured runtime",
+                             "path":  "C:\\AgentBrowser\\tools\\node-v24.18.1-win-x64\\node.exe",
+                             "sha256":  "AC51903C4C111815D52280B1FDCC8DA067CBB37E2FE1A765097B85C3292C8582",
+                             "license":  "MIT plus bundled notices",
+                             "role":  "Program Host and independent writer"
+                         },
+                         {
+                             "name":  "Typst",
+                             "version":  "0.15.1 (2d99e029)",
+                             "channel":  "stable",
+                             "source":  "github.com/typst/typst official release",
+                             "path":  ".tools\\typst\\typst-x86_64-pc-windows-msvc\\typst.exe",
+                             "package_sha256":  "127925F355541CCC821B41FE1E5F4DE2364974BCA248AB653B2D4DE22AD2C51A",
+                             "sha256":  "081217A463ADB006F8894B44227FE4B9C9E91FC85F5463D5948E8370DB9BB31E",
+                             "license":  "Apache-2.0",
+                             "role":  "paginated provider",
+                             "hyphenation":  "provider-embedded; qualified by Typst version"
+                         },
+                         {
+                             "name":  "Chrome for Testing",
+                             "version":  "151.0.7922.77",
+                             "channel":  "Stable",
+                             "source":  "Google Chrome for Testing official storage",
+                             "path":  ".tools\\chrome\\chrome-win64\\chrome.exe",
+                             "package_sha256":  "297DE11C7DBE7393028C29818C3DA63C10791F3938C568817A13BB6C1BC3A5BC",
+                             "sha256":  "F3F11F60E8C9BB7D3F8D90B9BD2CDC9810DE9F9E99FF7B7AA19CA7D8684E2AAA",
+                             "license":  "Google Chrome terms plus bundled open-source notices",
+                             "role":  "HTML provider/test browser"
+                         },
+                         {
+                             "name":  "DocumentFormat.OpenXml",
+                             "version":  "3.5.1",
+                             "source":  "NuGet official",
+                             "sha256":  "71375A11A53EEB554005477CE6CA127909AEBED474900E92298360B49A68307F",
+                             "license":  "MIT",
+                             "role":  "typed DOCX interpretation/validation"
+                         },
+                         {
+                             "name":  "DocumentFormat.OpenXml.Framework",
+                             "version":  "3.5.1",
+                             "source":  "NuGet official",
+                             "sha256":  "D317D974986A90D8F6DE1832A48FB1052D771EA475A37A2F4E3BE85C497FA9C5",
+                             "license":  "MIT",
+                             "role":  "typed DOCX support"
+                         },
+                         {
+                             "name":  "System.IO.Packaging",
+                             "version":  "10.0.2",
+                             "source":  "NuGet official",
+                             "sha256":  "D75D169BFF3840871DFD41F1141BFDD6C6A319A2A53620BDEF69106BE084F5E9",
+                             "license":  "MIT",
+                             "role":  "OPC support"
+                         },
+                         {
+                             "name":  "raw OPC/XML",
+                             "version":  ".NET 10 BCL",
+                             "source":  "System.IO.Compression + hardened XmlReader",
+                             "license":  "MIT plus .NET notices",
+                             "role":  "independent raw package/XML inspection"
+                         },
+                         {
+                             "name":  "LibreOffice",
+                             "version":  "26.2.5.2",
+                             "channel":  "stable",
+                             "source":  "download.documentfoundation.org official MSI",
+                             "path":  "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+                             "package_sha256":  "F15BA07BC56197BBB36B503771683736634179596638FBF3D9B15ECEB9E915F9",
+                             "sha256":  "40EBD75FF8C2D4A228166FFA9AC13B97B947F7DDEF67152AE45CF4C98C1AE5E5",
+                             "license":  "MPL-2.0 plus third-party notices",
+                             "role":  "alternate-provider DOCX observation"
+                         },
+                         {
+                             "name":  "Eclipse Temurin JRE",
+                             "version":  "25.0.4+7",
+                             "channel":  "GA",
+                             "source":  "Adoptium official API",
+                             "path":  ".tools\\java\\jdk-25.0.4+7-jre\\bin\\java.exe",
+                             "package_sha256":  "B67749F5628889750969137F1991CA5C1ECDD3C3771FCE93D4C28F5A396987E4",
+                             "sha256":  "1DFE0B08636BC74B56DB5E246F038CFE67C18F567053373FA601D310F29ED9DA",
+                             "license":  "GPL-2.0 with Classpath Exception and bundled notices",
+                             "role":  "test-only veraPDF runtime"
+                         },
+                         {
+                             "name":  "veraPDF",
+                             "version":  "1.30.2",
+                             "channel":  "stable even-minor release",
+                             "source":  "software.verapdf.org official installer",
+                             "path":  ".tools\\verapdf\\bin\\cli-1.30.2.jar",
+                             "package_sha256":  "A4FCB3AD420952CD60C9FE4BE22812853E2E498D6C8A82EE947FE825C83C1F2C",
+                             "sha256":  "889075253FB9DF4DB5482EFB8F8208FB3B4F2E00F5F7E1B1E31EDF6FB4B69BB6",
+                             "license":  "GPL-3.0 and MPL-2.0-or-later (as reported by CLI)",
+                             "role":  "independent PDF/PDF-UA validator"
+                         },
+                         {
+                             "name":  "Microsoft Visual C++ x64 Redistributable",
+                             "version":  "VS 17 current redistributable",
+                             "source":  "aka.ms/vs/17/release official Microsoft",
+                             "package_sha256":  "12F72D6BAD82F0C3B3C1C76F9F3AFEE9EA3604405B604F519449695F3D0F4B11",
+                             "signature":  "Valid Microsoft",
+                             "license":  "Microsoft Visual C++ Redistributable terms",
+                             "role":  "Typst runtime prerequisite"
+                         },
+                         {
+                             "name":  "Unicode UCD grapheme data",
+                             "version":  "17.0.0",
+                             "source":  "unicode.org Public/17.0.0",
+                             "license":  "Unicode License v3",
+                             "role":  "human-facing extended grapheme segmentation",
+                             "files":  [
+                                           {
+                                               "name":  "GraphemeBreakProperty.txt",
+                                               "sha256":  "D6B51D1D2AE5C33B451B7ED994B48F1F4DC62B2272A5831E7FD418514A6BAE89"
+                                           },
+                                           {
+                                               "name":  "GraphemeBreakTest.txt",
+                                               "sha256":  "E2D134D2C52919BACE503EBB6A551C1855FE1A1FAEC18478C78FFF254A1793EC"
+                                           },
+                                           {
+                                               "name":  "emoji-data.txt",
+                                               "sha256":  "2CB2BB9455CDA83E8481541ECF5B6DFDA66A3BB89EFA3FA7C5297ECCF607B72B"
+                                           },
+                                           {
+                                               "name":  "DerivedCoreProperties.txt",
+                                               "sha256":  "24C7FED1195C482FAAEFD5C1E7EB821C5EE1FB6DE07ECDBAA64B56A99DA22C08"
+                                           }
+                                       ]
+                         }
+                     ],
+    "font_manifest":  {
+                          "fallback_order":  [
+                                                 "Segoe UI",
+                                                 "Nirmala UI",
+                                                 "Yu Gothic",
+                                                 "Segoe UI Emoji",
+                                                 "Arial"
+                                             ],
+                          "files":  [
+                                        {
+                                            "name":  "segoeui.ttf",
+                                            "sha256":  "8134DBCD09E7B123C9A7F229D49CFFBCB01352CC72EA5E1076B65D0DCA9F73CD"
+                                        },
+                                        {
+                                            "name":  "segoeuib.ttf",
+                                            "sha256":  "AEB9E4A6EC5CC59F4D72DF8189032D7DBB28F45161CF1552174818B5465DAC4E"
+                                        },
+                                        {
+                                            "name":  "Nirmala.ttc",
+                                            "sha256":  "AD02CDFC06E144AC45F318E8E5A64CBE04C7479D4BEB91D25F5A319A466B1767"
+                                        },
+                                        {
+                                            "name":  "YuGothR.ttc",
+                                            "sha256":  "CD24B5617C1E26572B0A7FE7E558F7121CA42C36F7B50E8D9216AC222A1C0A93"
+                                        },
+                                        {
+                                            "name":  "YuGothB.ttc",
+                                            "sha256":  "D923A57F781F06198167DA4F58287BE7AC64A954A47AFF4295E078A42B4B68B2"
+                                        },
+                                        {
+                                            "name":  "seguiemj.ttf",
+                                            "sha256":  "F07CBD7886F4A1A5255A1BDF4CA5EA29DB3BE3357414003A92BEC5D1C3165578"
+                                        },
+                                        {
+                                            "name":  "arial.ttf",
+                                            "sha256":  "B3658EADAE55E682B5F69EB64C439C1ECC8F196C0BB8D4756D145D13BC86476A"
+                                        }
+                                    ]
+                      },
+    "security":  {
+                     "nuget_vulnerability_check":  "PASS: all five projects report no vulnerable packages against api.nuget.org on 2026-08-09",
+                     "rejected_dependency":  "Microsoft.Data.Sqlite 10.0.10 default native bundle because SQLitePCLRaw.lib.e_sqlite3 2.1.11 was flagged NU1903 high severity; replaced by Microsoft.Data.Sqlite.Core plus separately pinned SQLite 3.53.4",
+                     "word_zero_rechecked":  true
+                 },
+    "shelleye":  {
+                     "source_head":  "54d2070365c04205fe4593e1d95ea76c302a709a",
+                     "pipe":  "shelleye-dev",
+                     "carrier_contract":  "DOCSeye uses SQLite online backup for coherent snapshot; SHELLeye retains and moves physical carrier identity"
+                 }
+}

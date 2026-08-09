@@ -1,0 +1,113 @@
+{
+  "architecture_freeze": "0b10e8ed6ada2e0aaef3f1196de19bf7a4631bec",
+  "generated_utc": "2026-08-09T10:42:52.1989308+00:00",
+  "machine": "STEALTHEYELLC",
+  "runtime": "10.0.10",
+  "experiments": [
+    {
+      "id": "E-01",
+      "result": "PASS",
+      "mechanism": "non-CRDT scalar-position boundaries with explicit affinity and bounded split/merge witnesses",
+      "seed": 3502628865,
+      "grapheme_refusal": true,
+      "unicode_version": "17.0.0",
+      "grapheme_break_test": {
+        "passed": 766,
+        "total": 766
+      },
+      "cold_restart": true,
+      "independent_writer": {
+        "classification": "committed",
+        "sequence": 1,
+        "revision_id": "0d7357d906c543acbe8b4db2640ecfa2",
+        "semantic_root": "1e4b1946282b66096164257488d1884f7d41f35a4012bd335c022b21781f58b8",
+        "boundary_id": "629af7dc-4fa6-408b-ab71-fe7eae0005ac",
+        "new_offset": 30
+      },
+      "persistent_character_history": false,
+      "quote_rebound": 0
+    },
+    {
+      "id": "E-02",
+      "result": "PASS",
+      "journal_mode": "DELETE",
+      "synchronous": "FULL",
+      "process_kill": "old",
+      "simulated_power_loss": "old",
+      "disk_full": "old",
+      "postcommit_response_loss": "new_with_witness",
+      "partial_acknowledgements": 0
+    },
+    {
+      "id": "E-03",
+      "result": "PASS",
+      "mechanism": "SQLite online backup for coherent publication plus SHELLeye retained physical carrier identity/movement",
+      "source_revision": "cf9bee98-7cf0-491b-83e7-a09c4455ac58",
+      "semantic_root": "6ef00124cf3a070af69e7f6d3542a7964d93e45efcd7de87de911def145a4f28",
+      "quiescent_raw_replica_same_snapshot": true,
+      "raw_copy_identity_rewrite": 0,
+      "live_publication_path": "coordinated_backup_only",
+      "wal_shm_required": false,
+      "shelleye": {
+        "hello": {
+          "protocol": "shelleye-rpc",
+          "version": 1,
+          "kernelEpoch": "kernel_15",
+          "providerEpoch": "provider_15",
+          "bootEpoch": "boot_2"
+        },
+        "retained": {
+          "id": "file_23",
+          "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-published.dnd",
+          "identity": {
+            "volumeSerial": 6829950013575736000,
+            "fileId128": "19d2010000004e000000000000000000"
+          },
+          "revision": {
+            "length": 176128,
+            "lastWriteFileTime": 134307457721484110
+          }
+        },
+        "renamed": {
+          "id": "file_23",
+          "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
+          "identity": {
+            "volumeSerial": 6829950013575736000,
+            "fileId128": "19d2010000004e000000000000000000"
+          },
+          "revision": {
+            "length": 176128,
+            "lastWriteFileTime": 134307457721484110
+          }
+        },
+        "after": {
+          "path": "C:\\StealthEyeLLC\\DOCSeye\\artifacts\\early-experiments\\e03-moved-by-shelleye.dnd",
+          "identity": {
+            "volumeSerial": 6829950013575736000,
+            "fileId128": "19d2010000004e000000000000000000"
+          },
+          "revision": {
+            "length": 176128,
+            "lastWriteFileTime": 134307457721484110
+          }
+        }
+      }
+    },
+    {
+      "id": "E-04",
+      "result": "PASS",
+      "coverage": [
+        "object",
+        "property",
+        "subtree",
+        "text_interval",
+        "topology_region",
+        "document_global"
+      ],
+      "disjoint_edits": "allowed",
+      "required_intersections": "blocked_required_extension",
+      "generic_transform": "required",
+      "exact_payload_preservation": true
+    }
+  ]
+}

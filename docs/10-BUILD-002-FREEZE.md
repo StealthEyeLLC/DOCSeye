@@ -1,11 +1,11 @@
 # 10 - Build 002 Freeze
 
-Status: **BUILD 002 CANDIDATE ARCHITECTURE - PROSPECTIVELY FROZEN**  
+Status: **BUILD 002 CANDIDATE ARCHITECTURE — PROSPECTIVELY FROZEN**
 **NOT YET IMPLEMENTED**  
 **NOT YET MEASURED**  
 **NOT YET ACCEPTED**
 
-Build title: **DOCSeye Build 002 - ODF 1.4 / LibreOffice Writer Provider-Neutrality Pressure Test**
+Build title: **DOCSeye Build 002 — ODF 1.4 / LibreOffice Writer Provider-Neutrality Pressure Test**
 
 ## 1. Freeze identity
 
@@ -109,9 +109,9 @@ LibreOffice opening a file proves application compatibility only. Schema validit
 
 ## 6. Package, import, export, and security invariants
 
-ODT is a ZIP package with ODF-specific constraints, not an arbitrary ZIP. Secure preflight must validate `mimetype`, package members, manifest relationships, path/name safety, duplicate-dangerous entries, bounded entry count, decompressed size/compression ratio, XML depth/count/text/metadata limits, and streaming large resources. XML external entity/DTD resolution is disabled. Malformed source input is preserved as failure evidence and is never silently repaired during import preflight.
+ODT is a ZIP container with ODF-specific constraints, not an arbitrary ZIP. Secure preflight must validate `mimetype`, package members, manifest relationships, path/name safety, duplicate-dangerous entries, bounded entry count, decompressed size/compression ratio, XML depth/count/text/metadata limits, and streaming large resources. XML external entity/DTD resolution is disabled. Malformed source input is preserved as failure evidence and is never silently repaired during import preflight.
 
-ODF version/profile classification must distinguish at least `1.0`, `1.1`, `1.2`, `1.3`, `1.4`, `extended`, and `unknown/malformed`; Build 002 targets ODF 1.4.
+ODF version/profile classification must distinguish at least `1.0`, `1.1`, `1.2`, `1.3`, `1.4`, `extended`, and `unknown/malformed`; implementation targets ODF 1.4.
 
 Import is an explicit authority transition. Original source bytes/digest/length/package inventory/version/profile/validation/generator metadata are captured before LibreOffice opens the source. Meaningful features are classified as one of: `native_mapped`, `provider_facet`, `unknown_preserved`, `required_unsupported`, `unsupported`, or `blocked`. Optional unknown content may be preserved inertly. Fixture-required unknown meaning blocks an intersecting conversion/edit when it cannot be safely preserved. Macros/scripts, linked images/sections, and embedded objects never execute or fetch automatically.
 
@@ -124,7 +124,7 @@ The six accepted export semantic outcomes remain exactly:
 - `unsupported`
 - `blocked`
 
-ODF evidence is orthogonal: target version/profile, producer path, validator result, provider profile, semantic fidelity, layout fidelity, and unknown preservation. Direct DOCSeye ODT and LibreOffice-resaved ODT are always separate artifacts. Byte equality across implementations is never required. `exact_source_reuse` must actually be byte exact. `preserved_patch` is claimed only for a narrowly proven class; otherwise deterministic translation is used.
+ODF evidence is orthogonal: target version/profile, producer path, validator result, provider profile, semantic fidelity, layout fidelity, and unknown preservation. Direct DOCSeye ODT and LibreOffice-resaved ODT are always separate artifacts. Byte equality across implementations is never required. `exact_source_reuse` must actually be byte exact. `preserved_patch` must be claimed only for a narrowly proven class; otherwise deterministic translation is used.
 
 Opening/parsing/rendering executes zero active content and performs zero unintended external fetches. Test controls must be process/profile scoped where possible; global network/firewall changes are not the default.
 
@@ -210,7 +210,7 @@ Cases are frozen before implementation-specific acceptance fixes. B2-O-47 is inf
 | B2-O-32 | Controlled Extended ODF validation/classification. |
 | B2-O-33 | Optional unknown content preserved. |
 | B2-O-34 | Fixture-required unknown content blocks unsafe intersection. |
-| B2-O-35 | Content-control extension classified. |
+| B2-O-35 | Content-control extensified. |
 | B2-O-36 | Opaque embedded material remains inert/preserved or produces explicit loss. |
 | B2-O-37 | Macro/script content never executes. |
 | B2-O-38 | Automatic external network/link activity remains zero. |

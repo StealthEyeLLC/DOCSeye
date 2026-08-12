@@ -39,7 +39,7 @@ internal static class Program
         Require(imported.State.SourceCapsules.Values.Single().DigestValid,"source capsule exact evidence");
 
         var stdImport=OdfSemanticInterop.Import(a.Standard);
-        string db=Path.Combine(root,"standard.dnd");using var store=DndStore.Create(db,stdImport.State);var head=store.ReadHead();
+        string db=Path.Combine(root,"standard.dnd");using var store=DOCSeye.Storage.Sqlite.DndStore.Create(db,stdImport.State,null);var head=store.ReadHead();
         string exact=Path.Combine(root,"exact-source-reuse.odt");OdfSemanticInterop.ExactSourceReuse(stdImport.State,head,a.StandardSha256,exact);
         Require(OdfPackage.HashFile(exact)==a.StandardSha256,"exact_source_reuse byte exact");
         string direct=Path.Combine(root,"direct.odt");var directResult=OdfSemanticInterop.Export(stdImport.State,head,direct);

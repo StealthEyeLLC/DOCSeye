@@ -24,6 +24,8 @@ public sealed class LibreOfficeWriterProvider : IDisposable
     private readonly string profileRoot;
     private readonly string pipe;
     private readonly string manifestation=Guid.NewGuid().ToString("D");
+    private readonly HashSet<int> baselineProcessIds=[];
+    private readonly HashSet<int> providerProcessIds=[];
     private Process? launcher;
     private bool started;
 
@@ -40,13 +42,16 @@ public sealed class LibreOfficeWriterProvider : IDisposable
     public LibreOfficeProviderProfile Start()
     {
         if(started)throw new InvalidOperationException("provider_already_started");
+        baselineProcessIds.Clear();providerProcessIds.Clear();foreach(int id in EnumerateSofficeProcessIds())baselineProcessIds.Add(id);
         if(Directory.Exists(profileRoot))Directory.Delete(profileRoot,true);Directory.CreateDirectory(profileRoot);
         var psi=new ProcessStartInfo(soffice){UseShellExecute=false,CreateNoWindow=true,WindowStyle=ProcessWindowStyle.Hidden};
         psi.ArgumentList.Add("--headless");psi.ArgumentList.Add("--nologo");psi.ArgumentList.Add("--nodefault");psi.ArgumentList.Add("--norestore");
         psi.ArgumentList.Add("-env:UserInstallation="+new Uri(profileRoot+Path.DirectorySeparatorChar).AbsoluteUri.TrimEnd('/'));
         psi.ArgumentList.Add("--accept=pipe,name="+pipe+";urp;StarOffice.ComponentContext");
         launcher=Process.Start(psi)??throw new InvalidOperationException("libreoffice_start_failed");started=true;
-        var ready=RunProbe("profile",null,null,false,20000);if(!ready.Ok){Crash();throw new InvalidOperationException("libreoffice_uno_not_ready:"+ready.StdErr+":"+ready.Payload);}
+        var ready=RunProbe("profile",null,null,false,20000);RefreshTrackedProcesses();
+        if(!ready.Ok){Crash();throw new InvalidOperationException("libreoffice_uno_not_ready:"+ready.StdErr+":"+ready.Payload);}
+        if(providerProcessIds.Count==0){Crash();throw new InvalidOperationException("provider_process_identity_not_established");}
         return CaptureProfile();
     }
 
@@ -60,21 +65,20 @@ public sealed class LibreOfficeWriterProvider : IDisposable
     {
         if(!started)return;
         try{RunProbe("terminate",null,null,false,10000);}catch{}
-        WaitProviderExit(10000);started=false;launcher?.Dispose();launcher=null;
+        WaitTrackedProviderExit(10000,true);started=false;launcher?.Dispose();launcher=null;
     }
 
     public void Crash()
     {
         if(!started)return;
-        foreach(var p in CurrentProviderProcesses())try{p.Kill(true);}catch{}finally{p.Dispose();}
-        try{if(launcher is { HasExited:false })launcher.Kill(true);}catch{}
+        RefreshTrackedProcesses();KillTrackedProviderProcesses();
+        try{if(launcher is { HasExited:false }&&providerProcessIds.Contains(launcher.Id))launcher.Kill(true);}catch{}
         started=false;launcher?.Dispose();launcher=null;
     }
 
     public LibreOfficeProviderProfile CaptureProfile()
     {
-        var identity=ReadIdentity();var ids=CurrentProviderProcesses().Select(p=>{int id=p.Id;p.Dispose();return id;}).Order().ToArray();
-        return new(manifestation,pipe,profileRoot,HashProfile(profileRoot),"headless",System.Globalization.CultureInfo.CurrentCulture.Name,ids,identity,probe,OdfPackage.HashFile(probe),"NEVER_EXECUTE","NO_UPDATE",DiscoverExtensions(profileRoot));
+        RefreshTrackedProcesses();var identity=ReadIdentity();return new(manifestation,pipe,profileRoot,HashProfile(profileRoot),"headless",System.Globalization.CultureInfo.CurrentCulture.Name,providerProcessIds.Order().ToArray(),identity,probe,OdfPackage.HashFile(probe),"NEVER_EXECUTE","NO_UPDATE",DiscoverExtensions(profileRoot));
     }
 
     private LibreOfficeProbeResult RunProbe(string mode,string? input,string? output,bool pdfUa,int timeoutMs)
@@ -96,8 +100,34 @@ public sealed class LibreOfficeWriterProvider : IDisposable
     private string RunVersion(){var psi=new ProcessStartInfo(sofficeCom){UseShellExecute=false,RedirectStandardOutput=true,RedirectStandardError=true,CreateNoWindow=true};psi.ArgumentList.Add("--version");using var p=Process.Start(psi)!;string s=p.StandardOutput.ReadToEnd()+" "+p.StandardError.ReadToEnd();p.WaitForExit(10000);return s.Trim();}
     private static string ExtractVersion(string raw){var parts=raw.Split(' ',StringSplitOptions.RemoveEmptyEntries);return parts.FirstOrDefault(x=>x.Count(c=>c=='.')>=2&&char.IsDigit(x[0]))??raw;}
     private static string ExtractBuildId(string raw){int i=raw.IndexOf("Build ID:",StringComparison.OrdinalIgnoreCase);if(i<0)return "cd7284b4cbbfeb507e630c1aac019f4157393acb";return raw[(i+9)..].Trim().Split(' ',StringSplitOptions.RemoveEmptyEntries)[0];}
-    private IEnumerable<Process> CurrentProviderProcesses()=>Process.GetProcesses().Where(p=>{try{return p.ProcessName.StartsWith("soffice",StringComparison.OrdinalIgnoreCase)&&p.StartTime.ToUniversalTime()>DateTime.UtcNow.AddMinutes(-10);}catch{return false;}});
-    private void WaitProviderExit(int ms){var sw=Stopwatch.StartNew();while(sw.ElapsedMilliseconds<ms){var ps=CurrentProviderProcesses().ToArray();bool any=ps.Length>0;foreach(var p in ps)p.Dispose();if(!any)return;Thread.Sleep(100);}foreach(var p in CurrentProviderProcesses())try{p.Kill(true);}catch{}finally{p.Dispose();}}
+
+    private static IReadOnlyList<int> EnumerateSofficeProcessIds()
+    {
+        var ids=new List<int>();foreach(var p in Process.GetProcesses()){try{if(p.ProcessName.Equals("soffice",StringComparison.OrdinalIgnoreCase)||p.ProcessName.Equals("soffice.bin",StringComparison.OrdinalIgnoreCase))ids.Add(p.Id);}catch{}finally{p.Dispose();}}return ids;
+    }
+    private void RefreshTrackedProcesses()
+    {
+        foreach(int id in EnumerateSofficeProcessIds())if(!baselineProcessIds.Contains(id))providerProcessIds.Add(id);
+        if(launcher is not null){try{if(!launcher.HasExited&&!baselineProcessIds.Contains(launcher.Id))providerProcessIds.Add(launcher.Id);}catch{}}
+        providerProcessIds.RemoveWhere(id=>!ProcessExistsAndIsSoffice(id));
+    }
+    private static bool ProcessExistsAndIsSoffice(int id)
+    {
+        try{using var p=Process.GetProcessById(id);return p.ProcessName.Equals("soffice",StringComparison.OrdinalIgnoreCase)||p.ProcessName.Equals("soffice.bin",StringComparison.OrdinalIgnoreCase);}catch{return false;}
+    }
+    private IEnumerable<Process> TrackedProviderProcesses()
+    {
+        foreach(int id in providerProcessIds.ToArray())
+        {
+            Process? p=null;try{p=Process.GetProcessById(id);if(p.ProcessName.Equals("soffice",StringComparison.OrdinalIgnoreCase)||p.ProcessName.Equals("soffice.bin",StringComparison.OrdinalIgnoreCase))yield return p;else p.Dispose();}catch{p?.Dispose();providerProcessIds.Remove(id);}
+        }
+    }
+    private void KillTrackedProviderProcesses(){foreach(var p in TrackedProviderProcesses().ToArray())try{p.Kill(true);}catch{}finally{p.Dispose();}}
+    private void WaitTrackedProviderExit(int ms,bool killAfterTimeout)
+    {
+        var sw=Stopwatch.StartNew();while(sw.ElapsedMilliseconds<ms){RefreshTrackedProcesses();if(providerProcessIds.Count==0)return;Thread.Sleep(100);}if(killAfterTimeout){KillTrackedProviderProcesses();RefreshTrackedProcesses();}
+    }
+
     private static string HashProfile(string root)
     {
         if(!Directory.Exists(root))return "missing";using var h=IncrementalHash.CreateHash(HashAlgorithmName.SHA256);foreach(string f in Directory.EnumerateFiles(root,"*",SearchOption.AllDirectories).OrderBy(x=>x,StringComparer.OrdinalIgnoreCase)){string rel=Path.GetRelativePath(root,f).Replace('\\','/');h.AppendData(Encoding.UTF8.GetBytes(rel));try{using var s=File.Open(f,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete);byte[] b=new byte[1024*1024];int n;while((n=s.Read(b,0,b.Length))>0)h.AppendData(b,0,n);}catch{h.AppendData(Encoding.UTF8.GetBytes("<locked>"));}}return Convert.ToHexString(h.GetHashAndReset()).ToLowerInvariant();

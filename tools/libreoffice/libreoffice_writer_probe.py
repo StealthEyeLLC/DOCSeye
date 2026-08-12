@@ -173,7 +173,6 @@ def observe_text(doc):
         out["style_families"] = sorted(list(fams.getElementNames()))
     except Exception:
         pass
-    # Explicitly traverse text containers that are not the main body.
     for getter in ("getTextFrames", "getFootnotes", "getEndnotes"):
         try:
             collection = getattr(doc, getter)()
@@ -199,7 +198,6 @@ def observe_text(doc):
                         pass
         except Exception:
             pass
-    # Table cells are separate Writer text containers.
     try:
         tables = doc.getTextTables()
         for name in tables.getElementNames():
@@ -281,8 +279,6 @@ def store_odt(doc, path):
 def export_pdf(doc, path, pdfua):
     filter_data = []
     if pdfua:
-        # LibreOffice PDF export filter data. Unsupported properties are ignored by the filter;
-        # independent veraPDF evidence is the gate, not this requested flag.
         filter_data.extend([
             prop("PDFUACompliance", True),
             prop("UseTaggedPDF", True),
@@ -298,7 +294,7 @@ def export_pdf(doc, path, pdfua):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pipe", required=True)
-    ap.add_argument("--mode", choices=["profile", "observe", "resave", "render-pdf", "unsaved-probe"], required=True)
+    ap.add_argument("--mode", choices=["profile", "observe", "resave", "render-pdf", "unsaved-probe", "terminate"], required=True)
     ap.add_argument("--input")
     ap.add_argument("--output")
     ap.add_argument("--pdfua", action="store_true")
@@ -313,6 +309,10 @@ def main():
         "macro_execution_mode": "NEVER_EXECUTE",
         "update_doc_mode": "NO_UPDATE",
     }
+    if args.mode == "terminate":
+        out["terminated"] = bool(desktop.terminate())
+        print(json.dumps(out, sort_keys=True))
+        return
     if args.mode == "profile":
         try:
             cfg = smgr.createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider", ctx)
